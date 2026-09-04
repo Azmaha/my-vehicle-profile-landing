@@ -1,0 +1,2568 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مراقبت از خودروی من — ازکی</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root{
+  --primary-500:#0096FF; --primary-600:#0B72CE; --primary-700:#0A5AA3;
+  --primary-50:#EBF6FF;  --primary-100:#D6EDFF;
+  --ink-900:#151B29; --ink-800:#222A3E; --ink-600:#55607A; --ink-500:#78829B;
+  --ink-300:#C8CEDC; --ink-200:#E2E6EF; --ink-100:#EFF2F7; --ink-50:#F7F9FC;
+  --white:#fff;
+  --success:#0E9F6E; --success-bg:#E7F7F1;
+  --warning:#B45309; --warning-bg:#FEF6E7;
+  --danger:#D92D20;  --danger-bg:#FEECEB;
+
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:20px;
+  --s6:24px; --s8:32px; --s10:40px; --s12:48px; --s16:64px;
+
+  --r-sm:8px; --r-md:12px; --r-lg:16px; --r-xl:20px; --r-full:999px;
+
+  --sh-1:0 1px 2px rgba(21,27,41,.04), 0 4px 12px rgba(21,27,41,.05);
+  --sh-2:0 1px 2px rgba(21,27,41,.04), 0 8px 24px rgba(21,27,41,.07);
+  --sh-nav:0 -2px 16px rgba(21,27,41,.07);
+
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  font-family:'Vazirmatn',system-ui,sans-serif;
+  background:#E8ECF3; color:var(--ink-800);
+  font-size:15px; line-height:1.85; letter-spacing:0;
+}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer;border:none;background:none}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
+  outline:2.5px solid var(--primary-500);outline-offset:2px}
+ul{list-style:none}
+a{color:var(--primary-600);text-decoration:none}
+
+/* ============================================================
+   TYPE SCALE
+   ============================================================ */
+.t-display{font-size:28px;line-height:44px;font-weight:800;letter-spacing:0;color:var(--ink-900)}
+.t-h1{font-size:24px;line-height:38px;font-weight:700;color:var(--ink-900)}
+.t-h2{font-size:20px;line-height:32px;font-weight:700;color:var(--ink-900)}
+.t-h3{font-size:17px;line-height:28px;font-weight:700;color:var(--ink-900)}
+.t-bodyL{font-size:16px;line-height:30px;color:var(--ink-600)}
+.t-body{font-size:15px;line-height:28px;color:var(--ink-600)}
+.t-cap{font-size:13px;line-height:22px;color:var(--ink-500)}
+.t-label{font-size:12px;line-height:20px;font-weight:600}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:var(--s2);
+  height:52px;padding-inline:var(--s6);border-radius:var(--r-md);
+  font-size:16px;font-weight:700;white-space:nowrap;
+  transition:background .18s var(--ease),transform .1s var(--ease),box-shadow .18s var(--ease);
+}
+.btn:active{transform:scale(.985)}
+.btn--md{height:44px;font-size:15px;padding-inline:var(--s5)}
+.btn--sm{height:36px;font-size:13px;padding-inline:var(--s4);border-radius:var(--r-sm)}
+.btn--block{display:flex;width:100%}
+
+.btn--primary{background:var(--primary-600);color:#fff;box-shadow:0 4px 14px rgba(11,114,206,.28)}
+.btn--primary:hover{background:var(--primary-700)}
+.btn--primary:disabled{background:var(--ink-200);color:var(--ink-500);box-shadow:none;cursor:not-allowed}
+
+.btn--secondary{background:#fff;color:var(--ink-800);border:1px solid var(--ink-200)}
+.btn--secondary:hover{background:var(--ink-50);border-color:var(--ink-300)}
+
+.btn--ghost{color:var(--primary-600);padding-inline:var(--s3)}
+.btn--ghost:hover{background:var(--primary-50)}
+
+.btn--danger{color:var(--danger)}
+.btn--danger:hover{background:var(--danger-bg)}
+
+.btn__ico{width:20px;height:20px;flex:none}
+.mirror{transform:scaleX(-1)} /* directional icons in RTL */
+
+/* ============================================================
+   CARD
+   ============================================================ */
+.card{background:#fff;border:1px solid var(--ink-200);border-radius:var(--r-lg);
+  box-shadow:var(--sh-1);padding:var(--s5)}
+.card--flat{box-shadow:none}
+.card--tint{background:var(--primary-50);border-color:var(--primary-100);box-shadow:none}
+.card__head{display:flex;align-items:center;gap:var(--s3);margin-bottom:var(--s4)}
+.card__ico{width:44px;height:44px;flex:none;border-radius:var(--r-md);
+  background:var(--primary-50);color:var(--primary-600);
+  display:grid;place-items:center}
+.card__ico svg{width:22px;height:22px}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;gap:6px;height:26px;padding-inline:10px;
+  border-radius:var(--r-full);font-size:12px;font-weight:600}
+.badge--ok{background:var(--success-bg);color:var(--success)}
+.badge--warn{background:var(--warning-bg);color:var(--warning)}
+.badge--info{background:var(--primary-50);color:var(--primary-700)}
+.dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex:none}
+
+/* ============================================================
+   PAGE / APP-SHELL PLUMBING
+   ============================================================ */
+.page{display:none}
+.page.is-active{display:block}
+.iconbtn{width:40px;height:40px;border-radius:var(--r-md);display:grid;place-items:center;
+  color:var(--ink-600);flex:none}
+.iconbtn:hover{background:var(--ink-100)}
+.iconbtn svg{width:20px;height:20px}
+
+/* app-style pages (everything except the marketing landing) render as a
+   centered mobile-width column on wide viewports, edge-to-edge on phones */
+.appwrap{max-width:560px;margin:0 auto;background:#fff;min-height:100vh;
+  box-shadow:0 0 60px rgba(21,27,41,.08);position:relative;display:flex;flex-direction:column}
+@media (max-width:640px){
+  .appwrap{box-shadow:none;max-width:100%}
+}
+
+/* ============================================================
+   LANDING (full-bleed marketing page, desktop + responsive)
+   ============================================================ */
+.lp{background:#fff}
+.wrap{max-width:1120px;margin-inline:auto;padding-inline:var(--s5)}
+.appbar{display:flex;align-items:center;gap:var(--s3);height:64px;
+  background:#fff;border-bottom:1px solid var(--ink-100);
+  position:sticky;top:0;z-index:20}
+.appbar .wrap{display:flex;align-items:center;gap:var(--s3);width:100%}
+.logo{display:flex;align-items:center;gap:8px}
+.logo__mark{width:30px;height:30px;border-radius:9px;
+  background:linear-gradient(135deg,var(--primary-500),var(--primary-700));
+  display:grid;place-items:center;color:#fff;font-weight:800;font-size:15px;flex:none}
+.logo__txt{font-weight:800;font-size:17px;color:var(--ink-900);letter-spacing:0}
+.logo__sub{font-size:10px;color:var(--ink-500);font-weight:500;line-height:1}
+.appbar__spacer{flex:1}
+.navlinks{display:none}
+
+.hero{padding:var(--s8) 0 var(--s6);
+  background:linear-gradient(180deg,#F2F9FF 0%,#fff 100%)}
+.hero__grid{display:block}
+.hero__eyebrow{display:inline-flex;align-items:center;gap:6px;height:30px;
+  padding-inline:12px;border-radius:var(--r-full);background:#fff;
+  border:1px solid var(--primary-100);color:var(--primary-700);
+  font-size:12px;font-weight:600;margin-bottom:var(--s5);box-shadow:var(--sh-1)}
+.hero h1{font-size:30px;line-height:50px;font-weight:800;color:var(--ink-900);
+  margin-bottom:var(--s3)}
+.hero h1 em{font-style:normal;color:var(--primary-600)}
+.hero p{font-size:16px;line-height:32px;color:var(--ink-600);margin-bottom:var(--s6);max-width:46ch}
+.hero__cta{display:flex;flex-direction:column;gap:var(--s3);max-width:420px}
+.hero__meta{display:flex;align-items:center;gap:var(--s2);margin-top:var(--s5);
+  font-size:12.5px;color:var(--ink-500)}
+.hero__meta svg{width:16px;height:16px;color:var(--success);flex:none}
+
+.heroart{margin-top:var(--s6);position:relative}
+.heroart__card{background:#fff;border:1px solid var(--ink-200);border-radius:var(--r-xl);
+  padding:var(--s4);box-shadow:var(--sh-2);display:flex;align-items:center;gap:var(--s3);max-width:420px}
+.heroart__car{width:76px;height:52px;flex:none;border-radius:var(--r-md);
+  background:var(--primary-50);display:grid;place-items:center;color:var(--primary-600)}
+.heroart__car svg{width:44px;height:44px}
+
+.section{padding:var(--s10) 0}
+.section--alt{background:var(--ink-50)}
+.section__kicker{font-size:12px;font-weight:700;color:var(--primary-600);
+  margin-bottom:var(--s2)}
+.section__title{font-size:22px;line-height:36px;font-weight:800;color:var(--ink-900);
+  margin-bottom:var(--s2);max-width:22ch}
+.section__lead{font-size:15px;line-height:28px;color:var(--ink-600);margin-bottom:var(--s6);max-width:56ch}
+.stack{display:flex;flex-direction:column;gap:var(--s3)}
+
+.benefit{display:flex;gap:var(--s4);align-items:flex-start}
+.benefit__num{font-size:11px;font-weight:700;color:var(--primary-600);
+  background:var(--primary-50);width:22px;height:22px;border-radius:var(--r-full);
+  display:grid;place-items:center;flex:none;margin-top:2px}
+.benefit h3{font-size:16px;font-weight:700;color:var(--ink-900);margin-bottom:2px}
+.benefit p{font-size:14px;line-height:26px;color:var(--ink-600)}
+
+.trustgrid{display:grid;gap:var(--s3);margin-top:var(--s5)}
+.trustitem{display:flex;gap:var(--s3);align-items:flex-start;
+  background:#fff;border:1px solid var(--ink-200);border-radius:var(--r-md);padding:var(--s4)}
+.trustitem svg{width:20px;height:20px;color:var(--primary-600);flex:none;margin-top:5px}
+.trustitem b{display:block;font-size:14.5px;font-weight:700;color:var(--ink-900)}
+.trustitem span{font-size:13px;line-height:24px;color:var(--ink-600)}
+
+.cta-band{margin:0 0 var(--s10);padding:var(--s6);border-radius:var(--r-xl);
+  background:linear-gradient(135deg,var(--ink-800),#0E2F52);color:#fff;text-align:center}
+.cta-band__inner{max-width:520px;margin-inline:auto}
+.cta-band h3{font-size:19px;font-weight:800;margin-bottom:var(--s2)}
+.cta-band p{font-size:14px;line-height:26px;color:#B9C3D6;margin-bottom:var(--s5)}
+.cta-band .btn--primary{background:var(--primary-500);box-shadow:none}
+.cta-band .btn--primary:hover{background:#2AA5FF}
+
+.footer{background:var(--ink-800);color:#B9C3D6;padding:var(--s8) 0 var(--s6)}
+.footer .logo__txt{color:#fff}
+.footer .logo__sub{color:#8A96AE}
+.footer p{font-size:13px;line-height:26px;margin:var(--s4) 0 var(--s6);max-width:60ch}
+.fcols{display:grid;grid-template-columns:1fr 1fr;gap:var(--s6) var(--s4);margin-bottom:var(--s6)}
+.fcol h4{font-size:13px;font-weight:700;color:#fff;margin-bottom:var(--s3)}
+.fcol a{display:block;font-size:13px;line-height:30px;color:#B9C3D6}
+.fcol a:hover{color:#fff}
+.fbottom{border-top:1px solid rgba(255,255,255,.1);padding-top:var(--s4);
+  display:flex;flex-wrap:wrap;gap:var(--s3);justify-content:space-between;
+  font-size:12px;color:#8A96AE}
+
+/* ============================================================
+   VEHICLE REGISTRATION (onboarding, 5 steps)
+   ============================================================ */
+.ob{background:#fff;display:flex;flex-direction:column;flex:1}
+.ob__bar{display:flex;align-items:center;gap:var(--s3);padding:var(--s4) var(--s5) var(--s4);
+  position:sticky;top:0;background:#fff;z-index:20}
+.ob__back{width:40px;height:40px;border-radius:var(--r-md);border:1px solid var(--ink-200);
+  display:grid;place-items:center;color:var(--ink-800);flex:none;background:#fff}
+.ob__back:hover{background:var(--ink-50)}
+.ob__count{margin-inline-start:auto;font-size:12.5px;font-weight:600;color:var(--ink-500)}
+.progress{display:flex;gap:6px;padding-inline:var(--s5);margin-bottom:var(--s6)}
+.progress i{flex:1;height:4px;border-radius:var(--r-full);background:var(--ink-200);
+  transition:background .3s var(--ease)}
+.progress i.on{background:var(--primary-600)}
+.ob__body{flex:1;padding-inline:var(--s5);padding-bottom:120px}
+.ob__title{font-size:23px;line-height:38px;font-weight:800;color:var(--ink-900);margin-bottom:6px}
+.ob__hint{font-size:14px;line-height:26px;color:var(--ink-500);margin-bottom:var(--s6)}
+
+.searchbox{display:flex;align-items:center;gap:var(--s2);height:48px;
+  background:var(--ink-100);border:1px solid transparent;border-radius:var(--r-md);
+  padding-inline:var(--s4);margin-bottom:var(--s4);color:var(--ink-500)}
+.searchbox:focus-within{background:#fff;border-color:var(--primary-500);
+  box-shadow:0 0 0 4px var(--primary-50)}
+.searchbox svg{width:19px;height:19px;flex:none}
+.searchbox input{flex:1;border:none;background:none;outline:none;font-size:15px}
+.searchbox input::placeholder{color:var(--ink-500)}
+
+.optlist{display:flex;flex-direction:column;gap:var(--s2)}
+.opt{display:flex;align-items:center;gap:var(--s3);width:100%;text-align:start;
+  background:#fff;border:1.5px solid var(--ink-200);border-radius:var(--r-md);
+  padding:var(--s3) var(--s4);min-height:60px;transition:all .16s var(--ease)}
+.opt:hover{border-color:var(--ink-300);background:var(--ink-50)}
+.opt.sel{border-color:var(--primary-600);background:var(--primary-50)}
+.opt__logo{width:40px;height:40px;flex:none;border-radius:10px;background:var(--ink-100);
+  display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--ink-600)}
+.opt.sel .opt__logo{background:#fff;color:var(--primary-700)}
+.opt__t{flex:1;min-width:0}
+.opt__t b{display:block;font-size:15px;font-weight:600;color:var(--ink-900)}
+.opt__t span{font-size:12.5px;color:var(--ink-500)}
+.opt__check{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--ink-300);
+  flex:none;display:grid;place-items:center;color:#fff}
+.opt.sel .opt__check{background:var(--primary-600);border-color:var(--primary-600)}
+.opt__check svg{width:13px;height:13px;opacity:0}
+.opt.sel .opt__check svg{opacity:1}
+
+.field{margin-bottom:var(--s5)}
+.field>label{display:block;font-size:13px;font-weight:600;color:var(--ink-800);
+  margin-bottom:var(--s2)}
+.input{width:100%;height:56px;border:1.5px solid var(--ink-200);border-radius:var(--r-md);
+  padding-inline:var(--s4);font-size:17px;font-weight:600;background:#fff;outline:none;
+  transition:all .16s var(--ease)}
+.input:focus{border-color:var(--primary-600);box-shadow:0 0 0 4px var(--primary-50)}
+.input::placeholder{color:var(--ink-300);font-weight:400}
+.chips{display:flex;flex-wrap:wrap;gap:var(--s2);margin-top:var(--s3)}
+.chip{height:36px;padding-inline:14px;border-radius:var(--r-full);
+  border:1px solid var(--ink-200);background:#fff;font-size:13px;font-weight:600;
+  color:var(--ink-600);transition:all .16s var(--ease)}
+.chip:hover{border-color:var(--primary-500);color:var(--primary-700)}
+.chip.sel{background:var(--primary-600);border-color:var(--primary-600);color:#fff}
+.helper{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;line-height:22px;
+  color:var(--ink-500);margin-top:var(--s3)}
+.helper svg{width:15px;height:15px;flex:none;margin-top:4px;color:var(--ink-500)}
+
+.ob__foot{position:sticky;bottom:0;background:#fff;padding:var(--s4) var(--s5) var(--s6);
+  border-top:1px solid var(--ink-100);display:flex;gap:var(--s3);
+  box-shadow:0 -4px 16px rgba(21,27,41,.04)}
+.ob__foot .btn--secondary{flex:none;width:52px;padding:0}
+
+/* ============================================================
+   DASHBOARD
+   ============================================================ */
+.db{padding-bottom:0;flex:1;display:flex;flex-direction:column}
+.db__hero{background:linear-gradient(140deg,#0E2F52 0%,var(--ink-800) 55%,#123E6B 100%);
+  padding:var(--s5) var(--s5) var(--s16);position:relative;overflow:hidden}
+.db__hero::after{content:'';position:absolute;width:260px;height:260px;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,150,255,.35),transparent 68%);
+  top:-90px;inset-inline-start:-70px}
+.db__top{display:flex;align-items:center;gap:var(--s3);position:relative;z-index:2;
+  margin-bottom:var(--s5)}
+.db__top .iconbtn{color:#C6D3E6}
+.db__top .iconbtn:hover{background:rgba(255,255,255,.1)}
+.db__hello{flex:1}
+.db__hello span{display:block;font-size:12.5px;color:#93A6C4}
+.db__hello b{font-size:15px;font-weight:700;color:#fff}
+.db__vehicle{display:flex;align-items:center;gap:var(--s4);position:relative;z-index:2}
+.db__vinfo{flex:1;min-width:0}
+.db__vinfo h1{font-size:22px;font-weight:800;color:#fff;line-height:34px}
+.db__plate{display:inline-flex;align-items:center;gap:6px;margin-top:6px;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);
+  border-radius:8px;height:28px;padding-inline:10px;
+  font-size:12.5px;color:#DCE6F3;font-weight:600;direction:ltr}
+.db__img{width:100px;height:66px;flex:none;color:#9FD4FF}
+.db__img svg{width:100%;height:100%}
+.db__manage{margin-top:var(--s4);position:relative;z-index:2}
+.db__manage button{height:36px;padding-inline:14px;border-radius:var(--r-full);
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);
+  color:#fff;font-size:12.5px;font-weight:600;display:inline-flex;align-items:center;gap:6px}
+.db__manage button:hover{background:rgba(255,255,255,.18)}
+.db__manage svg{width:15px;height:15px}
+
+.db__sheet{margin-top:calc(-1*var(--s10));padding:0 var(--s5) var(--s10);position:relative;z-index:5;flex:1}
+.db__cards{display:flex;flex-direction:column;gap:var(--s4)}
+
+.statusrow{display:flex;align-items:center;gap:var(--s3);padding:var(--s3) 0}
+.statusrow+.statusrow{border-top:1px solid var(--ink-100)}
+.statusrow__ico{width:40px;height:40px;border-radius:var(--r-md);flex:none;
+  display:grid;place-items:center}
+.statusrow__ico svg{width:20px;height:20px}
+.ico--ok{background:var(--success-bg);color:var(--success)}
+.ico--warn{background:var(--warning-bg);color:var(--warning)}
+.statusrow__t{flex:1;min-width:0}
+.statusrow__t b{display:block;font-size:14.5px;font-weight:600;color:var(--ink-900)}
+.statusrow__t span{font-size:12.5px;color:var(--ink-500)}
+.link-sm{font-size:13px;font-weight:700;color:var(--primary-600);flex:none}
+
+.nba{background:linear-gradient(135deg,#0B72CE,#0A5AA3);color:#fff;border:none;
+  border-radius:var(--r-lg);padding:var(--s5);box-shadow:0 10px 28px rgba(11,114,206,.28);
+  position:relative;overflow:hidden}
+.nba::after{content:'';position:absolute;width:180px;height:180px;border-radius:50%;
+  background:rgba(255,255,255,.07);top:-60px;inset-inline-start:-40px}
+.nba__tag{display:inline-flex;align-items:center;gap:6px;height:26px;padding-inline:10px;
+  border-radius:var(--r-full);background:rgba(255,255,255,.16);
+  font-size:11.5px;font-weight:700;margin-bottom:var(--s3);position:relative;z-index:2}
+.nba h2{font-size:15px;font-weight:600;color:#CFE6FB;margin-bottom:var(--s2);
+  position:relative;z-index:2}
+.nba h3{font-size:20px;font-weight:800;margin-bottom:6px;position:relative;z-index:2}
+.nba p{font-size:13px;line-height:24px;color:#CFE6FB;margin-bottom:var(--s5);
+  position:relative;z-index:2}
+.nba .btn{background:#fff;color:var(--primary-700);box-shadow:none;position:relative;z-index:2}
+.nba .btn:hover{background:#EBF6FF}
+
+.timeline{position:relative;padding-inline-start:var(--s5);margin-top:var(--s2)}
+.timeline::before{content:'';position:absolute;inset-inline-start:5px;top:8px;bottom:14px;
+  width:2px;background:var(--ink-200);border-radius:2px}
+.tl{position:relative;padding-bottom:var(--s5)}
+.tl:last-child{padding-bottom:0}
+.tl::before{content:'';position:absolute;inset-inline-start:calc(-1*var(--s5) + 1px);
+  top:7px;width:12px;height:12px;border-radius:50%;background:#fff;
+  border:2.5px solid var(--ink-300)}
+.tl--ok::before{border-color:var(--success)}
+.tl--info::before{border-color:var(--primary-600)}
+.tl__d{font-size:12px;color:var(--ink-500);margin-bottom:2px}
+.tl__t{font-size:14.5px;font-weight:700;color:var(--ink-900)}
+.tl__s{font-size:13px;line-height:24px;color:var(--ink-600)}
+.empty{text-align:center;padding:var(--s5) 0 var(--s2)}
+
+.tabbar{position:sticky;bottom:0;background:#fff;
+  border-top:1px solid var(--ink-200);box-shadow:var(--sh-nav);
+  display:flex;align-items:flex-start;padding-top:10px;padding-bottom:10px;z-index:40}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;
+  color:var(--ink-500);font-size:11px;font-weight:600}
+.tab svg{width:23px;height:23px}
+.tab.on{color:var(--primary-600)}
+.tab.on svg{stroke-width:2}
+
+/* ============================================================
+   RECOMMENDATION DETAIL
+   ============================================================ */
+.rd{background:#fff;padding-bottom:0;flex:1;display:flex;flex-direction:column}
+.topbar{display:flex;align-items:center;gap:var(--s3);height:56px;padding-inline:var(--s5);
+  background:#fff;position:sticky;top:0;z-index:20;border-bottom:1px solid var(--ink-100)}
+.topbar h1{font-size:16px;font-weight:700;color:var(--ink-900);flex:1}
+.rd__hero{padding:var(--s6) var(--s5) var(--s5);
+  background:linear-gradient(180deg,#F2F9FF,#fff)}
+.rd__hero h1{font-size:24px;line-height:40px;font-weight:800;color:var(--ink-900);
+  margin:var(--s4) 0 var(--s3)}
+.rd__hero p{font-size:15px;line-height:28px;color:var(--ink-600)}
+.rd__icon{width:56px;height:56px;border-radius:var(--r-lg);background:var(--primary-600);
+  color:#fff;display:grid;place-items:center;box-shadow:0 8px 20px rgba(11,114,206,.3)}
+.rd__icon svg{width:28px;height:28px}
+.sec{padding:var(--s6) var(--s5) 0}
+.sec h2{font-size:17px;font-weight:800;color:var(--ink-900);margin-bottom:var(--s4);
+  display:flex;align-items:center;gap:var(--s2)}
+.sec h2 svg{width:19px;height:19px;color:var(--primary-600)}
+.reason{display:flex;gap:var(--s3);padding:var(--s4);background:var(--ink-50);
+  border:1px solid var(--ink-200);border-radius:var(--r-md)}
+.reason+.reason{margin-top:var(--s2)}
+.reason__k{width:34px;height:34px;flex:none;border-radius:10px;background:#fff;
+  border:1px solid var(--ink-200);display:grid;place-items:center;color:var(--primary-600)}
+.reason__k svg{width:17px;height:17px}
+.reason b{display:block;font-size:14px;font-weight:700;color:var(--ink-900)}
+.reason span{font-size:13px;line-height:24px;color:var(--ink-600)}
+.benefit-l{display:flex;gap:var(--s3);align-items:flex-start;padding:var(--s3) 0}
+.benefit-l svg{width:20px;height:20px;color:var(--success);flex:none;margin-top:4px}
+.benefit-l b{display:block;font-size:14.5px;font-weight:700;color:var(--ink-900)}
+.benefit-l span{font-size:13px;line-height:24px;color:var(--ink-600)}
+.why{margin:var(--s6) var(--s5) 0;background:var(--primary-50);
+  border:1px solid var(--primary-100);border-radius:var(--r-lg);padding:var(--s5)}
+.why h3{font-size:14.5px;font-weight:800;color:var(--primary-700);margin-bottom:var(--s3);
+  display:flex;align-items:center;gap:8px}
+.why h3 svg{width:18px;height:18px}
+.why li{display:flex;gap:10px;font-size:13px;line-height:26px;color:var(--ink-600);
+  padding-block:2px}
+.why li::before{content:'';width:5px;height:5px;border-radius:50%;
+  background:var(--primary-600);flex:none;margin-top:11px}
+.why .foot{margin-top:var(--s4);padding-top:var(--s3);
+  border-top:1px dashed var(--primary-100);font-size:12px;color:var(--ink-500)}
+.stickycta{position:sticky;bottom:0;background:#fff;padding:var(--s4) var(--s5) var(--s6);
+  border-top:1px solid var(--ink-100);box-shadow:0 -4px 16px rgba(21,27,41,.05);
+  margin-top:var(--s8)}
+.stickycta .t-cap{text-align:center;margin-top:10px}
+
+/* ============================================================
+   FEEDBACK SURVEY
+   ============================================================ */
+.fb{background:#fff;padding-bottom:0;flex:1;display:flex;flex-direction:column}
+.fb__head{padding:var(--s6) var(--s5) var(--s5);text-align:center}
+.fb__head .em{width:60px;height:60px;margin:0 auto var(--s4);border-radius:var(--r-lg);
+  background:var(--primary-50);color:var(--primary-600);display:grid;place-items:center}
+.fb__head .em svg{width:30px;height:30px}
+.fb__head h1{font-size:22px;line-height:36px;font-weight:800;color:var(--ink-900);
+  margin-bottom:var(--s2)}
+.fb__head p{font-size:14px;line-height:26px;color:var(--ink-600)}
+.q{padding:var(--s5);border-top:8px solid var(--ink-50)}
+.q__n{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;
+  border-radius:var(--r-full);background:var(--primary-600);color:#fff;
+  font-size:11px;font-weight:700;margin-inline-end:8px;flex:none}
+.q__t{font-size:16px;line-height:28px;font-weight:700;color:var(--ink-900);
+  margin-bottom:6px;display:flex;align-items:flex-start}
+.q__t span{flex:1}
+.q__h{font-size:12.5px;color:var(--ink-500);margin-bottom:var(--s4);
+  padding-inline-start:30px}
+.stars{display:flex;gap:var(--s2);justify-content:center;padding:var(--s2) 0}
+.star{width:48px;height:48px;display:grid;place-items:center;color:var(--ink-300);
+  transition:transform .14s var(--ease),color .14s var(--ease)}
+.star svg{width:38px;height:38px}
+.star.on{color:#F5A524}
+.star.on svg{fill:currentColor}
+.star:active{transform:scale(.9)}
+.stars__lbl{text-align:center;font-size:13px;font-weight:700;color:var(--primary-700);
+  height:22px;margin-top:6px}
+.scale{display:flex;gap:var(--s2)}
+.scale button{flex:1;height:54px;border-radius:var(--r-md);border:1.5px solid var(--ink-200);
+  background:#fff;font-size:17px;font-weight:700;color:var(--ink-600);
+  transition:all .16s var(--ease)}
+.scale button:hover{border-color:var(--primary-500)}
+.scale button.sel{background:var(--primary-600);border-color:var(--primary-600);color:#fff;
+  box-shadow:0 4px 12px rgba(11,114,206,.25)}
+.scale__ends{display:flex;justify-content:space-between;margin-top:10px;
+  font-size:12px;color:var(--ink-500)}
+textarea.input{height:120px;padding:var(--s4);font-size:15px;font-weight:400;
+  line-height:28px;resize:none}
+.counter{text-align:start;font-size:12px;color:var(--ink-500);margin-top:6px}
+.fb__foot{position:sticky;bottom:0;background:#fff;padding:var(--s4) var(--s5) var(--s6);
+  border-top:1px solid var(--ink-100);box-shadow:0 -4px 16px rgba(21,27,41,.05)}
+.privacy{display:flex;gap:8px;align-items:center;justify-content:center;
+  font-size:12px;color:var(--ink-500);margin-top:12px}
+.privacy svg{width:14px;height:14px;color:var(--success)}
+.fb__thanks{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:var(--s10) var(--s6)}
+.fb__thanks .em{width:72px;height:72px;border-radius:var(--r-xl);background:var(--success-bg);
+  color:var(--success);display:grid;place-items:center;margin-bottom:var(--s5)}
+.fb__thanks .em svg{width:36px;height:36px}
+.fb__thanks h1{font-size:22px;font-weight:800;color:var(--ink-900);margin-bottom:var(--s2)}
+.fb__thanks p{font-size:14px;line-height:26px;color:var(--ink-600);margin-bottom:var(--s6);max-width:38ch}
+
+/* ============================================================
+   VEHICLE-SWITCH MODAL (used from the dashboard)
+   ============================================================ */
+.modal{position:fixed;inset:0;z-index:80;display:flex;align-items:flex-end;justify-content:center}
+.modal[hidden]{display:none}
+.modal__backdrop{position:absolute;inset:0;background:rgba(21,27,41,.5)}
+.modal__sheet{position:relative;background:#fff;width:100%;max-width:560px;
+  border-radius:var(--r-xl) var(--r-xl) 0 0;padding:var(--s5) var(--s5) var(--s6);
+  max-height:82vh;overflow-y:auto;box-shadow:0 -10px 40px rgba(21,27,41,.2)}
+@media (min-width:641px){
+  .modal{align-items:center}
+  .modal__sheet{border-radius:var(--r-xl);max-height:80vh}
+}
+.modal__grip{width:36px;height:4px;border-radius:var(--r-full);background:var(--ink-200);
+  margin:0 auto var(--s4)}
+.modal__head{display:flex;align-items:center;gap:var(--s3);margin-bottom:var(--s5)}
+.modal__head h2{flex:1;font-size:17px;font-weight:800;color:var(--ink-900)}
+.vlist{display:flex;flex-direction:column;gap:var(--s3)}
+.vitem{display:flex;align-items:center;gap:var(--s3);border:1.5px solid var(--ink-200);
+  border-radius:var(--r-md);padding:var(--s3) var(--s4)}
+.vitem.is-active{border-color:var(--primary-600);background:var(--primary-50)}
+.vitem__ico{width:44px;height:44px;flex:none;border-radius:10px;background:var(--ink-100);
+  display:grid;place-items:center;color:var(--ink-600)}
+.vitem.is-active .vitem__ico{background:#fff;color:var(--primary-700)}
+.vitem__ico svg{width:22px;height:22px}
+.vitem__t{flex:1;min-width:0}
+.vitem__t b{display:block;font-size:14.5px;font-weight:700;color:var(--ink-900)}
+.vitem__t span{font-size:12.5px;color:var(--ink-500);direction:ltr;display:inline-block}
+.vitem__actions{display:flex;align-items:center;gap:6px;flex:none}
+.vitem__confirm{display:flex;align-items:center;gap:var(--s3);flex:1}
+.vitem__confirm span{flex:1;font-size:13px;color:var(--danger);font-weight:600}
+.modal__add{margin-top:var(--s4)}
+.modal__empty{text-align:center;padding:var(--s6) 0;color:var(--ink-500);font-size:13.5px}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (min-width:768px){
+  .navlinks{display:flex;gap:var(--s5);font-size:14px;font-weight:600;color:var(--ink-600)}
+  .navlinks a:hover{color:var(--ink-900)}
+  .hero{padding:var(--s16) 0 var(--s10)}
+  .hero__grid{display:grid;grid-template-columns:1.1fr .9fr;gap:var(--s10);align-items:center}
+  .hero h1{font-size:46px;line-height:70px;max-width:14ch}
+  .hero__cta{flex-direction:row;max-width:none}
+  .heroart{margin-top:0}
+  .trustgrid{grid-template-columns:repeat(3,1fr)}
+  .fcols{grid-template-columns:repeat(4,1fr)}
+  .section--benefits .stack{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4)}
+}
+@media (max-width:640px){
+  .wrap{padding-inline:var(--s5)}
+}
+</style>
+</head>
+<body>
+
+<!-- ================================================================
+     PAGE 1 — LANDING
+     ================================================================ -->
+<section class="page is-active lp" id="page-landing">
+  <header class="appbar">
+    <div class="wrap">
+      <div class="logo">
+        <div class="logo__mark">از</div>
+        <div>
+          <div class="logo__txt">ازکی</div>
+          <div class="logo__sub">مراقبت از خودرو</div>
+        </div>
+      </div>
+      <div class="appbar__spacer"></div>
+      <nav class="navlinks">
+        <a href="#features">امکانات</a><a href="#guide">راهنما</a><a href="#support">پشتیبانی</a>
+      </nav>
+      <button class="btn btn--sm btn--secondary" data-nav="dashboard">ورود</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap hero__grid">
+      <div>
+        <span class="hero__eyebrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px">
+            <path d="M12 3l2.3 4.9 5.2.8-3.8 3.8.9 5.3-4.6-2.5-4.6 2.5.9-5.3L4.5 8.7l5.2-.8z"/></svg>
+          سرویس جدید ازکی
+        </span>
+        <h1>خودرویت را <em>بهتر</em> مدیریت کن</h1>
+        <p>سوابق، بیمه و سرویس‌های مهم خودرو را یکجا ببین و بدان قدم بعدی چیست.</p>
+        <div class="hero__cta">
+          <button class="btn btn--primary btn--block" data-nav="register">
+            ساخت پروفایل خودرو
+            <svg class="btn__ico mirror" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+          <button class="btn btn--secondary btn--block" data-nav="dashboard">قبلاً حساب دارم</button>
+        </div>
+        <div class="hero__meta">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 6L9 17l-5-5"/></svg>
+          رایگان · بدون نیاز به کارت بانکی · کمتر از ۲ دقیقه
+        </div>
+      </div>
+
+      <div class="heroart">
+        <div class="heroart__card">
+          <div class="heroart__car">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 30h32M10 30v4M38 30v4"/>
+              <path d="M9 30l3-9a4 4 0 013.8-2.7h16.4A4 4 0 0136 21l3 9"/>
+              <circle cx="15" cy="30" r="3.2"/><circle cx="33" cy="30" r="3.2"/></svg>
+          </div>
+          <div style="flex:1;min-width:0">
+            <div class="t-h3" style="font-size:15px" id="lpVehName">هنوز خودرویی ثبت نشده</div>
+            <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">
+              <span class="badge badge--info" id="lpVehTag">برای شروع ثبت کن</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt section--benefits" id="features">
+    <div class="wrap">
+      <div class="section__kicker">چرا مراقبت از خودرو؟</div>
+      <h2 class="section__title">همه چیز درباره خودرو، در یک صفحه</h2>
+      <p class="section__lead">بدون دفترچه، بدون جست‌وجو در پیامک‌ها و بدون فراموش کردن تاریخ‌ها.</p>
+
+      <div class="stack">
+        <article class="card">
+          <div class="card__head">
+            <div class="card__ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2h-2"/>
+                <rect x="8" y="2" width="8" height="4" rx="1.2"/>
+                <path d="M8.5 11h7M8.5 15h4.5"/></svg>
+            </div>
+            <div style="flex:1">
+              <h3 class="t-h3">مشاهده سوابق خودرو</h3>
+              <div class="t-cap">تاریخچه یکپارچه</div>
+            </div>
+          </div>
+          <p class="t-body">بیمه‌نامه‌ها، سرویس‌های انجام‌شده و اقدامات گذشته را در یک خط زمانی مرتب ببین.</p>
+        </article>
+
+        <article class="card">
+          <div class="card__head">
+            <div class="card__ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 8A6 6 0 106 8c0 6-2 7-2 7h16s-2-1-2-7z"/>
+                <path d="M13.7 20a2 2 0 01-3.4 0"/></svg>
+            </div>
+            <div style="flex:1">
+              <h3 class="t-h3">یادآوری سرویس و بیمه</h3>
+              <div class="t-cap">پیش از سررسید</div>
+            </div>
+          </div>
+          <p class="t-body">قبل از پایان اعتبار بیمه یا رسیدن موعد سرویس دوره‌ای، به‌موقع باخبر شو.</p>
+        </article>
+
+        <article class="card">
+          <div class="card__head">
+            <div class="card__ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 18h6M10 21h4"/>
+                <path d="M12 3a6 6 0 00-3.5 10.9c.5.4.8 1 .8 1.6v.5h5.4v-.5c0-.6.3-1.2.8-1.6A6 6 0 0012 3z"/></svg>
+            </div>
+            <div style="flex:1">
+              <h3 class="t-h3">پیشنهاد اقدام بعدی</h3>
+              <div class="t-cap">متناسب با خودروی تو</div>
+            </div>
+          </div>
+          <p class="t-body">براساس سن، کارکرد و سوابق خودرو، مهم‌ترین کاری که الان باید انجام دهی مشخص می‌شود.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section__kicker" id="guide">راهنما و امنیت</div>
+      <h2 class="section__title">اطلاعات خودروی شما، امن می‌ماند</h2>
+      <p class="section__lead">
+        مراقبت از خودرو بخشی از ازکی است و اطلاعات شما با همان استانداردی نگهداری می‌شود که
+        در خرید بیمه به کار می‌رود. داده‌ها فقط برای ارائه یادآوری و پیشنهاد به خودتان استفاده می‌شوند.
+      </p>
+      <div class="trustgrid">
+        <div class="trustitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3l7.5 3v5.4c0 4.6-3.1 8.4-7.5 9.6-4.4-1.2-7.5-5-7.5-9.6V6z"/>
+            <path d="M9.3 12.2l1.9 1.9 3.6-3.8"/></svg>
+          <div><b>ارتباط رمزنگاری‌شده</b>
+            <span>تمام اطلاعات روی بستر امن و رمزنگاری‌شده منتقل و ذخیره می‌شود.</span></div>
+        </div>
+        <div class="trustitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+               stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="10" width="16" height="11" rx="2.5"/>
+            <path d="M8 10V7a4 4 0 018 0v3M12 15v2"/></svg>
+          <div><b>بدون اشتراک‌گذاری با دیگران</b>
+            <span>اطلاعات خودروی شما بدون اجازه‌تان در اختیار هیچ شرکت ثالثی قرار نمی‌گیرد.</span></div>
+        </div>
+        <div class="trustitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 7h18M6 7V5a2 2 0 012-2h8a2 2 0 012 2v2"/>
+            <path d="M5 7l1 12a2 2 0 002 2h8a2 2 0 002-2l1-12"/>
+            <path d="M10 11v6M14 11v6"/></svg>
+          <div><b>کنترل کامل با شماست</b>
+            <span>هر زمان بخواهید می‌توانید خودرو یا کل حساب خود را حذف کنید.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap" id="support">
+    <div class="cta-band">
+      <div class="cta-band__inner">
+        <h3>خودرویت را ثبت کن، بقیه‌اش با ما</h3>
+        <p>فقط برند، مدل و سال ساخت را وارد کن تا پروفایل خودرو ساخته شود.</p>
+        <button class="btn btn--primary btn--block" data-nav="register">ساخت پروفایل خودرو</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="logo">
+        <div class="logo__mark">از</div>
+        <div><div class="logo__txt">ازکی</div><div class="logo__sub">مراقبت از خودرو</div></div>
+      </div>
+      <p>ازکی، پلتفرم مقایسه و خرید آنلاین بیمه. «مراقبت از خودروی من» سرویسی برای مدیریت یکپارچه خودروی شماست.</p>
+      <div class="fcols">
+        <div class="fcol"><h4>محصول</h4>
+          <a href="#page-landing">پروفایل خودرو</a><a href="#page-landing">یادآوری‌ها</a><a href="#page-landing">پیشنهادها</a></div>
+        <div class="fcol"><h4>بیمه</h4>
+          <a href="#page-landing">شخص ثالث</a><a href="#page-landing">بدنه</a><a href="#page-landing">استعلام قیمت</a></div>
+        <div class="fcol"><h4>ازکی</h4>
+          <a href="#page-landing">درباره ما</a><a href="#page-landing">وبلاگ</a><a href="#page-landing">فرصت‌های شغلی</a></div>
+        <div class="fcol"><h4>پشتیبانی</h4>
+          <a href="#page-landing">تماس با ما</a><a href="#page-landing">سؤالات متداول</a><a href="#page-landing">حریم خصوصی</a></div>
+      </div>
+      <div class="fbottom">
+        <span>© ۱۴۰۴ ازکی — تمامی حقوق محفوظ است.</span>
+        <span>نماد اعتماد الکترونیکی</span>
+      </div>
+    </div>
+  </footer>
+</section>
+
+<!-- ================================================================
+     PAGE 2 — VEHICLE REGISTRATION (5-step onboarding)
+     ================================================================ -->
+<section class="page" id="page-register">
+<div class="appwrap">
+  <div class="ob">
+    <div class="ob__bar">
+      <button class="ob__back" id="obBack" aria-label="بازگشت">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px">
+          <path d="M15 6l-6 6 6 6" transform="scale(-1,1) translate(-24,0)"/></svg>
+      </button>
+      <span class="ob__count">گام <b id="obNum">۱</b> از ۵</span>
+    </div>
+
+    <div class="progress" id="obProg">
+      <i class="on"></i><i></i><i></i><i></i><i></i>
+    </div>
+
+    <div class="ob__body">
+      <!-- STEP 1 : BRAND -->
+      <div class="obstep" data-step="1">
+        <h1 class="ob__title">برند خودرو را انتخاب کنید</h1>
+        <p class="ob__hint">برای شروع، سازنده خودروی خود را مشخص کنید.</p>
+        <div class="searchbox">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+               stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <input placeholder="جست‌وجوی برند…">
+        </div>
+        <div class="optlist">
+          <button class="opt sel" onclick="pick(this)">
+            <span class="opt__logo">ایران</span>
+            <span class="opt__t"><b>ایران‌خودرو</b><span>سمند، پژو، دنا، تارا</span></span>
+            <span class="opt__check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+          </button>
+          <button class="opt" onclick="pick(this)">
+            <span class="opt__logo">سایپا</span>
+            <span class="opt__t"><b>سایپا</b><span>پراید، تیبا، شاهین، کوییک</span></span>
+            <span class="opt__check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+          </button>
+          <button class="opt" onclick="pick(this)">
+            <span class="opt__logo">MVM</span>
+            <span class="opt__t"><b>مدیران خودرو</b><span>X22، آریزو، تیگو</span></span>
+            <span class="opt__check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+          </button>
+          <button class="opt" onclick="pick(this)">
+            <span class="opt__logo">بهمن</span>
+            <span class="opt__t"><b>بهمن موتور</b><span>دیگنیتی، فیدلیتی، کارا</span></span>
+            <span class="opt__check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+          </button>
+          <button class="opt" onclick="pick(this)">
+            <span class="opt__logo">کرمان</span>
+            <span class="opt__t"><b>کرمان موتور</b><span>جک، لیفان، هایما</span></span>
+            <span class="opt__check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+          </button>
+          <button class="opt" onclick="pick(this)">
+            <span class="opt__logo">…</span>
+            <span class="opt__t"><b>سایر برندها</b><span>وارداتی و متفرقه</span></span>
+            <span class="opt__check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 2 : MODEL -->
+      <div class="obstep" data-step="2" hidden>
+        <h1 class="ob__title">مدل خودرو چیست؟</h1>
+        <p class="ob__hint">مدل‌های ایران‌خودرو — پرکاربردترین‌ها بالا آمده‌اند.</p>
+        <div class="searchbox">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+               stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <input placeholder="جست‌وجوی مدل…">
+        </div>
+        <div class="optlist">
+          <button class="opt sel" onclick="pick(this)">
+            <span class="opt__logo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+                   stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px">
+                <path d="M4 15h16M5.5 15v2M18.5 15v2"/>
+                <path d="M5 15l1.6-4.6A2.6 2.6 0 019 8.7h6a2.6 2.6 0 012.4 1.7L19 15"/>
+                <circle cx="8" cy="15" r="1.7"/><circle cx="16" cy="15" r="1.7"/></svg>
+            </span>
+            <span class="opt__t"><b>سمند سورن پلاس</b><span>موتور EF7 · بنزینی</span></span>
+            <span class="opt__check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+          </button>
+          <button class="opt" onclick="pick(this)">
+            <span class="opt__logo">—</span>
+            <span class="opt__t"><b>سمند LX</b><span>موتور EF7 · دوگانه‌سوز</span></span>
+            <span class="opt__check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+          </button>
+          <button class="opt" onclick="pick(this)">
+            <span class="opt__logo">—</span>
+            <span class="opt__t"><b>دنا پلاس</b><span>توربو / معمولی</span></span>
+            <span class="opt__check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+          </button>
+          <button class="opt" onclick="pick(this)">
+            <span class="opt__logo">—</span>
+            <span class="opt__t"><b>پژو ۲۰۶ تیپ ۲</b><span>هاچ‌بک</span></span>
+            <span class="opt__check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+          </button>
+          <button class="opt" onclick="pick(this)">
+            <span class="opt__logo">—</span>
+            <span class="opt__t"><b>تارا اتوماتیک</b><span>سدان</span></span>
+            <span class="opt__check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 3 : YEAR -->
+      <div class="obstep" data-step="3" hidden>
+        <h1 class="ob__title">سال ساخت خودرو</h1>
+        <p class="ob__hint">سال ساخت روی کارت خودرو درج شده است.</p>
+        <div class="field">
+          <label for="year">سال ساخت (شمسی)</label>
+          <input id="year" class="input" value="۱۴۰۴" inputmode="numeric">
+        </div>
+        <div class="chips">
+          <button class="chip sel" onclick="pickChip(this)">۱۴۰۴</button>
+          <button class="chip" onclick="pickChip(this)">۱۴۰۳</button>
+          <button class="chip" onclick="pickChip(this)">۱۴۰۲</button>
+          <button class="chip" onclick="pickChip(this)">۱۴۰۱</button>
+          <button class="chip" onclick="pickChip(this)">۱۴۰۰</button>
+          <button class="chip" onclick="pickChip(this)">قدیمی‌تر</button>
+        </div>
+        <div class="helper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+          سال ساخت برای محاسبه موعد سرویس‌های دوره‌ای و برآورد قیمت بیمه بدنه استفاده می‌شود.
+        </div>
+      </div>
+
+      <!-- STEP 4 : MILEAGE -->
+      <div class="obstep" data-step="4" hidden>
+        <h1 class="ob__title">کارکرد تقریبی خودرو</h1>
+        <p class="ob__hint">عدد دقیق لازم نیست؛ تخمین شما کافی است.</p>
+        <div class="field">
+          <label for="km">کارکرد</label>
+          <div class="input-affix" style="position:relative">
+            <input id="km" class="input" value="۴۵٬۰۰۰" inputmode="numeric" style="padding-inline-end:64px">
+            <span style="position:absolute;inset-inline-end:16px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--ink-500);font-weight:500">کیلومتر</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>پلاک خودرو</label>
+          <div id="plateWrap"></div>
+        </div>
+        <div class="helper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+          هر زمان می‌توانید کارکرد را از پروفایل خودرو به‌روزرسانی کنید.
+        </div>
+      </div>
+
+      <!-- STEP 5 : USAGE -->
+      <div class="obstep" data-step="5" hidden>
+        <h1 class="ob__title">نوع استفاده از خودرو</h1>
+        <p class="ob__hint">این گزینه روی فاصله سرویس‌ها و پوشش‌های بیمه اثر می‌گذارد.</p>
+        <div class="optlist">
+          <button class="opt sel" onclick="pick(this)">
+            <span class="opt__logo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+                   stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px">
+                <path d="M3 11l9-7 9 7"/><path d="M5.5 10v9h13v-9"/><path d="M10 19v-5h4v5"/></svg>
+            </span>
+            <span class="opt__t"><b>شخصی</b><span>استفاده روزمره و خانوادگی</span></span>
+            <span class="opt__check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+          </button>
+          <button class="opt" onclick="pick(this)">
+            <span class="opt__logo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+                   stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px">
+                <rect x="3" y="7.5" width="18" height="12" rx="2"/>
+                <path d="M9 7.5V6a2 2 0 012-2h2a2 2 0 012 2v1.5M3 13h18"/></svg>
+            </span>
+            <span class="opt__t"><b>کاری / تجاری</b><span>مأموریت، حمل بار سبک، شرکتی</span></span>
+            <span class="opt__check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+          </button>
+          <button class="opt" onclick="pick(this)">
+            <span class="opt__logo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+                   stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px">
+                <path d="M12 21s-7-4.6-7-10a7 7 0 1114 0c0 5.4-7 10-7 10z"/>
+                <circle cx="12" cy="11" r="2.4"/></svg>
+            </span>
+            <span class="opt__t"><b>مسافربری آنلاین</b><span>اسنپ، تپسی و مشابه</span></span>
+            <span class="opt__check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+          </button>
+        </div>
+        <div class="helper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round"><path d="M12 3l7.5 3v5.4c0 4.6-3.1 8.4-7.5 9.6-4.4-1.2-7.5-5-7.5-9.6V6z"/></svg>
+          این اطلاعات فقط برای شخصی‌سازی یادآوری‌ها استفاده می‌شود.
+        </div>
+      </div>
+    </div>
+
+    <div class="ob__foot">
+      <button class="btn btn--secondary" id="obBack2" aria-label="بازگشت">
+        <svg class="btn__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 6l6 6-6 6"/></svg>
+      </button>
+      <button class="btn btn--primary" style="flex:1" id="obNext">
+        ادامه
+        <svg class="btn__ico mirror" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ================================================================
+     PAGE 3 — DASHBOARD
+     ================================================================ -->
+<section class="page" id="page-dashboard">
+<div class="appwrap">
+  <div class="db">
+    <header class="db__hero">
+      <div class="db__top">
+        <button class="iconbtn" id="dbBack" aria-label="بازگشت" style="background:rgba(255,255,255,.08)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 6l-6 6 6 6" transform="scale(-1,1) translate(-24,0)"/></svg>
+        </button>
+        <div class="logo__mark" style="width:34px;height:34px">از</div>
+        <div class="db__hello"><span>سلام،</span><b id="dbUserName">کاربر ازکی</b></div>
+        <button class="iconbtn" aria-label="اعلان‌ها" style="background:rgba(255,255,255,.08)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" stroke-linejoin="round" style="width:21px;height:21px">
+            <path d="M18 8A6 6 0 106 8c0 6-2 7-2 7h16s-2-1-2-7z"/>
+            <path d="M13.7 20a2 2 0 01-3.4 0"/></svg>
+        </button>
+      </div>
+      <div class="db__vehicle">
+        <div class="db__vinfo">
+          <h1 id="dbVName">سمند سورن ۱۴۰۴</h1>
+          <span class="db__plate" id="dbVPlate">۶۶ ط ۳۴۷ | ۱۱</span>
+        </div>
+        <div class="db__img">
+          <svg viewBox="0 0 120 80" fill="none" stroke="currentColor" stroke-width="2.6"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 52h92M22 52v6M98 52v6"/>
+            <path d="M16 52l6-17a8 8 0 017.5-5.4h61A8 8 0 0198 35l6 17"/>
+            <path d="M32 34h56" opacity=".55"/><path d="M60 30v4" opacity=".55"/>
+            <circle cx="34" cy="52" r="7"/><circle cx="86" cy="52" r="7"/>
+            <path d="M10 44h5M105 44h5" opacity=".6"/></svg>
+        </div>
+      </div>
+      <div class="db__manage">
+        <button id="openVehicleModal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 3a2.85 2.83 0 114 4L7.5 20.5 2 22l1.5-5.5z"/>
+            <path d="M15 5l4 4"/></svg>
+          تعویض یا حذف خودرو
+        </button>
+      </div>
+    </header>
+
+    <div class="db__sheet">
+      <div class="db__cards">
+
+        <!-- CARD 1 : STATUS -->
+        <section class="card" style="box-shadow:var(--sh-2)">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--s2)">
+            <h2 class="t-h3">وضعیت خودرو</h2>
+            <span class="badge badge--info">۲ مورد</span>
+          </div>
+          <div class="statusrow">
+            <div class="statusrow__ico ico--ok">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3l7.5 3v5.4c0 4.6-3.1 8.4-7.5 9.6-4.4-1.2-7.5-5-7.5-9.6V6z"/>
+                <path d="M9.3 12.2l1.9 1.9 3.6-3.8"/></svg>
+            </div>
+            <div class="statusrow__t">
+              <b>بیمه شخص ثالث</b>
+              <span>فعال تا مهر ۱۴۰۵</span>
+            </div>
+            <span class="badge badge--ok"><i class="dot"></i>فعال</span>
+          </div>
+          <div class="statusrow">
+            <div class="statusrow__ico ico--warn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.7 6.3a4.5 4.5 0 006 6l-8.4 8.4a2.5 2.5 0 01-3.6-3.6z"/>
+                <path d="M8.5 3.5L4 8l2.5 2.5L11 6z"/></svg>
+            </div>
+            <div class="statusrow__t">
+              <b>سرویس دوره‌ای</b>
+              <span>سرویسی ثبت نشده است</span>
+            </div>
+            <button class="link-sm">ثبت سرویس</button>
+          </div>
+        </section>
+
+        <!-- CARD 2 : NEXT BEST ACTION -->
+        <section class="nba">
+          <span class="nba__tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                 stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px">
+              <path d="M12 3l2.3 4.9 5.2.8-3.8 3.8.9 5.3-4.6-2.5-4.6 2.5.9-5.3L4.5 8.7l5.2-.8z"/></svg>
+            پیشنهاد هوشمند
+          </span>
+          <h2>پیشنهاد امروز برای خودرو شما</h2>
+          <h3>بررسی سرویس دوره‌ای</h3>
+          <p>براساس سن خودرو و اطلاعات ثبت‌شده</p>
+          <button class="btn btn--md btn--block" id="openRecommendation">
+            چرا این پیشنهاد؟ مشاهده جزئیات
+            <svg class="btn__ico mirror" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </section>
+
+        <!-- CARD 3 : TIMELINE -->
+        <section class="card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--s4)">
+            <h2 class="t-h3">تاریخچه خودرو</h2>
+            <button class="link-sm">همه</button>
+          </div>
+          <div class="timeline">
+            <div class="tl tl--info">
+              <div class="tl__d">۲ روز پیش</div>
+              <div class="tl__t">پروفایل خودرو ساخته شد</div>
+              <div class="tl__s">سمند سورن ۱۴۰۴ · کارکرد ۴۵٬۰۰۰ کیلومتر</div>
+            </div>
+            <div class="tl tl--ok">
+              <div class="tl__d">مهر ۱۴۰۴</div>
+              <div class="tl__t">خرید بیمه شخص ثالث</div>
+              <div class="tl__s">بیمه پاسارگاد · اعتبار تا مهر ۱۴۰۵</div>
+            </div>
+            <div class="tl">
+              <div class="tl__d">مرداد ۱۴۰۴</div>
+              <div class="tl__t">استعلام بیمه بدنه</div>
+              <div class="tl__s">مقایسه ۷ شرکت · بدون خرید</div>
+            </div>
+            <div class="tl">
+              <div class="tl__d">—</div>
+              <div class="tl__t" style="color:var(--ink-500)">سابقه سرویسی ثبت نشده</div>
+              <div class="tl__s">با ثبت سرویس‌های گذشته، پیشنهادها دقیق‌تر می‌شوند.</div>
+            </div>
+          </div>
+          <div class="empty">
+            <button class="btn btn--md btn--secondary btn--block">افزودن سابقه سرویس</button>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <nav class="tabbar">
+      <button class="tab on">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 11l9-7 9 7"/><path d="M5.5 10v9h13v-9"/></svg>خانه</button>
+      <button class="tab" id="tabVehicle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 15h16M5.5 15v2M18.5 15v2"/>
+          <path d="M5 15l1.6-4.6A2.6 2.6 0 019 8.7h6a2.6 2.6 0 012.4 1.7L19 15"/>
+          <circle cx="8" cy="15" r="1.6"/><circle cx="16" cy="15" r="1.6"/></svg>خودرو</button>
+      <button class="tab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14.7 6.3a4.5 4.5 0 006 6l-8.4 8.4a2.5 2.5 0 01-3.6-3.6z"/>
+          <path d="M8.5 3.5L4 8l2.5 2.5L11 6z"/></svg>خدمات</button>
+      <button class="tab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+             stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0115 0"/></svg>پروفایل</button>
+    </nav>
+  </div>
+</div>
+</section>
+
+<!-- ================================================================
+     PAGE 4 — RECOMMENDATION DETAIL
+     ================================================================ -->
+<section class="page" id="page-recommendation">
+<div class="appwrap">
+  <div class="rd">
+    <div class="topbar">
+      <button class="iconbtn" id="rdBack" aria-label="بازگشت">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" style="width:21px;height:21px">
+          <path d="M9 6l6 6-6 6"/></svg>
+      </button>
+      <h1>جزئیات پیشنهاد</h1>
+      <button class="iconbtn" aria-label="اشتراک">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+             stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px">
+          <circle cx="17" cy="6" r="2.6"/><circle cx="7" cy="12" r="2.6"/>
+          <circle cx="17" cy="18" r="2.6"/><path d="M9.3 10.8l5.4-3.2M9.3 13.2l5.4 3.2"/></svg>
+      </button>
+    </div>
+
+    <header class="rd__hero">
+      <div class="rd__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14.7 6.3a4.5 4.5 0 006 6l-8.4 8.4a2.5 2.5 0 01-3.6-3.6z"/>
+          <path d="M8.5 3.5L4 8l2.5 2.5L11 6z"/></svg>
+      </div>
+      <h1>بررسی سرویس دوره‌ای خودرو</h1>
+      <p>پیشنهاد امروز برای سمند سورن ۱۴۰۴ شما</p>
+      <div style="display:flex;gap:8px;margin-top:var(--s4);flex-wrap:wrap">
+        <span class="badge badge--warn"><i class="dot"></i>اولویت متوسط</span>
+        <span class="badge badge--info">زمان تقریبی: ۱ ساعت</span>
+      </div>
+    </header>
+
+    <section class="sec">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+             stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+        چرا این پیشنهاد به شما داده شد؟
+      </h2>
+      <div class="reason">
+        <div class="reason__k">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="5" width="16" height="16" rx="2.5"/>
+            <path d="M8 3v4M16 3v4M4 10h16"/></svg>
+        </div>
+        <div><b>سن خودرو</b>
+          <span>خودروی شما مربوط به سال ۱۴۰۴ است. در سال اول، سرویس اولیه و بازدید فنی نقش مهمی در سلامت موتور دارد.</span></div>
+      </div>
+      <div class="reason">
+        <div class="reason__k">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></svg>
+        </div>
+        <div><b>آخرین سرویس</b>
+          <span>هیچ سرویسی در پروفایل ثبت نشده است. تا زمانی که سابقه‌ای ثبت نشود، فرض می‌شود سرویس دوره‌ای انجام نشده.</span></div>
+      </div>
+      <div class="reason">
+        <div class="reason__k">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 15h16M5.5 15v2M18.5 15v2"/>
+            <path d="M5 15l1.6-4.6A2.6 2.6 0 019 8.7h6a2.6 2.6 0 012.4 1.7L19 15"/></svg>
+        </div>
+        <div><b>کارکرد ثبت‌شده</b>
+          <span>۴۵٬۰۰۰ کیلومتر — نزدیک به بازه توصیه‌شده برای تعویض روغن، فیلترها و بازدید ترمز.</span></div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3l2.3 4.9 5.2.8-3.8 3.8.9 5.3-4.6-2.5-4.6 2.5.9-5.3L4.5 8.7l5.2-.8z"/></svg>
+        چه فایده‌ای برای شما دارد؟
+      </h2>
+      <div class="benefit-l">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/><path d="M8.5 12.3l2.3 2.3 4.7-5"/></svg>
+        <div><b>جلوگیری از هزینه‌های ناگهانی</b>
+          <span>خرابی‌های پیش‌بینی‌نشده معمولاً چند برابر هزینه یک سرویس دوره‌ای تمام می‌شوند.</span></div>
+      </div>
+      <div class="benefit-l">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/><path d="M8.5 12.3l2.3 2.3 4.7-5"/></svg>
+        <div><b>حفظ سلامت و ارزش خودرو</b>
+          <span>سرویس منظم، عمر موتور و گیربکس را بالا می‌برد و در فروش، سابقه سرویس یک مزیت است.</span></div>
+      </div>
+      <div class="benefit-l">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/><path d="M8.5 12.3l2.3 2.3 4.7-5"/></svg>
+        <div><b>رانندگی مطمئن‌تر</b>
+          <span>بازدید ترمز، لاستیک و روشنایی، ریسک حادثه و خسارت را کاهش می‌دهد.</span></div>
+      </div>
+    </section>
+
+    <section class="why">
+      <h3>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3l7.5 3v5.4c0 4.6-3.1 8.4-7.5 9.6-4.4-1.2-7.5-5-7.5-9.6V6z"/></svg>
+        این پیشنهاد چطور ساخته شد؟
+      </h3>
+      <ul>
+        <li>فقط از اطلاعاتی استفاده شده که خودتان در پروفایل خودرو ثبت کرده‌اید: مدل، سال ساخت، کارکرد و نوع استفاده.</li>
+        <li>این پیشنهاد براساس بازه‌های سرویس توصیه‌شده سازنده و الگوی رایج نگهداری خودروهای مشابه ساخته می‌شود.</li>
+        <li>هیچ پرداختی انجام نمی‌شود و پذیرفتن پیشنهاد کاملاً اختیاری است.</li>
+        <li>ازکی از این اطلاعات برای فروش به شرکت‌های ثالث استفاده نمی‌کند.</li>
+      </ul>
+      <div class="foot">آخرین به‌روزرسانی پیشنهاد: امروز، ۹:۱۵ · <a href="#page-dashboard">مدیریت داده‌های من</a></div>
+    </section>
+
+    <div class="stickycta">
+      <button class="btn btn--primary btn--block" id="rdGoFeedback">
+        مشاهده خدمات پیشنهادی
+        <svg class="btn__ico mirror" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+      <div class="t-cap">
+        <a href="javascript:void(0)" id="rdDoneAlready">سرویس را قبلاً انجام داده‌ام</a> ·
+        <a href="javascript:void(0)" id="rdNotNow">فعلاً نه</a>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ================================================================
+     PAGE 5 — FEEDBACK
+     ================================================================ -->
+<section class="page" id="page-feedback">
+<div class="appwrap">
+  <div class="fb" id="fbForm">
+    <div class="topbar">
+      <button class="iconbtn" id="fbClose" aria-label="بستن">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" style="width:20px;height:20px">
+          <path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <h1 style="flex:1">نظر شما</h1>
+      <span class="t-cap">۴ سؤال · ۱ دقیقه</span>
+    </div>
+
+    <header class="fb__head">
+      <div class="em">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 12a8 8 0 11-3.2-6.4"/>
+          <path d="M8.5 13s1.3 1.7 3.5 1.7S15.5 13 15.5 13"/>
+          <path d="M9 9.5h.01M15 9.5h.01"/></svg>
+      </div>
+      <h1>تجربه‌تان چطور بود؟</h1>
+      <p>نظر شما تعیین می‌کند این سرویس ساخته شود یا نه. پاسخ‌ها ناشناس ثبت می‌شوند.</p>
+    </header>
+
+    <section class="q">
+      <div class="q__t"><span class="q__n">۱</span><span>این تجربه چقدر برایتان مفید بود؟</span></div>
+      <div class="q__h">با انتخاب ستاره امتیاز دهید</div>
+      <div class="stars" id="stars">
+        <button class="star" onclick="rate(1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 3.5l2.6 5.4 5.9.9-4.3 4.2 1 5.9-5.2-2.8-5.2 2.8 1-5.9L3.5 9.8l5.9-.9z"/></svg></button>
+        <button class="star" onclick="rate(2)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 3.5l2.6 5.4 5.9.9-4.3 4.2 1 5.9-5.2-2.8-5.2 2.8 1-5.9L3.5 9.8l5.9-.9z"/></svg></button>
+        <button class="star" onclick="rate(3)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 3.5l2.6 5.4 5.9.9-4.3 4.2 1 5.9-5.2-2.8-5.2 2.8 1-5.9L3.5 9.8l5.9-.9z"/></svg></button>
+        <button class="star" onclick="rate(4)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 3.5l2.6 5.4 5.9.9-4.3 4.2 1 5.9-5.2-2.8-5.2 2.8 1-5.9L3.5 9.8l5.9-.9z"/></svg></button>
+        <button class="star" onclick="rate(5)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 3.5l2.6 5.4 5.9.9-4.3 4.2 1 5.9-5.2-2.8-5.2 2.8 1-5.9L3.5 9.8l5.9-.9z"/></svg></button>
+      </div>
+      <div class="stars__lbl" id="starLbl"></div>
+    </section>
+
+    <section class="q">
+      <div class="q__t"><span class="q__n">۲</span><span>کدام قابلیت بیشترین ارزش را برایتان داشت؟</span></div>
+      <div class="q__h">یک گزینه انتخاب کنید</div>
+      <div class="optlist">
+        <button class="opt" onclick="pick(this)">
+          <span class="opt__t"><b>سوابق خودرو</b><span>دیدن تاریخچه بیمه و سرویس در یک جا</span></span>
+          <span class="opt__check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+        </button>
+        <button class="opt sel" onclick="pick(this)">
+          <span class="opt__t"><b>یادآوری‌ها</b><span>اطلاع پیش از سررسید بیمه و سرویس</span></span>
+          <span class="opt__check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+        </button>
+        <button class="opt" onclick="pick(this)">
+          <span class="opt__t"><b>پیشنهاد اقدام بعدی</b><span>گفتن اینکه الان چه کاری لازم است</span></span>
+          <span class="opt__check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+        </button>
+        <button class="opt" onclick="pick(this)">
+          <span class="opt__t"><b>پیشنهادهای بیمه</b><span>مقایسه و پیشنهاد بیمه مناسب</span></span>
+          <span class="opt__check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+        </button>
+      </div>
+    </section>
+
+    <section class="q">
+      <div class="q__t"><span class="q__n">۳</span><span>اگر این قابلیت در ازکی موجود باشد، از آن استفاده می‌کنید؟</span></div>
+      <div class="q__h">از ۱ (اصلاً) تا ۵ (حتماً)</div>
+      <div class="scale" id="scale">
+        <button onclick="pickScale(this)">۱</button>
+        <button onclick="pickScale(this)">۲</button>
+        <button onclick="pickScale(this)">۳</button>
+        <button class="sel" onclick="pickScale(this)">۴</button>
+        <button onclick="pickScale(this)">۵</button>
+      </div>
+      <div class="scale__ends"><span>اصلاً استفاده نمی‌کنم</span><span>حتماً استفاده می‌کنم</span></div>
+    </section>
+
+    <section class="q">
+      <div class="q__t"><span class="q__n">۴</span><span>چه چیزی را باید بهتر کنیم؟</span></div>
+      <div class="q__h">اختیاری — هر نکته‌ای که به ذهنتان می‌رسد</div>
+      <textarea class="input" id="fbTxt" maxlength="500" oninput="cnt()"
+        placeholder="مثلاً: دوست داشتم بتوانم چند خودرو ثبت کنم…"></textarea>
+      <div class="counter"><span id="cnum">۰</span> / ۵۰۰</div>
+    </section>
+
+    <div class="fb__foot">
+      <button class="btn btn--primary btn--block" id="fbSubmit">ثبت بازخورد</button>
+      <div class="privacy">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+        پاسخ شما ناشناس است و فقط برای بهبود محصول استفاده می‌شود.
+      </div>
+    </div>
+  </div>
+
+  <div class="fb__thanks" id="fbThanks" hidden>
+    <div class="em">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 6L9 17l-5-5"/></svg>
+    </div>
+    <h1>سپاس‌گزاریم!</h1>
+    <p>نظر شما ثبت شد و به ما کمک می‌کند «مراقبت از خودروی من» را بهتر بسازیم.</p>
+    <button class="btn btn--primary" id="fbBackToDashboard">بازگشت به داشبورد</button>
+  </div>
+</div>
+</section>
+
+<!-- ================================================================
+     VEHICLE-SWITCH / DELETE MODAL
+     ================================================================ -->
+<div class="modal" id="vehicleModal" hidden>
+  <div class="modal__backdrop" id="vehicleModalBackdrop"></div>
+  <div class="modal__sheet" role="dialog" aria-modal="true" aria-label="مدیریت خودروها">
+    <div class="modal__grip"></div>
+    <div class="modal__head">
+      <h2>خودروهای من</h2>
+      <button class="iconbtn" id="vehicleModalClose" aria-label="بستن">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="vlist" id="vlist"></div>
+    <div class="modal__add">
+      <button class="btn btn--secondary btn--block" id="vAddNew">
+        <svg class="btn__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 5v14M5 12h14"/></svg>
+        افزودن خودرو جدید
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===========================================================
+   NAVIGATION — hash-based router with real browser back support
+   =========================================================== */
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('is-active'));
+  var el = document.getElementById('page-'+id);
+  if(el) el.classList.add('is-active');
+  window.scrollTo(0,0);
+}
+function go(id){
+  if(location.hash === '#page-'+id){ showPage(id); return; }
+  location.hash = '#page-'+id;
+}
+function back(fallback){
+  if(history.length > 1){ history.back(); }
+  else{ go(fallback || 'landing'); }
+}
+window.addEventListener('hashchange', function(){
+  var id = (location.hash || '#page-landing').replace('#page-','');
+  showPage(id);
+});
+document.querySelectorAll('[data-nav]').forEach(function(btn){
+  btn.addEventListener('click', function(){ go(btn.getAttribute('data-nav')); });
+});
+
+/* initial page */
+if(!location.hash) history.replaceState(null,'','#page-landing');
+showPage((location.hash || '#page-landing').replace('#page-',''));
+
+/* ---------- landing → register / dashboard already wired via data-nav ---------- */
+
+/* ---------- register (vehicle registration) ---------- */
+document.getElementById('obBack').addEventListener('click', function(){ obStep(-1); });
+document.getElementById('obBack2').addEventListener('click', function(){ obStep(-1); });
+document.getElementById('obNext').addEventListener('click', function(){ obStep(1); });
+
+/* ---------- dashboard ---------- */
+document.getElementById('dbBack').addEventListener('click', function(){ back('landing'); });
+document.getElementById('openRecommendation').addEventListener('click', function(){ go('recommendation'); });
+document.getElementById('openVehicleModal').addEventListener('click', openVehicleModal);
+document.getElementById('tabVehicle').addEventListener('click', openVehicleModal);
+
+/* ---------- recommendation ---------- */
+document.getElementById('rdBack').addEventListener('click', function(){ back('dashboard'); });
+document.getElementById('rdGoFeedback').addEventListener('click', function(){ go('feedback'); });
+document.getElementById('rdDoneAlready').addEventListener('click', function(){ back('dashboard'); });
+document.getElementById('rdNotNow').addEventListener('click', function(){ back('dashboard'); });
+
+/* ---------- feedback ---------- */
+document.getElementById('fbClose').addEventListener('click', function(){ back('dashboard'); });
+document.getElementById('fbBackToDashboard').addEventListener('click', function(){ go('dashboard'); });
+document.getElementById('fbSubmit').addEventListener('click', function(){
+  document.getElementById('fbForm').hidden = true;
+  document.getElementById('fbThanks').hidden = false;
+});
+
+/* ===========================================================
+   SHARED SELECTION HELPERS (option lists / chips / scale)
+   =========================================================== */
+function pick(el){
+  el.parentElement.querySelectorAll('.opt').forEach(function(o){ o.classList.remove('sel'); });
+  el.classList.add('sel');
+}
+function pickChip(el){
+  el.parentElement.querySelectorAll('.chip').forEach(function(o){ o.classList.remove('sel'); });
+  el.classList.add('sel');
+}
+function pickScale(el){
+  document.querySelectorAll('#scale button').forEach(function(b){ b.classList.remove('sel'); });
+  el.classList.add('sel');
+}
+
+/* ===========================================================
+   VEHICLE REGISTRATION STEPPER
+   =========================================================== */
+var FA = function(n){ return String(n).replace(/\d/g, function(d){ return '۰۱۲۳۴۵۶۷۸۹'[d]; }); };
+var step = 1, TOTAL = 5;
+function resetRegister(){
+  step = 1;
+  document.querySelectorAll('.obstep').forEach(function(s){ s.hidden = (+s.dataset.step !== 1); });
+  document.querySelectorAll('#obProg i').forEach(function(i,idx){ i.classList.toggle('on', idx < 1); });
+  document.getElementById('obNum').textContent = FA(1);
+  document.getElementById('obNext').firstChild.textContent = 'ادامه ';
+}
+function obStep(dir){
+  if(step === 1 && dir === -1){ back('landing'); return; }
+  if(step === TOTAL && dir === 1){
+    resetRegister();
+    go('dashboard');
+    return;
+  }
+  var next = Math.min(TOTAL, Math.max(1, step + dir));
+  if(next === step) return;
+  step = next;
+  document.querySelectorAll('.obstep').forEach(function(s){ s.hidden = (+s.dataset.step !== step); });
+  document.querySelectorAll('#obProg i').forEach(function(i,idx){ i.classList.toggle('on', idx < step); });
+  document.getElementById('obNum').textContent = FA(step);
+  document.getElementById('obNext').firstChild.textContent = (step === TOTAL ? 'ثبت خودرو ' : 'ادامه ');
+  document.querySelector('.ob .ob__body').scrollTop = 0;
+}
+
+/* ===========================================================
+   FEEDBACK — star rating + textarea counter
+   =========================================================== */
+var LABELS = ['','اصلاً مفید نبود','کمی مفید بود','متوسط','مفید بود','خیلی مفید بود'];
+function rate(n){
+  document.querySelectorAll('#stars .star').forEach(function(s,i){ s.classList.toggle('on', i < n); });
+  document.getElementById('starLbl').textContent = LABELS[n];
+}
+function cnt(){
+  document.getElementById('cnum').textContent = FA(document.getElementById('fbTxt').value.length);
+}
+
+/* ===========================================================
+   VEHICLE SWITCH / DELETE (dashboard)
+   =========================================================== */
+var vehicles = [
+  { id:1, name:'سمند سورن ۱۴۰۴', plate:'۶۶ ط ۳۴۷ | ۱۱', active:true },
+  { id:2, name:'پژو ۲۰۶ تیپ ۲ ۱۴۰۱', plate:'۳۳ ب ۹۱۲ | ۲۲', active:false }
+];
+var confirmingDeleteId = null;
+
+function carIconSVG(){
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" '+
+    'stroke-linecap="round" stroke-linejoin="round"><path d="M4 15h16M5.5 15v2M18.5 15v2"/>'+
+    '<path d="M5 15l1.6-4.6A2.6 2.6 0 019 8.7h6a2.6 2.6 0 012.4 1.7L19 15"/>'+
+    '<circle cx="8" cy="15" r="1.6"/><circle cx="16" cy="15" r="1.6"/></svg>';
+}
+function trashIconSVG(){
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" '+
+    'stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V5a2 2 0 012-2h2a2 2 0 012 2v2"/>'+
+    '<path d="M6 7l1 12a2 2 0 002 2h6a2 2 0 002-2l1-12"/><path d="M10 11v6M14 11v6"/></svg>';
+}
+function checkIconSVG(){
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '+
+    'stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
+}
+
+function renderDashboardVehicle(){
+  var active = vehicles.find(function(v){ return v.active; });
+  if(!active){
+    document.getElementById('dbVName').textContent = 'خودرویی ثبت نشده';
+    document.getElementById('dbVPlate').textContent = '—';
+    return;
+  }
+  document.getElementById('dbVName').textContent = active.name;
+  document.getElementById('dbVPlate').textContent = active.plate;
+}
+
+function renderVehicleList(){
+  var list = document.getElementById('vlist');
+  if(vehicles.length === 0){
+    list.innerHTML = '<div class="modal__empty">هنوز خودرویی ثبت نکرده‌اید.</div>';
+    return;
+  }
+  list.innerHTML = vehicles.map(function(v){
+    if(confirmingDeleteId === v.id){
+      return '<div class="vitem">'+
+        '<div class="vitem__confirm">'+
+          '<span>«'+v.name+'» حذف شود؟</span>'+
+          '<button class="btn btn--sm btn--secondary" data-cancel-delete="'+v.id+'">انصراف</button>'+
+          '<button class="btn btn--sm btn--danger" style="background:var(--danger-bg)" data-confirm-delete="'+v.id+'">حذف</button>'+
+        '</div>'+
+      '</div>';
+    }
+    return '<div class="vitem'+(v.active?' is-active':'')+'">'+
+      '<div class="vitem__ico">'+carIconSVG()+'</div>'+
+      '<div class="vitem__t"><b>'+v.name+'</b><span>'+v.plate+'</span></div>'+
+      '<div class="vitem__actions">'+
+        (v.active
+          ? '<span class="badge badge--ok" style="height:32px">'+checkIconSVG()+'انتخاب‌شده</span>'
+          : '<button class="btn btn--sm btn--secondary" data-select="'+v.id+'">انتخاب</button>')+
+        '<button class="iconbtn" data-delete="'+v.id+'" aria-label="حذف خودرو" style="color:var(--danger)">'+trashIconSVG()+'</button>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+
+  list.querySelectorAll('[data-select]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var id = +b.getAttribute('data-select');
+      vehicles.forEach(function(v){ v.active = (v.id === id); });
+      renderDashboardVehicle();
+      renderVehicleList();
+    });
+  });
+  list.querySelectorAll('[data-delete]').forEach(function(b){
+    b.addEventListener('click', function(){
+      confirmingDeleteId = +b.getAttribute('data-delete');
+      renderVehicleList();
+    });
+  });
+  list.querySelectorAll('[data-cancel-delete]').forEach(function(b){
+    b.addEventListener('click', function(){
+      confirmingDeleteId = null;
+      renderVehicleList();
+    });
+  });
+  list.querySelectorAll('[data-confirm-delete]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var id = +b.getAttribute('data-confirm-delete');
+      var wasActive = vehicles.find(function(v){ return v.id === id; }).active;
+      vehicles = vehicles.filter(function(v){ return v.id !== id; });
+      if(wasActive && vehicles.length){ vehicles[0].active = true; }
+      confirmingDeleteId = null;
+      renderDashboardVehicle();
+      renderVehicleList();
+    });
+  });
+}
+
+function openVehicleModal(){
+  confirmingDeleteId = null;
+  renderVehicleList();
+  document.getElementById('vehicleModal').hidden = false;
+}
+function closeVehicleModal(){
+  document.getElementById('vehicleModal').hidden = true;
+}
+document.getElementById('vehicleModalClose').addEventListener('click', closeVehicleModal);
+document.getElementById('vehicleModalBackdrop').addEventListener('click', closeVehicleModal);
+document.getElementById('vAddNew').addEventListener('click', function(){
+  closeVehicleModal();
+  resetRegister();
+  go('register');
+});
+
+renderDashboardVehicle();
+</script>
+<style>
+.emptyPage{display:grid;place-items:center;text-align:center;padding:36px 20px}
+.emptyPage .emptyIcon{font-size:44px;line-height:1}
+.emptyPage h2{font-size:19px;margin:12px 0 4px;color:var(--ink-900)}
+.emptyPage p{color:var(--ink-500);font-size:13.5px;margin:0 auto 18px;max-width:34ch}
+.simplePage{min-height:100vh;background:#fff;display:flex;flex-direction:column}
+.pcontent{padding:20px;flex:1}
+.prow{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--ink-100)}
+.prow:last-child{border-bottom:0}
+.prow .grow{flex:1;min-width:0}
+.prow b{display:block;font-size:14px;color:var(--ink-900)}
+.prow em{font-style:normal;color:var(--ink-500);font-size:12px;display:block}
+.picon{width:42px;height:42px;flex:none;border-radius:12px;background:var(--primary-50);display:grid;place-items:center;font-size:20px}
+.badge--danger{background:var(--danger-bg);color:var(--danger)}
+/* plate */
+.plateBox{display:flex;align-items:stretch;gap:0;border:1.5px solid var(--ink-800);border-radius:10px;overflow:hidden;background:#fff;height:56px;max-width:330px}
+.plateBox input,.plateBox select{border:0;outline:0;text-align:center;font-weight:800;font-size:19px;background:#fff;height:100%;min-width:0}
+.plateBox .p2{width:66px}.plateBox .p3{width:88px}
+.plateBox select{width:56px;font-size:17px;border-inline:1.5px solid var(--ink-200);appearance:none;text-align-last:center}
+.plateIran{width:64px;background:var(--ink-50);border-inline-start:1.5px solid var(--ink-800);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3px 0}
+.plateIran small{font-size:9px;font-weight:700;color:var(--ink-800);line-height:1}
+.plateIran input{font-size:16px;height:26px;width:100%}
+.plateBox input:focus,.plateBox select:focus{background:var(--primary-50)}
+/* date trio */
+.dtrio{display:flex;gap:6px;direction:ltr;max-width:230px}
+.dtrio input{height:48px;border:1.5px solid var(--ink-200);border-radius:10px;text-align:center;font-weight:700;outline:0;background:#fff;min-width:0}
+.dtrio input:focus{border-color:var(--primary-600)}
+.dtrio .dy{flex:1.4}.dtrio .dm,.dtrio .dd{flex:1}
+.inlineForm{background:var(--ink-50);border:1px solid var(--ink-200);border-radius:var(--r-md);padding:var(--s4);margin-top:var(--s3)}
+.inlineForm h4{font-size:13.5px;margin:0 0 10px;color:var(--ink-900)}
+.inlineForm label{display:block;font-size:12px;font-weight:600;color:var(--ink-600);margin:10px 0 5px}
+.inlineForm .input{height:46px;font-size:15px}
+.inlineForm select.input{font-weight:600}
+.formActions{display:flex;gap:8px;margin-top:14px}
+.otpRow{display:flex;gap:10px;direction:ltr;justify-content:center;margin:var(--s5) 0}
+.otpRow input{width:56px;height:64px;text-align:center;font-size:24px;font-weight:800;border:1.5px solid var(--ink-200);border-radius:12px;outline:0}
+.otpRow input:focus{border-color:var(--primary-600);box-shadow:0 0 0 4px var(--primary-50)}
+.authHead{text-align:center;padding:var(--s8) 0 var(--s5)}
+.authHead .picon{margin:0 auto var(--s4);width:56px;height:56px;font-size:26px}
+.authHead h1{font-size:22px;margin:0 0 6px;color:var(--ink-900)}
+.authHead p{color:var(--ink-500);font-size:13.5px;margin:0}
+.nameEdit{display:flex;gap:8px;margin-top:10px}
+.nameEdit .input{height:46px;font-size:15px}
+</style>
+<section class="page" id="page-auth"><div class="appwrap simplePage"><div class="pcontent" id="authContent"></div></div></section>
+<section class="page" id="page-vehicle"><div class="appwrap simplePage">
+<div class="topbar"><button class="iconbtn" data-nav="dashboard">‹</button><h1>پروفایل خودرو</h1></div>
+<div class="pcontent" id="vehiclePageContent"></div></div></section>
+<section class="page" id="page-services"><div class="appwrap simplePage">
+<div class="topbar"><button class="iconbtn" data-nav="dashboard">‹</button><h1>خدمات خودرو</h1></div>
+<div class="pcontent" id="servicesPageContent"></div></div></section>
+<section class="page" id="page-profile"><div class="appwrap simplePage">
+<div class="topbar"><button class="iconbtn" data-nav="dashboard">‹</button><h1>پروفایل</h1></div>
+<div class="pcontent" id="profilePageContent"></div></div></section>
+<script>
+/* =======================================================
+   v3: OTP auth, Persian numerals, plate input, insurance
+   records, working service log, editable profile name
+   ======================================================= */
+var user = { phone:'', name:'' };
+var pendingNav = null;
+var uiState = { form:null };
+var LETTERS = ['ا','ب','پ','ت','ث','ج','د','ز','ژ','س','ش','ص','ط','ع','ف','ق','ک','ل','م','ن','و','ه','ی','معلولین'];
+var BRANDS = [
+{name:'ایران‌خودرو',logo:'ایران',models:[['سمند سورن پلاس','موتور EF7 · بنزینی'],['سمند LX','موتور EF7 · دوگانه‌سوز'],['دنا پلاس','توربو / معمولی'],['پژو ۲۰۶ تیپ ۲','هاچ‌بک'],['پژو پارس','سدان'],['تارا اتوماتیک','سدان']]},
+{name:'سایپا',logo:'سایپا',models:[['شاهین','سدان'],['کوییک R','هاچ‌بک'],['تیبا ۲','هاچ‌بک'],['ساینا S','سدان'],['پراید ۱۳۱','سدان']]},
+{name:'مدیران خودرو',logo:'MVM',models:[['ام‌وی‌ام X22 پرو','کراس‌اوور'],['آریزو ۵','سدان'],['تیگو ۷ پرو','کراس‌اوور'],['فونیکس FX','کراس‌اوور']]},
+{name:'بهمن موتور',logo:'بهمن',models:[['فیدلیتی پرایم','کراس‌اوور ۷ نفره'],['دیگنیتی پرستیژ','کراس‌اوور'],['ریسپکت','کراس‌اوور'],['کارا دوکابین','وانت']]},
+{name:'کرمان موتور',logo:'کرمان',models:[['جک S5','کراس‌اوور'],['جک J4','سدان'],['کی‌ام‌سی J7','سدان'],['کی‌ام‌سی T8','پیکاپ']]},
+{name:'سایر برندها',logo:'…',models:[['خودروی وارداتی','ثبت دستی مشخصات'],['خودروی متفرقه','ثبت دستی مشخصات']]}];
+var SERVICE_TYPES = ['تعویض روغن موتور','فیلتر روغن و هوا','لنت ترمز','تسمه تایم','باتری','بازدید کلی'];
+
+var oldShowPage = showPage, oldObStep = obStep, oldRDV = renderDashboardVehicle;
+
+/* ---------- numerals ---------- */
+function toFa(s){ return String(s).replace(/[0-9]/g, function(d){ return '۰۱۲۳۴۵۶۷۸۹'[+d]; }); }
+function toEn(s){ return String(s).replace(/[۰-۹]/g, function(d){ return '۰۱۲۳۴۵۶۷۸۹'.indexOf(d); }); }
+function faDigits(s, max){ var out = toEn(s).replace(/\D/g,''); if(max) out = out.slice(0,max); return toFa(out); }
+function faGroup(s){ var raw = toEn(s).replace(/\D/g,''); if(!raw) return ''; return toFa(raw.replace(/\B(?=(\d{3})+(?!\d))/g,'٬')); }
+
+function bindNumeric(el, max, grouped){
+  if(!el || el.dataset.num) return;
+  el.dataset.num = '1';
+  el.setAttribute('inputmode','numeric');
+  el.addEventListener('input', function(){
+    el.value = grouped ? faGroup(el.value) : faDigits(el.value, max);
+    if(typeof updateNext === 'function') updateNext();
+  });
+}
+
+/* ---------- Jalali date helpers ---------- */
+function jToJDN(jy,jm,jd){
+  var base = jy - 474, epy = 474 + (base % 2820);
+  return jd + (jm <= 7 ? (jm-1)*31 : (jm-1)*30 + 6) +
+    Math.floor((epy*682 - 110)/2816) + (epy-1)*365 +
+    Math.floor(base/2820)*1029983 + 1948320;
+}
+function gToJDN(y,m,d){
+  var a = Math.floor((14-m)/12), y2 = y + 4800 - a, m2 = m + 12*a - 3;
+  return d + Math.floor((153*m2+2)/5) + 365*y2 + Math.floor(y2/4) - Math.floor(y2/100) + Math.floor(y2/400) - 32045;
+}
+function todayJDN(){ var n = new Date(); return gToJDN(n.getFullYear(), n.getMonth()+1, n.getDate()); }
+function daysLeft(date){
+  if(!date) return null;
+  var p = date.split('/').map(function(x){ return parseInt(toEn(x),10); });
+  if(p.length !== 3 || p.some(isNaN)) return null;
+  return jToJDN(p[0],p[1],p[2]) - todayJDN();
+}
+function expiryBadge(date){
+  var d = daysLeft(date);
+  if(d === null) return '<span class="badge badge--info">تاریخ نامعتبر</span>';
+  if(d < 0) return '<span class="badge badge--danger"><i class="dot"></i>منقضی شده</span>';
+  if(d <= 30) return '<span class="badge badge--warn"><i class="dot"></i>'+toFa(d)+' روز مانده</span>';
+  return '<span class="badge badge--ok"><i class="dot"></i>فعال</span>';
+}
+
+/* ---------- navigation + auth gate ---------- */
+var GATED = ['dashboard','register','vehicle','services','profile','recommendation','feedback'];
+document.addEventListener('click', function(e){
+  var n = e.target.closest('[data-nav]');
+  if(n){ e.preventDefault(); go(n.getAttribute('data-nav')); }
+});
+showPage = function(id){
+  if(GATED.indexOf(id) >= 0 && !user.phone){
+    pendingNav = id;
+    history.replaceState(null,'','#page-auth');
+    oldShowPage('auth'); renderAuth(); return;
+  }
+  oldShowPage(id);
+  if(id === 'register'){ renderModels(); renderPlate(); bindRegisterInputs(); updateNext(); }
+  if(id === 'auth') renderAuth();
+  paint();
+};
+
+/* ---------- OTP login ---------- */
+var authStep = 'phone', authPhone = '';
+function renderAuth(){
+  var c = document.getElementById('authContent');
+  if(!c) return;
+  if(authStep === 'phone'){
+    c.innerHTML = '<div class="authHead"><div class="picon">☎</div><h1>ورود با شماره موبایل</h1>'+
+      '<p>کد تأیید به همین شماره ارسال می‌شود.</p></div>'+
+      '<div class="field"><label for="authPhone">شماره موبایل</label>'+
+      '<input id="authPhone" class="input" dir="ltr" placeholder="۰۹۱۲۳۴۵۶۷۸۹" value="'+authPhone+'"></div>'+
+      '<button class="btn btn--primary btn--block" id="authSend" disabled>دریافت کد تأیید</button>'+
+      '<p class="t-cap" style="text-align:center;margin-top:14px">ورود شما به معنی پذیرش قوانین ازکی است.</p>';
+    var inp = document.getElementById('authPhone'), send = document.getElementById('authSend');
+    bindNumeric(inp, 11);
+    function chk(){ authPhone = inp.value; send.disabled = toEn(inp.value).length !== 11 || toEn(inp.value).slice(0,2) !== '09'; }
+    inp.addEventListener('input', chk); chk();
+    send.onclick = function(){ authStep = 'otp'; renderAuth(); };
+  } else {
+    c.innerHTML = '<div class="authHead"><div class="picon">✉</div><h1>کد تأیید را وارد کنید</h1>'+
+      '<p>کد چهاررقمی به <b dir="ltr">'+authPhone+'</b> ارسال شد.</p></div>'+
+      '<div class="otpRow">'+[0,1,2,3].map(function(i){ return '<input id="otp'+i+'" maxlength="1">'; }).join('')+'</div>'+
+      '<p class="t-cap" style="text-align:center">کد نمایشی برای تست: ۱۲۳۴</p>'+
+      '<button class="btn btn--primary btn--block" id="authVerify" style="margin-top:18px" disabled>تأیید و ورود</button>'+
+      '<button class="btn btn--ghost btn--block" id="authEdit" style="margin-top:10px">تغییر شماره موبایل</button>';
+    var boxes = [0,1,2,3].map(function(i){ return document.getElementById('otp'+i); });
+    var verify = document.getElementById('authVerify');
+    boxes.forEach(function(b,i){
+      b.addEventListener('input', function(){
+        b.value = faDigits(b.value, 1);
+        if(b.value && boxes[i+1]) boxes[i+1].focus();
+        verify.disabled = boxes.some(function(x){ return !x.value; });
+      });
+      b.addEventListener('keydown', function(ev){ if(ev.key === 'Backspace' && !b.value && boxes[i-1]) boxes[i-1].focus(); });
+    });
+    boxes[0].focus();
+    verify.onclick = function(){
+      user.phone = authPhone; authStep = 'phone';
+      var target = pendingNav || 'dashboard'; pendingNav = null;
+      go(target);
+    };
+    document.getElementById('authEdit').onclick = function(){ authStep = 'phone'; renderAuth(); };
+  }
+}
+
+/* ---------- registration ---------- */
+function selText(s){ var el = document.querySelector('.obstep[data-step="'+s+'"] .opt.sel .opt__t b'); return el ? el.textContent.trim() : ''; }
+function val(id){ var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+function renderModels(){
+  var list = document.querySelector('.obstep[data-step="2"] .optlist');
+  var hint = document.querySelector('.obstep[data-step="2"] .ob__hint');
+  if(!list) return;
+  var brand = BRANDS.filter(function(b){ return b.name === selText(1); })[0];
+  if(!brand){ list.innerHTML = '<div class="modal__empty">ابتدا برند خودرو را انتخاب کنید.</div>';
+    if(hint) hint.textContent = 'برای دیدن مدل‌ها، اول برند را انتخاب کنید.'; return; }
+  if(hint) hint.textContent = 'مدل‌های ' + brand.name + ' — پرکاربردترین‌ها بالا آمده‌اند.';
+  list.innerHTML = brand.models.map(function(m){
+    return '<button type="button" class="opt" onclick="pick(this)"><span class="opt__logo">'+brand.logo+
+    '</span><span class="opt__t"><b>'+m[0]+'</b><span>'+m[1]+'</span></span><span class="opt__check">'+
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" '+
+    'stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></button>'; }).join('');
+}
+function renderPlate(){
+  var w = document.getElementById('plateWrap');
+  if(!w || w.dataset.on) return;
+  w.dataset.on = '1';
+  w.innerHTML = '<div class="plateBox" dir="ltr">'+
+    '<input class="p2" id="plateA" maxlength="2" placeholder="۶۶">'+
+    '<select id="plateL">'+LETTERS.map(function(l){ return '<option>'+l+'</option>'; }).join('')+'</select>'+
+    '<input class="p3" id="plateB" maxlength="3" placeholder="۳۴۷">'+
+    '<span class="plateIran"><small>ایران</small><input id="plateC" maxlength="2" placeholder="۱۱"></span></div>'+
+    '<div class="helper" style="margin-top:10px">دو رقم، حرف، سه رقم و کد استان — همان ترتیب روی پلاک.</div>';
+  bindNumeric(document.getElementById('plateA'), 2);
+  bindNumeric(document.getElementById('plateB'), 3);
+  bindNumeric(document.getElementById('plateC'), 2);
+  document.getElementById('plateL').addEventListener('change', updateNext);
+}
+function plateParts(){ return [val('plateA'), (document.getElementById('plateL')||{}).value || '', val('plateB'), val('plateC')]; }
+function plateValue(){
+  var p = plateParts();
+  var filled = toEn(p[0]).length === 2 && toEn(p[2]).length === 3 && toEn(p[3]).length === 2;
+  return filled ? p[0]+' '+p[1]+' '+p[2]+' | '+p[3] : '';
+}
+function plateTouched(){ var p = plateParts(); return !!(p[0] || p[2] || p[3]); }
+function bindRegisterInputs(){ bindNumeric(document.getElementById('year'), 4); bindNumeric(document.getElementById('km'), null, true); }
+function stepReady(){
+  if(step === 1) return !!selText(1);
+  if(step === 2) return !!selText(2);
+  if(step === 3) return toEn(val('year')).length === 4;
+  if(step === 4) return !!toEn(val('km')) && (!plateTouched() || !!plateValue());
+  return !!selText(5);
+}
+function updateNext(){ var b = document.getElementById('obNext'); if(b) b.disabled = !stepReady(); }
+function clearRegister(){
+  step = 1;
+  document.querySelectorAll('.obstep .opt.sel,.obstep .chip.sel').forEach(function(x){ x.classList.remove('sel'); });
+  ['year','km','plateA','plateB','plateC'].forEach(function(id){ var el = document.getElementById(id); if(el) el.value = ''; });
+  document.querySelectorAll('.obstep').forEach(function(s){ s.hidden = (+s.dataset.step !== 1); });
+  document.querySelectorAll('#obProg i').forEach(function(i,idx){ i.classList.toggle('on', idx < 1); });
+  document.getElementById('obNum').textContent = FA(1);
+  document.getElementById('obNext').firstChild.textContent = 'ادامه ';
+  renderModels(); updateNext();
+}
+resetRegister = clearRegister;
+obStep = function(dir){
+  if(dir === 1 && !stepReady()) return;
+  if(step === TOTAL && dir === 1){
+    vehicles.forEach(function(v){ v.active = false; });
+    vehicles.push({ id:Date.now(), name:selText(2)+' '+val('year'), brand:selText(1), model:selText(2),
+      year:val('year'), km:val('km'), usage:selText(5), plate:plateValue() || 'پلاک ثبت نشده',
+      active:true, services:[], insurance:{} });
+    clearRegister(); go('dashboard'); return;
+  }
+  oldObStep(dir);
+  if(step === 2) renderModels();
+  if(step === 4) renderPlate();
+  updateNext();
+};
+document.addEventListener('click', function(e){
+  if(e.target.closest('.obstep[data-step="1"] .opt')){
+    var l = document.querySelector('.obstep[data-step="2"] .optlist');
+    if(l) l.querySelectorAll('.opt').forEach(function(o){ o.classList.remove('sel'); });
+    renderModels();
+  }
+  if(e.target.closest('.obstep .chip')){
+    var chip = e.target.closest('.chip'), y = document.getElementById('year');
+    if(y && /[۰-۹]/.test(chip.textContent)) y.value = chip.textContent.trim();
+  }
+  if(e.target.closest('.obstep')) setTimeout(updateNext, 0);
+});
+/* ---------- shared helpers ---------- */
+function activeVehicle(){ return vehicles.filter(function(v){ return v.active; })[0]; }
+function displayName(){ return user.name || 'کاربر ازکی'; }
+function emptyState(t,i,x){ return '<div class="emptyPage"><div><div class="emptyIcon">'+i+'</div><h2>'+t+'</h2><p>'+x+
+  '</p><button class="btn btn--primary" data-nav="register">ثبت خودرو</button></div></div>'; }
+function dateTrio(prefix, v){
+  var p = v ? v.split('/') : ['','',''];
+  return '<div class="dtrio">'+
+    '<input class="dy" id="'+prefix+'Y" maxlength="4" placeholder="۱۴۰۵" value="'+p[0]+'">'+
+    '<input class="dm" id="'+prefix+'M" maxlength="2" placeholder="۰۷" value="'+(p[1]||'')+'">'+
+    '<input class="dd" id="'+prefix+'D" maxlength="2" placeholder="۱۲" value="'+(p[2]||'')+'">'+
+  '</div>';
+}
+function readTrio(prefix){
+  var y = toEn(val(prefix+'Y')), m = toEn(val(prefix+'M')), d = toEn(val(prefix+'D'));
+  if(y.length !== 4 || !m || !d) return '';
+  if(+m < 1 || +m > 12 || +d < 1 || +d > 31) return '';
+  return toFa(y)+'/'+toFa(('0'+m).slice(-2))+'/'+toFa(('0'+d).slice(-2));
+}
+function bindTrio(prefix){ ['Y','M','D'].forEach(function(s,i){ bindNumeric(document.getElementById(prefix+s), i===0?4:2); }); }
+
+/* ---------- insurance + service forms ---------- */
+var INS = { third:{ label:'بیمه شخص ثالث', icon:'🛡️' }, body:{ label:'بیمه بدنه', icon:'◈' } };
+function insRow(v, kind){
+  var rec = v.insurance[kind], meta = INS[kind];
+  var cls = 'statusrow__ico ' + (rec ? (daysLeft(rec.expiry) !== null && daysLeft(rec.expiry) <= 30 ? 'ico--warn' : 'ico--ok') : 'ico--warn');
+  return '<div class="statusrow"><div class="'+cls+'" style="font-size:19px">'+meta.icon+'</div>'+
+    '<div class="statusrow__t"><b>'+meta.label+'</b><span>'+
+    (rec ? rec.company+' · اعتبار تا '+rec.expiry : 'ثبت نشده') + '</span></div>' +
+    (rec ? expiryBadge(rec.expiry) + '<button class="link-sm" data-ins-edit="'+kind+'" style="margin-inline-start:8px">ویرایش</button>'
+         : '<button class="btn btn--sm btn--secondary" data-ins-edit="'+kind+'">ثبت اطلاعات</button>') + '</div>' +
+    (uiState.form === 'ins-'+kind ? insForm(kind, rec) : '');
+}
+function insForm(kind, rec){
+  return '<div class="inlineForm"><h4>اطلاعات '+INS[kind].label+'</h4>'+
+    '<label for="insCompany">شرکت بیمه</label>'+
+    '<select class="input" id="insCompany">'+['ایران','پاسارگاد','آسیا','البرز','دانا','معلم','کارآفرین','سامان'].map(function(c){
+      return '<option'+(rec && rec.company === 'بیمه '+c ? ' selected' : '')+'>بیمه '+c+'</option>'; }).join('')+'</select>'+
+    '<label>تاریخ پایان اعتبار (سال / ماه / روز)</label>'+ dateTrio('insDate', rec ? rec.expiry : '') +
+    '<div class="formActions"><button class="btn btn--md btn--primary" data-ins-save="'+kind+'" style="flex:1">ذخیره</button>'+
+    (rec ? '<button class="btn btn--md btn--danger" data-ins-del="'+kind+'">حذف</button>' : '')+
+    '<button class="btn btn--md btn--secondary" data-form-cancel>انصراف</button></div></div>';
+}
+function serviceForm(){
+  return '<div class="inlineForm"><h4>ثبت سرویس دوره‌ای</h4>'+
+    '<label for="svcType">نوع سرویس</label>'+
+    '<select class="input" id="svcType">'+SERVICE_TYPES.map(function(s){ return '<option>'+s+'</option>'; }).join('')+'</select>'+
+    '<label for="svcKm">کارکرد در زمان سرویس</label>'+
+    '<input class="input" id="svcKm" placeholder="۴۵٬۰۰۰">'+
+    '<label>تاریخ انجام (سال / ماه / روز)</label>'+ dateTrio('svcDate','') +
+    '<div class="formActions"><button class="btn btn--md btn--primary" id="svcSave" style="flex:1">ثبت سرویس</button>'+
+    '<button class="btn btn--md btn--secondary" data-form-cancel>انصراف</button></div></div>';
+}
+
+/* ---------- dashboard ---------- */
+function renderDashboardState(){
+  var sheet = document.querySelector('#page-dashboard .db__sheet');
+  var hero = document.querySelector('#page-dashboard .db__vehicle');
+  var manage = document.querySelector('#page-dashboard .db__manage');
+  var nameEl = document.getElementById('dbUserName');
+  if(nameEl) nameEl.textContent = displayName();
+  if(!sheet) return;
+  var v = activeVehicle();
+  if(!v){
+    if(hero) hero.style.display = 'none';
+    if(manage) manage.style.display = 'none';
+    sheet.innerHTML = '<div class="card" style="box-shadow:var(--sh-2)">'+
+      emptyState('هنوز خودرویی ثبت نشده','🚘','با ثبت وسیله نقلیه، بیمه‌ها، سرویس‌ها و پیشنهادها اینجا نمایش داده می‌شود.')+'</div>';
+    return;
+  }
+  if(hero) hero.style.display = '';
+  if(manage) manage.style.display = '';
+  var alerts = ['third','body'].filter(function(k){ var r = v.insurance[k]; return r && daysLeft(r.expiry) !== null && daysLeft(r.expiry) <= 30; });
+  var nba = alerts.length
+    ? { title: alerts.length > 1 ? 'دو بیمه نزدیک به سررسید' : INS[alerts[0]].label+' نزدیک سررسید است',
+        body: 'برای جلوگیری از وقفه در پوشش، تمدید را از همین‌جا شروع کن.' }
+    : { title:'بررسی سرویس دوره‌ای', body:'براساس سال ساخت '+v.year+' و کارکرد '+v.km+' کیلومتر' };
+  sheet.innerHTML =
+    '<div class="db__cards">'+
+    '<section class="card" style="box-shadow:var(--sh-2)">'+
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--s2)">'+
+      '<h2 class="t-h3">وضعیت خودرو</h2>'+
+      (alerts.length ? '<span class="badge badge--warn">'+FA(alerts.length)+' هشدار</span>' : '<span class="badge badge--info">به‌روز</span>')+'</div>'+
+      insRow(v,'third') + insRow(v,'body') +
+      '<div class="statusrow"><div class="statusrow__ico ico--warn" style="font-size:19px">🔧</div>'+
+      '<div class="statusrow__t"><b>سرویس دوره‌ای</b><span>'+
+      (v.services.length ? 'آخرین سرویس: '+v.services[v.services.length-1].type+' · '+v.services[v.services.length-1].date : 'سرویسی ثبت نشده است')+
+      '</span></div><button class="btn btn--sm btn--secondary" data-form-open="service">ثبت سرویس</button></div>'+
+      (uiState.form === 'service' ? serviceForm() : '')+
+    '</section>'+
+    '<section class="nba"><span class="nba__tag">پیشنهاد هوشمند</span>'+
+      '<h2>پیشنهاد امروز برای '+v.name+'</h2><h3>'+nba.title+'</h3><p>'+nba.body+'</p>'+
+      '<button class="btn btn--md btn--block" data-nav="recommendation">چرا این پیشنهاد؟ مشاهده جزئیات</button></section>'+
+    '<section class="card"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--s4)">'+
+      '<h2 class="t-h3">تاریخچه خودرو</h2></div><div class="timeline">'+
+      v.services.slice().reverse().map(function(s){
+        return '<div class="tl tl--ok"><div class="tl__d">'+s.date+'</div><div class="tl__t">'+s.type+'</div>'+
+          '<div class="tl__s">کارکرد '+s.km+' کیلومتر</div></div>'; }).join('')+
+      ['third','body'].filter(function(k){ return v.insurance[k]; }).map(function(k){
+        var r = v.insurance[k];
+        return '<div class="tl tl--info"><div class="tl__d">اعتبار تا '+r.expiry+'</div><div class="tl__t">'+INS[k].label+'</div>'+
+          '<div class="tl__s">'+r.company+'</div></div>'; }).join('')+
+      '<div class="tl tl--info"><div class="tl__d">شروع</div><div class="tl__t">پروفایل خودرو ساخته شد</div>'+
+      '<div class="tl__s">'+v.name+' · کارکرد '+v.km+' کیلومتر</div></div>'+
+    '</div></section></div>';
+  wireForms();
+}
+function wireForms(){
+  document.querySelectorAll('[data-ins-edit]').forEach(function(b){
+    b.onclick = function(){ uiState.form = 'ins-'+b.getAttribute('data-ins-edit'); renderDashboardState(); }; });
+  document.querySelectorAll('[data-form-open]').forEach(function(b){
+    b.onclick = function(){ uiState.form = b.getAttribute('data-form-open'); renderDashboardState(); }; });
+  document.querySelectorAll('[data-form-cancel]').forEach(function(b){
+    b.onclick = function(){ uiState.form = null; renderDashboardState(); }; });
+  document.querySelectorAll('[data-ins-save]').forEach(function(b){
+    b.onclick = function(){
+      var kind = b.getAttribute('data-ins-save'), date = readTrio('insDate');
+      if(!date){ alert('تاریخ پایان اعتبار را کامل و درست وارد کنید.'); return; }
+      activeVehicle().insurance[kind] = { company: val('insCompany') || document.getElementById('insCompany').value, expiry: date };
+      uiState.form = null; paint(); }; });
+  document.querySelectorAll('[data-ins-del]').forEach(function(b){
+    b.onclick = function(){ delete activeVehicle().insurance[b.getAttribute('data-ins-del')]; uiState.form = null; paint(); }; });
+  var svc = document.getElementById('svcSave');
+  if(svc) svc.onclick = function(){
+    var date = readTrio('svcDate'), km = val('svcKm');
+    if(!date || !toEn(km)){ alert('تاریخ و کارکرد سرویس را وارد کنید.'); return; }
+    activeVehicle().services.push({ type: document.getElementById('svcType').value, date: date, km: km });
+    uiState.form = null; paint(); };
+  bindTrio('insDate'); bindTrio('svcDate');
+  bindNumeric(document.getElementById('svcKm'), null, true);
+}
+
+/* ---------- other app pages ---------- */
+function renderExtraPages(){
+  var v = activeVehicle();
+  var vp = document.getElementById('vehiclePageContent'), sp = document.getElementById('servicesPageContent'), pp = document.getElementById('profilePageContent');
+  if(vp) vp.innerHTML = v
+    ? '<div class="card"><h2 class="t-h2">'+v.name+'</h2><div class="t-cap">'+v.brand+'</div>'+
+      '<div class="prow"><div class="grow"><em>مدل</em><b>'+v.model+'</b></div><div class="grow"><em>سال ساخت</em><b>'+v.year+'</b></div></div>'+
+      '<div class="prow"><div class="grow"><em>کارکرد</em><b>'+v.km+' کیلومتر</b></div><div class="grow"><em>پلاک</em><b dir="ltr">'+v.plate+'</b></div></div>'+
+      '<div class="prow"><div class="grow"><em>نوع استفاده</em><b>'+(v.usage || 'ثبت نشده')+'</b></div></div></div>'+
+      '<div class="card" style="margin-top:16px"><h3 class="t-h3">بیمه‌ها</h3>'+
+      ['third','body'].map(function(k){ var r = v.insurance[k];
+        return '<div class="prow"><div class="grow"><b>'+INS[k].label+'</b><em>'+(r ? r.company+' · تا '+r.expiry : 'ثبت نشده')+'</em></div>'+
+          (r ? expiryBadge(r.expiry) : '<button class="btn btn--sm btn--secondary" data-nav="dashboard">ثبت</button>')+'</div>'; }).join('')+'</div>'+
+      '<div class="card" style="margin-top:16px"><h3 class="t-h3">سوابق سرویس</h3>'+
+      (v.services.length ? v.services.slice().reverse().map(function(s){
+        return '<div class="prow"><div class="grow"><b>'+s.type+'</b><em>'+s.date+' · '+s.km+' کیلومتر</em></div></div>'; }).join('')
+        : '<div class="modal__empty">برای این خودرو سابقه‌ای ثبت نشده است.</div>')+'</div>'
+    : emptyState('خودرویی ثبت نشده','🚘','برای دیدن پروفایل، اول یک وسیله نقلیه اضافه کن.');
+  if(sp) sp.innerHTML = v
+    ? '<div class="card card--tint"><b>خدمات پیشنهادی برای '+v.name+'</b>'+
+      '<p class="t-body" style="margin-top:6px">براساس سال ساخت '+v.year+' و کارکرد '+v.km+' کیلومتر تنظیم شده است.</p></div>'+
+      '<div class="card" style="margin-top:16px">'+
+      [['🛡️','بیمه شخص ثالث', v.insurance.third ? 'اعتبار تا '+v.insurance.third.expiry : 'ثبت نشده'],
+       ['◈','بیمه بدنه', v.insurance.body ? 'اعتبار تا '+v.insurance.body.expiry : 'ثبت نشده'],
+       ['🔧','سرویس دوره‌ای', FA(v.services.length)+' سرویس ثبت شده'],
+       ['✓','معاینه فنی','یادآوری موعد معاینه'],
+       ['✚','امداد خودرو','کمک در مسیر']].map(function(s){
+        return '<div class="prow"><span class="picon">'+s[0]+'</span><div class="grow"><b>'+s[1]+'</b><em>'+s[2]+'</em></div>'+
+          '<button class="btn btn--sm btn--secondary" data-nav="dashboard">مدیریت</button></div>'; }).join('')+'</div>'
+    : emptyState('خدمات به خودرو وابسته است','⚒','با ثبت وسیله نقلیه، خدمات مناسب همان خودرو نمایش داده می‌شود.');
+  if(pp) pp.innerHTML = '<div class="card"><div class="prow"><span class="picon">'+(user.name ? user.name.trim().charAt(0) : '؟')+'</span>'+
+    '<div class="grow"><b>'+displayName()+'</b><em dir="ltr">'+(user.phone || '—')+'</em></div>'+
+    '<button class="btn btn--sm btn--secondary" id="nameToggle">'+(user.name ? 'ویرایش نام' : 'افزودن نام')+'</button></div>'+
+    (uiState.form === 'name' ? '<div class="inlineForm"><h4>نام و نام خانوادگی</h4>'+
+      '<input class="input" id="nameInput" placeholder="مثلاً کاویان سیدین" value="'+(user.name||'')+'">'+
+      '<div class="formActions"><button class="btn btn--md btn--primary" id="nameSave" style="flex:1">ذخیره</button>'+
+      '<button class="btn btn--md btn--secondary" data-form-cancel2>انصراف</button></div></div>' : '')+
+    '<div class="prow"><div class="grow"><b>شماره موبایل</b><em>با ورود تأیید شده است</em></div>'+
+    '<span class="badge badge--ok"><i class="dot"></i>تأییدشده</span></div>'+
+    '<div class="prow"><div class="grow"><b>خودروهای من</b><em>'+FA(vehicles.length)+' مورد ثبت شده</em></div>'+
+    '<button class="btn btn--sm btn--secondary" data-nav="vehicle">مشاهده</button></div></div>'+
+    '<div class="card" style="margin-top:16px"><div class="prow"><div class="grow"><b>راهنما و پشتیبانی</b><em>پاسخ پرسش‌های متداول</em></div>'+
+    '<button class="btn btn--sm btn--secondary" data-nav="landing">ورود</button></div>'+
+    '<div class="prow"><div class="grow"><b>خروج از حساب</b><em>شماره موبایل پاک می‌شود</em></div>'+
+    '<button class="btn btn--sm btn--danger" id="logout">خروج</button></div></div>';
+  var nt = document.getElementById('nameToggle');
+  if(nt) nt.onclick = function(){ uiState.form = uiState.form === 'name' ? null : 'name'; renderExtraPages(); };
+  var ns = document.getElementById('nameSave');
+  if(ns) ns.onclick = function(){ var n = val('nameInput'); if(!n){ alert('نام را وارد کنید.'); return; } user.name = n; uiState.form = null; paint(); };
+  var nc = document.querySelector('[data-form-cancel2]');
+  if(nc) nc.onclick = function(){ uiState.form = null; renderExtraPages(); };
+  var lo = document.getElementById('logout');
+  if(lo) lo.onclick = function(){ user = { phone:'', name:'' }; vehicles = []; uiState.form = null; go('landing'); };
+}
+function renderLandingPreview(){
+  var v = activeVehicle();
+  var n = document.getElementById('lpVehName'), t = document.getElementById('lpVehTag');
+  if(n) n.textContent = v ? v.name : 'هنوز خودرویی ثبت نشده';
+  if(t) t.textContent = v ? v.km+' کیلومتر' : 'برای شروع ثبت کن';
+}
+function wireTabs(){
+  var nav = document.querySelector('#page-dashboard .tabbar');
+  if(!nav || nav.dataset.wired) return;
+  var fresh = nav.cloneNode(true);
+  nav.parentNode.replaceChild(fresh, nav);
+  fresh.dataset.wired = '1';
+  var t = fresh.querySelectorAll('.tab');
+  ['dashboard','vehicle','services','profile'].forEach(function(target,i){ if(t[i]) t[i].setAttribute('data-nav', target); });
+}
+var painting = false;
+function paint(){
+  if(painting) return;
+  painting = true;
+  wireTabs(); renderDashboardState(); renderExtraPages(); renderLandingPreview(); oldRDV();
+  painting = false;
+}
+renderDashboardVehicle = function(){ oldRDV(); paint(); };
+
+/* ---------- boot ---------- */
+vehicles = [];
+document.querySelectorAll('.obstep .opt.sel,.obstep .chip.sel').forEach(function(x){ x.classList.remove('sel'); });
+['year','km'].forEach(function(id){ var el = document.getElementById(id); if(el) el.value = ''; });
+renderModels(); renderPlate(); bindRegisterInputs(); updateNext(); paint();
+showPage((location.hash || '#page-landing').replace('#page-',''));
+</script>
+<style>
+/* upgraded vehicle/services pages */
+.vheroCard{background:linear-gradient(135deg,var(--primary-600),var(--primary-700));color:#fff;border-radius:20px;padding:24px;margin-bottom:20px;position:relative;overflow:hidden}
+.vheroCard::after{content:'';position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.07);bottom:-60px;right:-40px}
+.vheroCard h1{margin:0 0 2px;font-size:26px;font-weight:800;position:relative;z-index:2}
+.vheroCard .meta{font-size:13px;color:rgba(255,255,255,.8);position:relative;z-index:2}
+.vheroCard .stats{display:flex;gap:16px;margin-top:16px;position:relative;z-index:2}
+.vstat{flex:1}.vstat small{display:block;font-size:11px;opacity:.8;margin-bottom:2px}.vstat b{display:block;font-size:16px;font-weight:800}
+.insCard{background:var(--white);border:1px solid var(--ink-200);border-radius:16px;padding:18px;margin-bottom:12px}
+.insCard.warn{background:var(--warning-bg);border-color:var(--warning)}
+.insCard.danger{background:var(--danger-bg);border-color:var(--danger)}
+.insCard h4{margin:0 0 6px;font-size:14px;font-weight:700;color:var(--ink-900)}
+.insCard p{margin:0 0 10px;font-size:13px;color:var(--ink-600)}
+.insCard .meta{font-size:12px;color:var(--ink-500)}
+.insCard .actions{display:flex;gap:8px;margin-top:12px}
+.svcGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.svcGridItem{background:var(--primary-50);border:1px solid var(--primary-100);border-radius:12px;padding:14px;text-align:center}
+.svcGridItem b{display:block;font-size:13px;margin-bottom:2px}.svcGridItem small{color:var(--ink-500);font-size:11px}
+.recCard{background:linear-gradient(135deg,#0B72CE,#0A5AA3);color:#fff;border-radius:20px;padding:24px;margin-bottom:20px;position:relative;overflow:hidden}
+.recCard::after{content:'';position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.07);top:-60px;left:-40px}
+.recCard h2{margin:0 0 4px;font-size:19px;font-weight:800;position:relative;z-index:2}
+.recCard p{margin:0 0 12px;font-size:14px;line-height:26px;color:rgba(255,255,255,.9);position:relative;z-index:2}
+.recCard .btn{background:#fff;color:var(--primary-700);position:relative;z-index:2}
+.linkSmPrimary{color:var(--primary-600);font-size:13px;font-weight:700;text-decoration:underline}
+</style>
+<script>
+var RECOMMENDATIONS={
+  young_low:{title:'بررسی سرویس دوره‌ای',detail:'خودرو شما هنوز جوان است. پیشنهاد می‌کنیم سوابق سرویس‌های انجام‌شده را ثبت کنید.'},
+  young_high:{title:'بررسی کارکرد بالا',detail:'خودرو شما با سن کم، کارکرد بالا دارد. سرویس منظم توصیه می‌شود.'},
+  mid_low:{title:'سرویس دوره‌ای منظم',detail:'خودرو شما در سن متوسطی است. برای عمر بیشتر، سرویس‌های منظم انجام دهید.'},
+  mid_high:{title:'سرویس دوره‌ای فوری',detail:'خودرو شما سال‌ها سپری کرده و کارکرد بالا دارد. سرویس جامع ضروری است.'},
+  old_low:{title:'بازدید جامع خودرو',detail:'خودرو شما قدیمی است. بازدید جامع برای شناسایی خرابی‌های پنهان توصیه می‌شود.'},
+  old_high:{title:'تعمیر و نگهداری فوری',detail:'خودرو شما قدیمی و کارکرد بالا دارد. نگهداری دقیق برای ایمنی ضروری است.'}};
+
+function selectRec(year,km){
+  var age=1405-(parseInt(String(year).replace(/[۰-۹]/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'.indexOf(d);})||year));
+  var kmNum=parseInt(String(km).replace(/[۰-۹]/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'.indexOf(d);}).replace(/[^0-9]/g,''))||0;
+  if(age<=2) return kmNum>100000?RECOMMENDATIONS.young_high:RECOMMENDATIONS.young_low;
+  if(age<=5) return kmNum>150000?RECOMMENDATIONS.mid_high:RECOMMENDATIONS.mid_low;
+  return kmNum>200000?RECOMMENDATIONS.old_high:RECOMMENDATIONS.old_low;
+}
+
+var oldRenderExtraPages=renderExtraPages;
+renderExtraPages=function(){
+  var v=activeVehicle();
+  var vp=document.getElementById('vehiclePageContent'),sp=document.getElementById('servicesPageContent'),pp=document.getElementById('profilePageContent');
+  
+  if(vp) vp.innerHTML=v?'<div class="vheroCard"><h1>'+v.name+'</h1><p class="meta">'+v.brand+' · '+v.year+'</p><div class="stats"><div class="vstat"><small>کارکرد</small><b>'+v.km+'</b></div><div class="vstat"><small>نوع استفاده</small><b>'+(v.usage||'—')+'</b></div><div class="vstat"><small>پلاک</small><b dir="ltr">'+v.plate.split(' |')[0]+'</b></div></div></div><div class="card"><h3 class="t-h3">بیمه شخص ثالث</h3>'+(v.insurance.third?'<div class="insCard"><h4>'+v.insurance.third.company+'</h4><p>اعتبار: <b>'+v.insurance.third.expiry+'</b></p><div class="meta">'+expiryBadge(v.insurance.third.expiry)+'</div><div class="actions"><button class="btn btn--sm btn--secondary" data-nav="dashboard">ویرایش</button></div></div>':'<div class="insCard warn"><h4>بیمه شخص ثالث ثبت نشده</h4><p>برای ایمنی و قانونی، حداقل بیمه شخص ثالث ضروری است.</p><div class="actions"><button class="btn btn--sm btn--primary" onclick="window.open(\'https://aski.ir/insurance\',\'_blank\')">مقایسه و خرید بیمه</button></div></div>')+'<h3 class="t-h3" style="margin-top:18px">بیمه بدنه</h3>'+(v.insurance.body?'<div class="insCard"><h4>'+v.insurance.body.company+'</h4><p>اعتبار: <b>'+v.insurance.body.expiry+'</b></p><div class="meta">'+expiryBadge(v.insurance.body.expiry)+'</div><div class="actions"><button class="btn btn--sm btn--secondary" data-nav="dashboard">ویرایش</button></div></div>':'<div class="insCard"><h4>بیمه بدنه ثبت نشده</h4><p>برای جلوگیری از هزینه‌های تصادف‌ها، بیمه بدنه توصیه می‌شود.</p><div class="actions"><button class="btn btn--sm btn--secondary" onclick="window.open(\'https://aski.ir/insurance\',\'_blank\')">مقایسه و خرید بیمه بدنه</button></div></div>')+'</div><div class="card"><h3 class="t-h3">سوابق سرویس</h3>'+(v.services.length?v.services.slice().reverse().map(function(s){return '<div class="prow"><div class="grow"><b>'+s.type+'</b><em>'+s.date+' · '+s.km+' کیلومتر</em></div></div>';}).join(''):'<div class="modal__empty">برای این خودرو سابقه‌ای ثبت نشده است.</div>')+'</div>':emptyState('خودرویی ثبت نشده','🚘','برای دیدن پروفایل، اول یک وسیله نقلیه اضافه کن.');
+  
+  if(sp) sp.innerHTML=v?'<div class="vheroCard"><h1>خدمات برای '+v.name+'</h1><p class="meta">براساس سال ساخت و کارکرد تنظیم شده‌اند</p></div><div class="card"><h3 class="t-h3">بیمه‌های خودرو</h3><div class="insCard'+(v.insurance.third&&daysLeft(v.insurance.third.expiry)!==null&&daysLeft(v.insurance.third.expiry)<=30?' warn':'')+'"><h4>بیمه شخص ثالث</h4>'+(v.insurance.third?'<p><b>'+v.insurance.third.company+'</b> · تا '+v.insurance.third.expiry+'</p>'+expiryBadge(v.insurance.third.expiry):'<p>هنوز ثبت نشده</p><a href="https://aski.ir/insurance" class="linkSmPrimary" target="_blank">مقایسه و خرید »</a>')+'</div><div class="insCard'+(v.insurance.body&&daysLeft(v.insurance.body.expiry)!==null&&daysLeft(v.insurance.body.expiry)<=30?' warn':'')+'"><h4>بیمه بدنه</h4>'+(v.insurance.body?'<p><b>'+v.insurance.body.company+'</b> · تا '+v.insurance.body.expiry+'</p>'+expiryBadge(v.insurance.body.expiry):'<p>هنوز ثبت نشده</p><a href="https://aski.ir/insurance" class="linkSmPrimary" target="_blank">مقایسه و خرید »</a>')+'</div></div><div class="card"><h3 class="t-h3">سرویس‌های قطعات</h3><p class="t-body" style="margin-bottom:14px">قطعات مورد نیاز خودروی شما:</p><div class="svcGrid"><a href="https://aski.ir/parts" target="_blank" style="text-decoration:none"><div class="svcGridItem"><b>روغن و فیلتر</b><small>روغن موتور و فیلتر</small></div></a><a href="https://aski.ir/parts" target="_blank" style="text-decoration:none"><div class="svcGridItem"><b>ترمز</b><small>لنت و دیسک ترمز</small></div></a><a href="https://aski.ir/parts" target="_blank" style="text-decoration:none"><div class="svcGridItem"><b>تسمه</b><small>تسمه تایم و توازن</small></div></a><a href="https://aski.ir/parts" target="_blank" style="text-decoration:none"><div class="svcGridItem"><b>سیستم تعلیق</b><small>بوش ها و کمپرس</small></div></a><a href="https://aski.ir/parts" target="_blank" style="text-decoration:none"><div class="svcGridItem"><b>باتری</b><small>باتری استارت</small></div></a><a href="https://aski.ir/parts" target="_blank" style="text-decoration:none"><div class="svcGridItem"><b>سیستم الکتریکی</b><small>شمع و ژنراتور</small></div></a></div></div>':emptyState('خدمات به خودرو وابسته است','⚒','با ثبت وسیله نقلیه، خدمات نمایش داده می‌شود.');
+  
+  if(pp) pp.innerHTML='<div class="card"><div class="prow"><span class="picon">'+(user.name?user.name.trim().charAt(0):'؟')+'</span><div class="grow"><b>'+displayName()+'</b><em dir="ltr">'+(user.phone||'—')+'</em></div><button class="btn btn--sm btn--secondary" id="nameToggle">'+(user.name?'ویرایش نام':'افزودن نام')+'</button></div>'+(uiState.form==='name'?'<div class="inlineForm"><h4>نام و نام خانوادگی</h4><input class="input" id="nameInput" placeholder="مثلاً کاویان سیدین" value="'+(user.name||'')+'"><div class="formActions"><button class="btn btn--md btn--primary" id="nameSave" style="flex:1">ذخیره</button><button class="btn btn--md btn--secondary" data-form-cancel2>انصراف</button></div></div>':'')+' <div class="prow"><div class="grow"><b>شماره موبایل</b><em>با ورود تأیید شده است</em></div><span class="badge badge--ok"><i class="dot"></i>تأییدشده</span></div><div class="prow"><div class="grow"><b>خودروهای من</b><em>'+FA(vehicles.length)+' مورد ثبت شده</em></div><button class="btn btn--sm btn--secondary" data-nav="vehicle">مشاهده</button></div></div><div class="card" style="margin-top:16px"><div class="prow"><div class="grow"><b>راهنما و پشتیبانی</b><em>پاسخ پرسش‌های متداول</em></div><button class="btn btn--sm btn--secondary" data-nav="landing">ورود</button></div><div class="prow"><div class="grow"><b>خروج از حساب</b><em>شماره موبایل پاک می‌شود</em></div><button class="btn btn--sm btn--danger" id="logout">خروج</button></div></div>';
+  
+  var nt=document.getElementById('nameToggle');if(nt) nt.onclick=function(){uiState.form=uiState.form==='name'?null:'name';renderExtraPages();};
+  var ns=document.getElementById('nameSave');if(ns) ns.onclick=function(){var n=val('nameInput');if(!n){alert('نام را وارد کنید.');return;}user.name=n;uiState.form=null;paint();};
+  var nc=document.querySelector('[data-form-cancel2]');if(nc) nc.onclick=function(){uiState.form=null;renderExtraPages();};
+  var lo=document.getElementById('logout');if(lo) lo.onclick=function(){user={phone:'',name:''};vehicles=[];uiState.form=null;go('landing');};
+};
+
+var oldRenderDashboardState=renderDashboardState;
+renderDashboardState=function(){
+  oldRenderDashboardState();
+  var sheet=document.querySelector('#page-dashboard .db__sheet');
+  if(!sheet||!sheet.querySelector('.nba')) return;
+  var v=activeVehicle();if(!v) return;
+  var rec=selectRec(v.year,v.km);
+  sheet.querySelector('.nba h3').textContent=rec.title;
+  sheet.querySelector('.nba p').textContent=rec.detail;
+};
+
+var oldShowPage2=showPage;
+showPage=function(id){oldShowPage2(id);if(id==='recommendation'){var rec=document.getElementById('recContent');if(!rec) return;var v=activeVehicle();if(!v) return;var r=selectRec(v.year,v.km);rec.innerHTML='<div class="recCard"><h2>'+r.title+'</h2><p>'+r.detail+'</p><button class="btn btn--md" data-nav="dashboard">بازگشت به داشبورد</button></div><div class="card"><h3 class="t-h3">درباره این پیشنهاد</h3><div class="prow"><div class="grow"><b>سال ساخت</b><em>'+v.year+'</em></div></div><div class="prow"><div class="grow"><b>کارکرد</b><em>'+v.km+' کیلومتر</em></div></div><div class="prow"><div class="grow"><b>سرویس‌های ثبت‌شده</b><em>'+FA(v.services.length)+' سرویس</em></div></div><div class="prow"><div class="grow"><b>بیمه شخص ثالث</b><em>'+(v.insurance.third?v.insurance.third.company+' · '+v.insurance.third.expiry:'ثبت نشده')+'</em></div></div><div class="prow"><div class="grow"><b>بیمه بدنه</b><em>'+(v.insurance.body?v.insurance.body.company+' · '+v.insurance.body.expiry:'ثبت نشده')+'</em></div></div></div>';rec.querySelectorAll('[data-nav]').forEach(function(b){b.onclick=function(){go(b.getAttribute('data-nav'));};});}};
+</script>
+
+<style>
+/* v5: recommendation-led insurance and services UI */
+.smartLead{display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid var(--ink-100)}
+.smartLead:last-child{border-bottom:0}.smartLead .leadIcon{width:38px;height:38px;border-radius:11px;background:var(--primary-50);display:grid;place-items:center;flex:none;font-size:18px}.smartLead .grow{flex:1;min-width:0}.smartLead b{display:block;font-size:13px;color:var(--ink-900)}.smartLead small{display:block;color:var(--ink-500);font-size:12px;line-height:22px}
+.insBlock{padding:14px;border:1px solid var(--ink-200);border-radius:14px;margin-top:12px;background:var(--white)}.insBlock.warn{border-color:var(--warning);background:var(--warning-bg)}.insBlock.danger{border-color:var(--danger);background:var(--danger-bg)}.insBlock h4{margin:0 0 4px;font-size:13px}.insBlock p{margin:0;color:var(--ink-600);font-size:12px;line-height:23px}.insActions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.serviceTiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}.serviceTile{display:block;padding:15px 12px;border:1px solid var(--ink-200);border-radius:14px;background:var(--white);transition:.18s}.serviceTile:hover{border-color:var(--primary-500);background:var(--primary-50);transform:translateY(-1px)}.serviceTile .tileIcon{font-size:24px;display:block;margin-bottom:7px}.serviceTile b{display:block;font-size:13px;color:var(--ink-900)}.serviceTile small{display:block;margin-top:2px;color:var(--ink-500);font-size:11px;line-height:19px}
+.smartRec{padding:20px;border-radius:18px;background:linear-gradient(135deg,var(--primary-600),var(--primary-700));color:#fff;margin-bottom:16px}.smartRec .recKicker{font-size:11px;font-weight:700;color:#d8edff}.smartRec h2{font-size:22px;line-height:34px;margin:6px 0}.smartRec p{font-size:13px;line-height:25px;color:#e1f1fd;margin:0 0 14px}.smartRec .btn{background:#fff;color:var(--primary-700)}.recReasons{margin-top:14px}.recReasons h3{font-size:15px;margin:0 0 8px}.recReason{display:flex;gap:9px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--ink-100);font-size:13px;line-height:24px;color:var(--ink-600)}.recReason:last-child{border-bottom:0}.recReason:before{content:'✓';width:21px;height:21px;border-radius:50%;background:var(--success-bg);color:var(--success);font-weight:800;display:grid;place-items:center;flex:none;margin-top:2px}
+@media(max-width:420px){.serviceTiles{grid-template-columns:1fr}.insActions .btn{flex:1}}
+</style>
+<script>
+/* ---------- v5 recommendation engine ---------- */
+function numberValue(s){return parseInt(String(s||'').replace(/[۰-۹]/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'.indexOf(d);}).replace(/\D/g,''),10)||0;}
+function smartRecommendation(v){
+  var age=1405-numberValue(v.year), km=numberValue(v.km), reasons=[], kind='service', title='سرویس دوره‌ای منظم', text='اطلاعات خودرو کامل است؛ وقت آن است سوابق سرویس را منظم نگه داری.', cta='ثبت سرویس', action='service';
+  var third=v.insurance&&v.insurance.third, body=v.insurance&&v.insurance.body;
+  var thirdLeft=third?daysLeft(third.expiry):null, bodyLeft=body?daysLeft(body.expiry):null;
+  if(!third || third.none){kind='third';title='بیمه شخص ثالث را تهیه کن';text='بدون بیمه شخص ثالث، خودرو پوشش قانونی و ضروری ندارد.';cta='مقایسه بیمه شخص ثالث';action='insurance';reasons.push('بیمه شخص ثالث برای این خودرو ثبت نشده است.');}
+  else if(thirdLeft!==null && thirdLeft<=30){kind='third';title='تمدید بیمه شخص ثالث';text='اعتبار بیمه شخص ثالث نزدیک به پایان است؛ تمدید را عقب نینداز.';cta='تمدید بیمه شخص ثالث';action='insurance';reasons.push('فقط '+(thirdLeft<0?'مدت آن گذشته است':toFa(thirdLeft)+' روز تا پایان اعتبار مانده است')+'.');}
+  else if(!body || body.none){kind='body';title='بیمه بدنه بگیر';text='بیمه بدنه هنوز برای این خودرو ثبت نشده و می‌تواند هزینه خسارت را قابل کنترل‌تر کند.';cta='مقایسه بیمه بدنه';action='insurance';reasons.push('برای این خودرو بیمه بدنه ثبت نشده است.');}
+  else if(bodyLeft!==null && bodyLeft<=30){kind='body';title='تمدید بیمه بدنه';text='اعتبار بیمه بدنه نزدیک به پایان است؛ قبل از ایجاد وقفه تمدیدش کن.';cta='تمدید بیمه بدنه';action='insurance';reasons.push('فقط '+(bodyLeft<0?'مدت آن گذشته است':toFa(bodyLeft)+' روز تا پایان اعتبار مانده است')+'.');}
+  else {
+    if(age>=8){reasons.push('خودرو '+toFa(age)+' ساله است و بازدید منظم قطعات فرسایشی اهمیت بیشتری دارد.');title='بازدید جامع خودرو';text='با توجه به سن خودرو، بازدید جامع و بررسی قطعات مصرفی پیشنهاد می‌شود.';cta='مشاهده خدمات تعمیر';action='services';}
+    else if(km>=150000){reasons.push('کارکرد ثبت‌شده از '+toFa(km)+' کیلومتر گذشته است.');title='سرویس دوره‌ای فوری';text='کارکرد خودرو بالاست؛ سرویس جامع و بررسی قطعات مصرفی را زودتر انجام بده.';cta='مشاهده سرویس و قطعات';action='services';}
+    else if(v.usage==='کاری / تجاری' || v.usage==='مسافربری آنلاین'){reasons.push('نوع استفاده خودرو پرتردد است؛ فاصله سرویس‌ها باید کوتاه‌تر باشد.');title='سرویس پرتردد خودرو';text='استفاده کاری یا مسافربری فشار بیشتری به خودرو وارد می‌کند؛ سرویس منظم‌تر پیشنهاد می‌شود.';cta='ثبت سرویس دوره‌ای';action='service';}
+    else if(!v.services || !v.services.length){reasons.push('هنوز سابقه‌ای برای سرویس این خودرو ثبت نشده است.');title='اولین سرویس را ثبت کن';text='با ثبت سرویس‌های انجام‌شده، پیشنهادهای بعدی دقیق‌تر و شخصی‌تر می‌شوند.';cta='ثبت سرویس دوره‌ای';action='service';}
+    else {reasons.push('بیمه‌ها معتبرند و '+toFa(v.services.length)+' سابقه سرویس ثبت شده است.');}
+  }
+  if(v.model) reasons.push('پیشنهاد برای '+v.model+'، سال ساخت '+v.year+' و کارکرد '+v.km+' کیلومتر تنظیم شده است.');
+  return {kind:kind,title:title,text:text,cta:cta,action:action,reasons:reasons};
+}
+function recLink(action){
+  if(action==='insurance') return 'https://www.azki.com/insurance';
+  if(action==='parts' || action==='services') return 'https://www.azki.com/';
+  return '';
+}
+function recButton(rec){
+  if(rec.action==='insurance' || rec.action==='services') return '<a class="btn btn--md" target="_blank" href="'+recLink(rec.action)+'">'+rec.cta+'</a>';
+  return '<button class="btn btn--md" data-rec-service>'+rec.cta+'</button>';
+}
+
+/* ---------- insurance choices: active, expired, or no policy ---------- */
+function insRow(v,kind){
+  var rec=v.insurance&&v.insurance[kind], label=INS[kind].label, icon=INS[kind].icon;
+  if(rec&&rec.none) return '<div class="insBlock warn"><h4>'+icon+' '+label+': ندارم</h4><p>برای دریافت پیشنهاد مناسب، بیمه این خودرو را از ازکی مقایسه کن.</p><div class="insActions"><a class="btn btn--sm btn--primary" target="_blank" href="https://www.azki.com/insurance">مقایسه بیمه</a><button class="btn btn--sm btn--secondary" data-ins-edit="'+kind+'">ویرایش</button></div></div>';
+  if(!rec) return '<div class="insBlock"><h4>'+icon+' '+label+'</h4><p>اطلاعاتی برای این بیمه ثبت نشده است.</p><div class="insActions"><button class="btn btn--sm btn--secondary" data-ins-edit="'+kind+'">ثبت اطلاعات</button><button class="btn btn--sm btn--ghost" data-ins-none="'+kind+'">ندارم</button></div></div>';
+  var left=daysLeft(rec.expiry), danger=left!==null&&left<0, warn=left!==null&&left<=30;
+  return '<div class="insBlock '+(danger?'danger':warn?'warn':'')+'"><h4>'+icon+' '+label+'</h4><p>'+rec.company+' · اعتبار تا <b>'+rec.expiry+'</b></p><div style="margin-top:8px">'+expiryBadge(rec.expiry)+'</div><div class="insActions">'+(warn?'<a class="btn btn--sm btn--primary" target="_blank" href="https://www.azki.com/insurance">تمدید بیمه</a>':'')+'<button class="btn btn--sm btn--secondary" data-ins-edit="'+kind+'">ویرایش</button></div></div>';
+}
+function insForm(kind,rec){
+  if(rec&&rec.none) return '<div class="inlineForm"><h4>'+INS[kind].label+'</h4><p class="t-body">این گزینه را انتخاب کرده‌ای: بیمه ندارم.</p><div class="formActions"><button class="btn btn--md btn--primary" data-ins-have="'+kind+'" style="flex:1">ثبت بیمه</button><button class="btn btn--md btn--secondary" data-form-cancel>بستن</button></div></div>';
+  return '<div class="inlineForm"><h4>اطلاعات '+INS[kind].label+'</h4><label for="insCompany">شرکت بیمه</label><select class="input" id="insCompany">'+['ایران','پاسارگاد','آسیا','البرز','دانا','معلم','سامان'].map(function(c){return '<option'+(rec&&rec.company==='بیمه '+c?' selected':'')+'>بیمه '+c+'</option>';}).join('')+'</select><label>تاریخ پایان اعتبار</label>'+dateTrio('insDate',rec?rec.expiry:'')+'<div class="formActions"><button class="btn btn--md btn--primary" data-ins-save="'+kind+'" style="flex:1">ذخیره</button><button class="btn btn--md btn--ghost" data-ins-none="'+kind+'">ندارم</button><button class="btn btn--md btn--secondary" data-form-cancel>انصراف</button></div></div>';
+}
+
+/* ---------- dashboard: entirely driven by smart recommendation ---------- */
+var baseDashboardState=renderDashboardState;
+renderDashboardState=function(){
+  var sheet=document.querySelector('#page-dashboard .db__sheet'), hero=document.querySelector('#page-dashboard .db__vehicle'), manage=document.querySelector('#page-dashboard .db__manage');
+  if(!sheet)return;var v=activeVehicle();var nameEl=document.getElementById('dbUserName');if(nameEl)nameEl.textContent=displayName();
+  if(!v){if(hero)hero.style.display='none';if(manage)manage.style.display='none';sheet.innerHTML='<div class="card" style="box-shadow:var(--sh-2)">'+emptyState('هنوز خودرویی ثبت نشده','🚘','با ثبت وسیله نقلیه، بیمه‌ها و پیشنهادهای مرتبط اینجا نمایش داده می‌شود.')+'</div>';return;}
+  if(hero)hero.style.display='';if(manage)manage.style.display='';var rec=smartRecommendation(v);
+  var serviceRows=(v.services||[]).slice().reverse().map(function(s){return '<div class="tl tl--ok"><div class="tl__d">'+s.date+'</div><div class="tl__t">'+s.type+'</div><div class="tl__s">کارکرد '+s.km+' کیلومتر</div></div>';}).join('');
+  sheet.innerHTML='<div class="db__cards"><section class="card" style="box-shadow:var(--sh-2)"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--s2)"><h2 class="t-h3">وضعیت '+v.name+'</h2><span class="badge badge--info">هوشمند</span></div>'+insRow(v,'third')+insRow(v,'body')+'<div class="insBlock"><h4>🔧 سرویس دوره‌ای</h4><p>'+(v.services&&v.services.length?'آخرین مورد: '+v.services[v.services.length-1].type+' · '+v.services[v.services.length-1].date:'هنوز سابقه‌ای ثبت نشده')+'</p><div class="insActions"><button class="btn btn--sm btn--secondary" data-form-open="service">ثبت سرویس</button></div></div>'+(uiState.form==='service'?serviceForm():'')+'</section><section class="smartRec"><span class="recKicker">پیشنهاد هوشمند برای '+v.model+'</span><h2>'+rec.title+'</h2><p>'+rec.text+'</p>'+recButton(rec)+'</section><section class="card"><h2 class="t-h3">تاریخچه خودرو</h2><div class="timeline">'+serviceRows+'<div class="tl tl--info"><div class="tl__d">شروع</div><div class="tl__t">پروفایل خودرو ساخته شد</div><div class="tl__s">'+v.name+' · کارکرد '+v.km+' کیلومتر</div></div></div></section></div>';
+  wireSmartDashboard();
+};
+function wireSmartDashboard(){
+  document.querySelectorAll('[data-ins-edit]').forEach(function(b){b.onclick=function(){uiState.form='ins-'+b.getAttribute('data-ins-edit');renderDashboardState();};});
+  document.querySelectorAll('[data-ins-none]').forEach(function(b){b.onclick=function(){var k=b.getAttribute('data-ins-none');activeVehicle().insurance[k]={none:true};uiState.form=null;paint();};});
+  document.querySelectorAll('[data-ins-have]').forEach(function(b){b.onclick=function(){uiState.form='ins-'+b.getAttribute('data-ins-have');renderDashboardState();};});
+  document.querySelectorAll('[data-form-open]').forEach(function(b){b.onclick=function(){uiState.form=b.getAttribute('data-form-open');renderDashboardState();};});
+  document.querySelectorAll('[data-form-cancel]').forEach(function(b){b.onclick=function(){uiState.form=null;renderDashboardState();};});
+  document.querySelectorAll('[data-ins-save]').forEach(function(b){b.onclick=function(){var k=b.getAttribute('data-ins-save'),d=readTrio('insDate');if(!d){alert('تاریخ پایان اعتبار را کامل وارد کن.');return;}activeVehicle().insurance[k]={company:document.getElementById('insCompany').value,expiry:d};uiState.form=null;paint();};});
+  var svc=document.getElementById('svcSave');if(svc)svc.onclick=function(){var d=readTrio('svcDate'),k=val('svcKm');if(!d||!toEn(k)){alert('تاریخ و کارکرد سرویس را وارد کن.');return;}activeVehicle().services.push({type:document.getElementById('svcType').value,date:d,km:k});uiState.form=null;paint();};
+  document.querySelectorAll('[data-rec-service]').forEach(function(b){b.onclick=function(){uiState.form='service';renderDashboardState();};});bindTrio('insDate');bindTrio('svcDate');bindNumeric(document.getElementById('svcKm'),null,true);
+}
+
+/* ---------- services page: repairs, bodywork, periodic, factory, parts, etc. ---------- */
+var baseExtraPages=renderExtraPages;
+renderExtraPages=function(){
+  baseExtraPages();var v=activeVehicle(),sp=document.getElementById('servicesPageContent');if(!sp)return;
+  if(!v){sp.innerHTML=emptyState('خدمات به خودرو وابسته است','⚒','با ثبت وسیله نقلیه، خدمات مناسب همان خودرو نمایش داده می‌شود.');return;}
+  var rec=smartRecommendation(v);
+  var tiles=[['🔧','سرویس دوره‌ای','تعویض روغن، فیلتر و بازدیدهای منظم','service'],['🛠️','تعمیرات خودرو','عیب‌یابی موتور، گیربکس و تعمیرات فنی','services'],['🎨','صافکاری و نقاشی','ترمیم بدنه، رنگ و خسارت‌های ظاهری','services'],['🏭','خدمات کارخانه','سرویس‌های دوره گارانتی و نمایندگی','services'],['⚡','برق و باتری','باتری، استارت، دینام و سیستم برق','parts'],['🚗','قطعات مصرفی','لنت، تسمه، فیلتر، شمع و روغن','parts'],['✓','معاینه فنی','یادآوری و آماده‌سازی معاینه فنی','services'],['✚','امداد خودرو','کمک فوری در مسیر و حمل خودرو','services']];
+  sp.innerHTML='<div class="smartRec"><span class="recKicker">پیشنهاد اول برای '+v.model+'</span><h2>'+rec.title+'</h2><p>'+rec.text+'</p>'+recButton(rec)+'</div><div class="card"><h2 class="t-h3">همه خدمات خودرو</h2><p class="t-body">برای '+v.name+'، خدمات مورد نیازت را انتخاب کن.</p><div class="serviceTiles">'+tiles.map(function(t){var href=t[3]==='parts'?'https://www.azki.com/':(t[3]==='services'?'https://www.azki.com/':'#page-dashboard');return '<a class="serviceTile" '+(href.charAt(0)==='#'?'data-nav="dashboard"':'target="_blank"')+' href="'+href+'"><span class="tileIcon">'+t[0]+'</span><b>'+t[1]+'</b><small>'+t[2]+'</small></a>';}).join('')+'</div></div>';
+  sp.querySelectorAll('[data-rec-service]').forEach(function(b){b.onclick=function(){go('dashboard');setTimeout(function(){uiState.form='service';renderDashboardState();},0);};});
+};
+
+/* ---------- recommendation details: no hardcoded Soren copy ---------- */
+var baseShowForV5=showPage;
+showPage=function(id){baseShowForV5(id);if(id!=='recommendation')return;var rec=document.getElementById('recContent'),v=activeVehicle();if(!rec||!v)return;var r=smartRecommendation(v);rec.innerHTML='<div class="smartRec"><span class="recKicker">تحلیل شخصی‌سازی‌شده برای '+v.name+'</span><h2>'+r.title+'</h2><p>'+r.text+'</p>'+recButton(r)+'</div><div class="card recReasons"><h3>چرا این پیشنهاد؟</h3>'+r.reasons.map(function(x){return '<div class="recReason">'+x+'</div>';}).join('')+'</div><div class="card" style="margin-top:16px"><h3 class="t-h3">داده‌های استفاده‌شده</h3><div class="prow"><div class="grow"><b>مدل و سال</b><em>'+v.model+' · '+v.year+'</em></div></div><div class="prow"><div class="grow"><b>کارکرد و نوع استفاده</b><em>'+v.km+' کیلومتر · '+(v.usage||'ثبت نشده')+'</em></div></div><div class="prow"><div class="grow"><b>سوابق</b><em>'+FA(v.services.length)+' سرویس · بیمه شخص ثالث '+(v.insurance.third?'ثبت شده':'ثبت نشده')+' · بیمه بدنه '+(v.insurance.body?'ثبت شده':'ثبت نشده')+'</em></div></div></div>';rec.querySelectorAll('[data-rec-service]').forEach(function(b){b.onclick=function(){go('dashboard');setTimeout(function(){uiState.form='service';renderDashboardState();},0);};});};
+
+paint();
+</script>
+
+<style>
+/* Journey-led recommendation page */
+.journeyLead{background:linear-gradient(135deg,var(--primary-700),var(--primary-600));color:var(--white);border-radius:22px;padding:24px;margin-bottom:16px}.journeyLead .kicker{color:#d6efff;font-size:11px;font-weight:700}.journeyLead h1{font-size:24px;line-height:1.45;margin:7px 0}.journeyLead p{color:#e1f3ff;font-size:13px;line-height:25px;margin:0 0 16px}.journeyLead .btn{background:var(--white);color:var(--primary-700)}
+.journeyReason{padding:16px;background:var(--primary-50);border:1px solid var(--primary-100);border-radius:16px;margin-bottom:16px}.journeyReason h3{font-size:15px;margin:0 0 8px}.reasonLine{display:flex;gap:9px;padding:7px 0;border-bottom:1px solid var(--primary-100);font-size:13px;line-height:23px;color:var(--ink-600)}.reasonLine:last-child{border-bottom:0}.reasonLine:before{content:'✓';color:var(--success);font-weight:800;flex:none}
+.journeyGrid{display:grid;gap:10px}.journeyCard{border:1px solid var(--ink-200);border-radius:16px;background:var(--white);padding:16px;transition:.18s}.journeyCard.current{border-color:var(--primary-600);box-shadow:0 5px 16px rgba(8,120,209,.12)}.journeyCard:hover{border-color:var(--primary-500);transform:translateY(-1px)}.journeyCardHead{display:flex;align-items:flex-start;gap:10px}.journeyCardIcon{width:40px;height:40px;border-radius:12px;background:var(--primary-50);display:grid;place-items:center;font-size:20px;flex:none}.journeyCard h3{font-size:15px;margin:0}.journeyCard p{color:var(--ink-500);font-size:12px;line-height:21px;margin:3px 0 0}.journeyCard .status{margin-inline-start:auto;font-size:11px;color:var(--ink-500);white-space:nowrap}.journeyCard .actions{display:flex;gap:8px;margin-top:13px}.journeyCard .actions .btn{flex:1}
+.journeySteps{display:flex;gap:5px;margin:17px 0 14px}.journeyStep{height:5px;flex:1;border-radius:99px;background:var(--ink-200)}.journeyStep.on{background:var(--primary-600)}.journeyForm{border:1px solid var(--ink-200);border-radius:16px;padding:17px;margin-top:14px}.journeyForm h3{font-size:16px;margin:0 0 4px}.journeyForm p{font-size:13px;color:var(--ink-500);margin:0 0 14px;line-height:23px}.journeyDone{padding:20px;text-align:center;background:var(--success-bg);border:1px solid #bfead8;border-radius:16px}.journeyDone b{display:block;color:var(--success);font-size:16px;margin-bottom:5px}.journeyDone span{font-size:13px;color:var(--ink-600)}
+.serviceHubLead{padding:20px;border-radius:20px;background:var(--navy);color:var(--white);margin-bottom:16px}.serviceHubLead h1{font-size:22px;margin:0 0 4px}.serviceHubLead p{color:#c5d5e3;font-size:13px;line-height:24px;margin:0}.journeyTile{display:block;border:1px solid var(--ink-200);border-radius:15px;padding:15px;background:var(--white);color:inherit}.journeyTile:hover{border-color:var(--primary-500);background:var(--primary-50)}.journeyTile .tileTop{display:flex;align-items:center;gap:10px}.journeyTile .tileIcon{font-size:23px}.journeyTile b{font-size:14px}.journeyTile small{display:block;color:var(--ink-500);font-size:12px;line-height:21px;margin-top:7px}.journeyTile .tileCta{display:block;color:var(--primary-600);font-size:12px;font-weight:700;margin-top:10px}
+</style>
+<script>
+/* Every suggested service is a separate, resumable journey. */
+var JOURNEYS={
+ repair:{icon:'🛠️',title:'تعمیر خودرو',short:'عیب‌یابی و تعمیرات فنی',desc:'مشکل خودرو را ثبت کن تا مسیر بررسی و تعمیرش را شروع کنیم.',steps:['ثبت مشکل','انتخاب خدمت','درخواست بررسی']},
+ bodywork:{icon:'🎨',title:'صافکاری و نقاشی',short:'ترمیم بدنه و رنگ',desc:'آسیب بدنه را ثبت کن تا مسیر ترمیم، رنگ و برآورد هزینه را ببینی.',steps:['ثبت آسیب','انتخاب نوع ترمیم','دریافت پیشنهاد']},
+ factory:{icon:'🏭',title:'سرویس کارخانه',short:'سرویس دوره‌ای و نمایندگی',desc:'سرویس‌های دوره گارانتی و خدمات نمایندگی را برای خودرو پیگیری کن.',steps:['مشخصات خودرو','انتخاب مرکز','رزرو سرویس']},
+ service:{icon:'🔧',title:'سرویس دوره‌ای',short:'سرویس‌های مصرفی و منظم',desc:'سرویس‌های انجام‌شده را ثبت کن و موعد بعدی را بهتر مدیریت کن.',steps:['ثبت سرویس','تکمیل جزئیات','ثبت نهایی']}
+};
+var journeyType='repair', journeyStep=0;
+function ensureJourneyData(v){if(!v)return;if(!v.insurance)v.insurance={};if(!v.services)v.services=[];if(!v.journeys)v.journeys={};Object.keys(JOURNEYS).forEach(function(k){if(!v.journeys[k])v.journeys[k]={status:'not_started',step:0};});}
+function journeyNum(s){return parseInt(String(s||'').replace(/[۰-۹]/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'.indexOf(d);}).replace(/\D/g,''),10)||0;}
+function journeyRecommendation(v){
+ ensureJourneyData(v);var age=1405-journeyNum(v.year),km=journeyNum(v.km),third=v.insurance.third,body=v.insurance.body,reasons=[],type='service';
+ if(!third||third.none){type='third';reasons.push('بیمه شخص ثالث برای این خودرو ثبت نشده است.');}
+ else if(daysLeft(third.expiry)!==null&&daysLeft(third.expiry)<=30){type='third';reasons.push('اعتبار بیمه شخص ثالث نزدیک به پایان است.');}
+ else if(!body||body.none){type='body';reasons.push('بیمه بدنه برای این خودرو ثبت نشده است.');}
+ else if(daysLeft(body.expiry)!==null&&daysLeft(body.expiry)<=30){type='body';reasons.push('اعتبار بیمه بدنه نزدیک به پایان است.');}
+ else if(age>=8||km>=150000){type='repair';reasons.push(age>=8?'سن خودرو، نیاز به بازدید و تعمیرات پیشگیرانه را بیشتر می‌کند.':'کارکرد ثبت‌شده، بررسی قطعات و تعمیرات فنی را مهم‌تر می‌کند.');}
+ else if(age<=3){type='factory';reasons.push('خودرو نسبتاً جدید است؛ سرویس‌های دوره گارانتی و نمایندگی اولویت دارند.');}
+ else if(!v.services.length){type='service';reasons.push('هنوز سابقه‌ای برای سرویس این خودرو ثبت نشده است.');}
+ else{type='service';reasons.push('برای حفظ وضعیت فعلی خودرو، سرویس دوره‌ای منظم پیشنهاد می‌شود.');}
+ reasons.push('این پیشنهاد از مدل '+v.model+'، سال ساخت '+v.year+'، کارکرد '+v.km+' و نوع استفاده '+(v.usage||'ثبت نشده')+' ساخته شده است.');
+ return {type:type,reasons:reasons,journey:JOURNEYS[type]||JOURNEYS.service};
+}
+function journeyStatus(v,k){ensureJourneyData(v);var j=v.journeys[k];return j.status==='done'?'تکمیل‌شده':j.status==='started'?'در حال انجام':'شروع نشده';}
+function startJourney(k){var v=activeVehicle();if(!v)return;ensureJourneyData(v);journeyType=k;journeyStep=v.journeys[k].step||0;v.journeys[k].status='started';go('recommendation');}
+function journeyCTA(k,label){return '<button class="btn btn--sm btn--primary" data-start-journey="'+k+'">'+(label||'شروع مسیر')+'</button>';}
+function journeyCards(v,current){ensureJourneyData(v);return ['repair','bodywork','factory'].map(function(k){var j=JOURNEYS[k];return '<article class="journeyCard '+(current===k?'current':'')+'"><div class="journeyCardHead"><span class="journeyCardIcon">'+j.icon+'</span><div><h3>'+j.title+'</h3><p>'+j.short+'</p></div><span class="status">'+journeyStatus(v,k)+'</span></div><p style="margin-top:10px">'+j.desc+'</p><div class="actions">'+journeyCTA(k, v.journeys[k].status==='started'?'ادامه مسیر':'شروع مسیر')+'</div></article>';}).join('');}
+function journeyStepForm(v,k,idx){
+ var j=JOURNEYS[k],last=idx>=j.steps.length-1;
+ var copy={repair:['مشکل یا صدای غیرعادی خودرو را کوتاه توضیح بده.','نوع خدمت مورد نیاز را انتخاب کن.','اطلاعات ثبت شد، حالا درخواست بررسی را ثبت کن.'],bodywork:['بخش آسیب‌دیده و شدت آن را مشخص کن.','نوع ترمیم مناسب را انتخاب کن.','اطلاعات آسیب ثبت شد، پیشنهاد ترمیم را دریافت کن.'],factory:['اطلاعات خودرو را مرور کن.','مرکز یا نمایندگی مناسب را انتخاب کن.','برای سرویس دوره‌ای کارخانه درخواست ثبت کن.'],service:['نوع سرویس انجام‌شده را انتخاب کن.','کارکرد و تاریخ سرویس را کامل کن.','سابقه سرویس در پروفایل ذخیره می‌شود.']};
+ var choices={repair:['تعمیر موتور','تعمیر گیربکس','برق و باتری','ترمز و جلوبندی'],bodywork:['صافکاری بدون رنگ','صافکاری و رنگ','تعویض قطعه بدنه','کارشناسی خسارت'],factory:['سرویس اولیه','سرویس دوره‌ای','بازدید گارانتی','تعویض قطعات مصرفی'],service:SERVICE_TYPES};
+ var field=idx===0?'<textarea class="input" id="journeyNote" rows="3" placeholder="توضیحات کوتاه..." style="height:86px;padding:10px;resize:vertical"></textarea>':idx===1?'<select class="input" id="journeyOption">'+choices[k].map(function(x){return '<option>'+x+'</option>';}).join('')+'</select>':'<div class="notice">آماده ثبت و ادامه مسیر برای '+v.name+'</div>';
+ return '<div class="journeyForm"><h3>'+j.steps[idx]+'</h3><p>'+copy[k][idx]+'</p>'+field+'<div class="formActions"><button class="btn btn--md btn--primary" data-journey-next="'+k+'" style="flex:1">'+(last?'ثبت و تکمیل':'ادامه')+'</button>'+(idx?' <button class="btn btn--md btn--secondary" data-journey-prev="'+k+'">بازگشت</button>':'')+'</div></div>';
+}
+function renderJourneyPage(){
+ var rec=document.getElementById('recContent'),v=activeVehicle();if(!rec||!v)return;ensureJourneyData(v);var r=journeyRecommendation(v),k=journeyType||r.type;if(!JOURNEYS[k])k=r.type;var j=JOURNEYS[k],state=v.journeys[k];
+ if(state.status==='done') journeyStep=j.steps.length-1; else journeyStep=Math.min(state.step||0,j.steps.length-1);
+ var main='<div class="journeyLead"><span class="kicker">مسیر اختصاصی برای '+v.model+'</span><h1>'+j.icon+' '+j.title+'</h1><p>'+j.desc+'</p>'+journeyCTA(k,state.status==='done'?'شروع دوباره':state.status==='started'?'ادامه مسیر':'شروع مسیر')+'</div>';
+ var steps='<div class="journeySteps">'+j.steps.map(function(_,i){return '<span class="journeyStep '+(i<=journeyStep?'on':'')+'"></span>';}).join('')+'</div>';
+ var body=state.status==='done'?'<div class="journeyDone"><b>این مسیر تکمیل شد</b><span>اطلاعات '+j.title+' برای '+v.name+' ثبت شده است.</span></div>':journeyStep>0||state.status==='started'?journeyStepForm(v,k,journeyStep):'';
+ rec.innerHTML=main+steps+(body||'<div class="journeyReason"><h3>چرا این پیشنهاد؟</h3>'+r.reasons.map(function(x){return '<div class="reasonLine">'+x+'</div>';}).join('')+'</div>')+'<section class="card"><h2 class="t-h3">مسیرهای دیگر</h2><div class="journeyGrid">'+journeyCards(v,k)+'</div></section>';
+ wireJourneyActions();
+}
+function wireJourneyActions(){
+ document.querySelectorAll('[data-start-journey]').forEach(function(b){b.onclick=function(){startJourney(b.getAttribute('data-start-journey'));};});
+ document.querySelectorAll('[data-journey-next]').forEach(function(b){b.onclick=function(){var v=activeVehicle(),k=b.getAttribute('data-journey-next');ensureJourneyData(v);var j=JOURNEYS[k],st=v.journeys[k];if(journeyStep>=j.steps.length-1){st.status='done';st.step=j.steps.length-1;}else{st.status='started';st.step=(st.step||0)+1;}journeyType=k;journeyStep=st.step;renderJourneyPage();paint();};});
+ document.querySelectorAll('[data-journey-prev]').forEach(function(b){b.onclick=function(){var v=activeVehicle(),k=b.getAttribute('data-journey-prev');ensureJourneyData(v);v.journeys[k].step=Math.max(0,(v.journeys[k].step||0)-1);journeyStep=v.journeys[k].step;renderJourneyPage();};});
+}
+
+/* Dashboard recommendation now opens a specific journey, not a generic details page. */
+var oldSmartRecommendation=smartRecommendation;smartRecommendation=journeyRecommendation;
+function recButtonV6(rec){if(rec.type==='third'||rec.type==='body')return '<a class="btn btn--md" target="_blank" href="https://www.azki.com/insurance">'+(rec.type==='third'?'مقایسه بیمه شخص ثالث':'مقایسه بیمه بدنه')+'</a>';return '<button class="btn btn--md" data-start-journey="'+rec.type+'">'+(rec.journey?rec.journey.title:'شروع مسیر')+'</button>';}
+recButton=recButtonV6;
+var oldRenderDashboardV6=renderDashboardState;
+renderDashboardState=function(){
+ var v=activeVehicle();if(v)ensureJourneyData(v);oldRenderDashboardV6();if(!v)return;var sheet=document.querySelector('#page-dashboard .db__sheet');if(!sheet)return;var rec=journeyRecommendation(v),card=sheet.querySelector('.smartRec');if(card){card.innerHTML='<span class="recKicker">پیشنهاد هوشمند برای '+v.model+'</span><h2>'+rec.journey.icon+' '+rec.journey.title+'</h2><p>'+rec.journey.desc+'</p>'+recButtonV6(rec)+'<div style="margin-top:12px;font-size:12px;color:#e0f2ff">'+rec.reasons[0]+'</div>';card.querySelectorAll('[data-start-journey]').forEach(function(b){b.onclick=function(){startJourney(b.getAttribute('data-start-journey'));};});}wireJourneyActions();};
+
+/* Services hub with separate journeys for repair, bodywork, and factory. */
+var oldRenderExtraV6=renderExtraPages;
+renderExtraPages=function(){oldRenderExtraV6();var v=activeVehicle(),sp=document.getElementById('servicesPageContent');if(!sp||!v)return;ensureJourneyData(v);var rec=journeyRecommendation(v);var tiles=[['🛠️','تعمیر خودرو','عیب‌یابی موتور، گیربکس، برق و ترمز','repair'],['🎨','صافکاری و نقاشی','ترمیم بدنه، رنگ و خسارت‌های ظاهری','bodywork'],['🏭','سرویس کارخانه','سرویس‌های گارانتی و نمایندگی','factory'],['🔧','سرویس دوره‌ای','تعویض روغن، فیلتر و بازدید منظم','service'],['⚡','برق و باتری','باتری، استارت، دینام و سیستم برق','repair'],['🚗','قطعات مصرفی','لنت، تسمه، فیلتر، شمع و روغن','parts']];sp.innerHTML='<div class="serviceHubLead"><h1>خدمات '+v.model+'</h1><p>'+rec.journey.title+' برای خودرویت در اولویت است. هر خدمت مسیر جداگانه خودش را دارد.</p></div><div class="card"><h2 class="t-h3">انتخاب مسیر خدمت</h2><div class="journeyGrid">'+tiles.map(function(t){if(t[3]==='parts')return '<a class="journeyTile" href="https://www.azki.com/" target="_blank"><div class="tileTop"><span class="tileIcon">'+t[0]+'</span><b>'+t[1]+'</b></div><small>'+t[2]+'</small><span class="tileCta">مشاهده قطعات ازکی »</span></a>';return '<div class="journeyTile"><div class="tileTop"><span class="tileIcon">'+t[0]+'</span><b>'+t[1]+'</b></div><small>'+t[2]+'</small><span class="tileCta" data-start-journey="'+t[3]+'">'+(v.journeys[t[3]]&&v.journeys[t[3]].status==='started'?'ادامه مسیر':'شروع مسیر')+' »</span></div>';}).join('')+'</div></div>';sp.querySelectorAll('[data-start-journey]').forEach(function(b){b.onclick=function(){startJourney(b.getAttribute('data-start-journey'));};});};
+
+/* Final page hook */
+var showPageBeforeJourneys=showPage;showPage=function(id){showPageBeforeJourneys(id);if(id==='recommendation')renderJourneyPage();if(id==='services')renderExtraPages();};
+paint();
+</script>
+
+<style>
+/* Plate presentation mirrors the Azki insurance plate field */
+.plateVisual{display:inline-flex;align-items:stretch;direction:ltr;height:36px;min-width:178px;border:1px solid #8d9aaa;border-radius:5px;overflow:hidden;background:#fbfcfe;color:#172236;vertical-align:middle;font-family:Vazirmatn,system-ui,sans-serif;font-weight:800;box-shadow:0 1px 2px rgba(20,40,65,.08)}
+.plateVisual .plateFlag{width:26px;background:#0d4aa2;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font:700 7px/1 Arial,sans-serif;letter-spacing:.1px}.plateVisual .plateFlag i{display:block;width:16px;height:9px;background:linear-gradient(#189447 0 33%,#fff 33% 66%,#d9343a 66%);border:1px solid rgba(255,255,255,.7);font-style:normal}.plateVisual .plateDigits{width:38px;display:grid;place-items:center;font-size:15px;border-inline-end:1px solid #d5dce4}.plateVisual .plateLetter{width:32px;display:grid;place-items:center;font-size:14px;border-inline-end:1px solid #d5dce4}.plateVisual .plateThree{width:45px;display:grid;place-items:center;font-size:15px;border-inline-end:1px solid #d5dce4}.plateVisual .plateIranCode{width:37px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#f0f3f7;font-size:12px;line-height:1.1}.plateVisual .plateIranCode small{font-size:7px;line-height:1;color:#677385;margin-bottom:2px}.db__plate .plateVisual{height:29px;min-width:148px;background:rgba(255,255,255,.96);border-color:rgba(255,255,255,.6);color:var(--ink-800);box-shadow:none}.db__plate .plateVisual .plateFlag{width:22px}.db__plate .plateVisual .plateDigits{width:31px;font-size:12px}.db__plate .plateVisual .plateLetter{width:27px;font-size:11px}.db__plate .plateVisual .plateThree{width:36px;font-size:12px}.db__plate .plateVisual .plateIranCode{width:32px;font-size:10px}.db__plate .plateVisual .plateIranCode small{font-size:6px}
+.plateBox{direction:ltr!important;max-width:332px}.plateBox .plateFlagInput{width:30px;background:#0d4aa2;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font:700 7px/1 Arial,sans-serif}.plateBox .plateFlagInput i{display:block;width:18px;height:10px;background:linear-gradient(#189447 0 33%,#fff 33% 66%,#d9343a 66%);border:1px solid rgba(255,255,255,.8);font-style:normal}.plateBox .p2{width:62px}.plateBox select{width:54px}.plateBox .p3{width:76px}.plateBox .plateIran{width:61px;border-inline-start:1.5px solid var(--ink-800)}
+.vstat .plateVisual{height:30px;min-width:142px}.vstat .plateVisual .plateFlag{width:22px}.vstat .plateVisual .plateDigits{width:29px;font-size:12px}.vstat .plateVisual .plateLetter{width:25px;font-size:11px}.vstat .plateVisual .plateThree{width:34px;font-size:12px}.vstat .plateVisual .plateIranCode{width:30px;font-size:10px}.vstat .plateVisual .plateIranCode small{font-size:6px}
+.vitem__t .plateVisual{height:28px;min-width:138px}.vitem__t .plateVisual .plateFlag{width:21px}.vitem__t .plateVisual .plateDigits{width:28px;font-size:11px}.vitem__t .plateVisual .plateLetter{width:24px;font-size:10px}.vitem__t .plateVisual .plateThree{width:33px;font-size:11px}.vitem__t .plateVisual .plateIranCode{width:29px;font-size:9px}.vitem__t .plateVisual .plateIranCode small{font-size:6px}
+@media(max-width:380px){.plateVisual{transform-origin:right center;transform:scale(.92);margin-left:-10px}.plateBox{max-width:100%}}
+</style>
+<script>
+/* ---------- reliable Persian plate renderer ---------- */
+function plateTextParts(value){
+  var s=String(value||'').replace(/٬/g,'').trim();
+  var m=s.match(/([۰-۹0-9]{2})\s*([^۰-۹0-9\s|]+)\s*([۰-۹0-9]{3})\s*\|\s*([۰-۹0-9]{2})/);
+  if(m)return {a:toFa(m[1]),l:m[2],b:toFa(m[3]),c:toFa(m[4])};
+  return {a:'',l:'',b:'',c:''};
+}
+function plateVisual(value){
+  var p=plateTextParts(value);
+  if(!p.a&&!p.b&&!p.c)return '<span class="plateVisual" aria-label="پلاک ثبت نشده"><span class="plateFlag"><i></i>IR</span><span class="plateDigits">—</span><span class="plateLetter">—</span><span class="plateThree">—</span><span class="plateIranCode"><small>ایران</small>—</span></span>';
+  return '<span class="plateVisual" aria-label="پلاک '+value+'"><span class="plateFlag"><i></i>IR</span><span class="plateDigits">'+p.a+'</span><span class="plateLetter">'+p.l+'</span><span class="plateThree">'+p.b+'</span><span class="plateIranCode"><small>ایران</small>'+p.c+'</span></span>';
+}
+function plateInputMarkup(){
+  return '<div class="plateBox">'+
+    '<span class="plateFlagInput"><i></i>IR</span>'+
+    '<input class="p2" id="plateA" maxlength="2" placeholder="۶۶">'+
+    '<select id="plateL">'+LETTERS.map(function(l){return '<option>'+l+'</option>';}).join('')+'</select>'+
+    '<input class="p3" id="plateB" maxlength="3" placeholder="۳۴۷">'+
+    '<span class="plateIran"><small>ایران</small><input id="plateC" maxlength="2" placeholder="۱۱"></span></div>'+
+    '<div class="helper" style="margin-top:10px">دو رقم، حرف، سه رقم و کد استان، دقیقاً به ترتیب پلاک.</div>';
+}
+renderPlate=function(){
+  var w=document.getElementById('plateWrap');if(!w)return;
+  var oldA=w.querySelector('#plateA')?.value||'',oldB=w.querySelector('#plateB')?.value||'',oldC=w.querySelector('#plateC')?.value||'',oldL=w.querySelector('#plateL')?.value||LETTERS[0];
+  w.innerHTML=plateInputMarkup();
+  document.getElementById('plateA').value=oldA;document.getElementById('plateB').value=oldB;document.getElementById('plateC').value=oldC;document.getElementById('plateL').value=oldL;
+  bindNumeric(document.getElementById('plateA'),2);bindNumeric(document.getElementById('plateB'),3);bindNumeric(document.getElementById('plateC'),2);document.getElementById('plateL').addEventListener('change',updateNext);
+};
+function refreshPlateEverywhere(){
+  var v=activeVehicle();
+  var dash=document.getElementById('dbVPlate');if(dash&&v)dash.innerHTML=plateVisual(v.plate);
+  var list=document.querySelectorAll('#vlist .vitem__t span');list.forEach(function(el){var raw=el.textContent;el.innerHTML=plateVisual(raw);});
+  if(v){var stats=document.querySelectorAll('#vehiclePageContent .vstat');stats.forEach(function(x){var label=x.querySelector('small');if(label&&label.textContent.indexOf('پلاک')>=0){var b=x.querySelector('b');if(b)b.innerHTML=plateVisual(v.plate);}});}
+}
+
+/* ---------- reliable insurance and service actions ---------- */
+function refreshDashboardOnly(){uiState.form=uiState.form||null;renderDashboardState();refreshPlateEverywhere();}
+document.addEventListener('click',function(e){
+  var t=e.target.closest('button,a');if(!t)return;
+  var kind=t.getAttribute('data-ins-edit'),none=t.getAttribute('data-ins-none'),have=t.getAttribute('data-ins-have'),open=t.getAttribute('data-form-open');
+  if(kind){e.preventDefault();e.stopImmediatePropagation();uiState.form='ins-'+kind;refreshDashboardOnly();return;}
+  if(none){e.preventDefault();e.stopImmediatePropagation();var v=activeVehicle();if(v){ensureJourneyData(v);v.insurance[none]={none:true};uiState.form=null;paint();}return;}
+  if(have){e.preventDefault();e.stopImmediatePropagation();uiState.form='ins-'+have;refreshDashboardOnly();return;}
+  if(open){e.preventDefault();e.stopImmediatePropagation();uiState.form=open;refreshDashboardOnly();return;}
+  if(t.hasAttribute('data-form-cancel')){e.preventDefault();e.stopImmediatePropagation();uiState.form=null;refreshDashboardOnly();return;}
+  if(t.hasAttribute('data-ins-save')){e.preventDefault();e.stopImmediatePropagation();var k=t.getAttribute('data-ins-save'),d=readTrio('insDate');if(!d){alert('تاریخ پایان اعتبار را کامل وارد کن.');return;}var av=activeVehicle();ensureJourneyData(av);av.insurance[k]={company:document.getElementById('insCompany').value,expiry:d};uiState.form=null;paint();return;}
+  if(t.hasAttribute('data-ins-del')){e.preventDefault();e.stopImmediatePropagation();var dk=t.getAttribute('data-ins-del'),dv=activeVehicle();if(dv){delete dv.insurance[dk];uiState.form=null;paint();}return;}
+  if(t.id==='svcSave'){e.preventDefault();e.stopImmediatePropagation();var sd=readTrio('svcDate'),sk=val('svcKm');if(!sd||!toEn(sk)){alert('تاریخ و کارکرد سرویس را کامل وارد کن.');return;}var sv=activeVehicle();ensureJourneyData(sv);sv.services.push({type:document.getElementById('svcType').value,date:sd,km:sk});uiState.form=null;paint();return;}
+  if(t.hasAttribute('data-rec-service')){e.preventDefault();e.stopImmediatePropagation();uiState.form='service';refreshDashboardOnly();return;}
+},true);
+
+/* Keep buttons clickable even when older render layers are present. */
+document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.btn').forEach(function(b){if(!b.disabled)b.style.pointerEvents='auto';});});
+var oldPaintV7=paint;
+paint=function(){oldPaintV7();refreshPlateEverywhere();};
+var oldRenderDashboardVehicleV7=renderDashboardVehicle;
+renderDashboardVehicle=function(){oldRenderDashboardVehicleV7();refreshPlateEverywhere();};
+renderPlate();refreshPlateEverywhere();
+</script>
+
+<style>
+/* Insurance state chooser: explicitly choose has-policy or no-policy */
+.policyChooser{margin-top:12px;padding:14px;border:1px solid var(--ink-200);border-radius:14px;background:var(--ink-50)}
+.policyChooser h4{font-size:13px;color:var(--ink-900);margin:0 0 10px}
+.policyChoices{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.policyChoices .btn{min-height:44px;font-size:12px;padding-inline:10px}
+.policyForm{margin-top:12px;padding:15px;border:1px solid var(--primary-100);border-radius:14px;background:var(--primary-50)}
+.policyForm h4{font-size:13px;color:var(--ink-900);margin:0 0 8px}
+.policyForm label{display:block;font-size:12px;font-weight:700;color:var(--ink-600);margin:9px 0 5px}
+.policyForm select,.policyForm input{background:var(--white)}
+.policyDate{display:flex;direction:ltr;gap:6px;max-width:250px}
+.policyDate input{height:46px;min-width:0;text-align:center;border:1px solid var(--ink-200);border-radius:9px;font-weight:700;outline:0}
+.policyDate input:focus{border-color:var(--primary-600);box-shadow:0 0 0 3px var(--primary-50)}
+.policyDate .py{flex:1.4}.policyDate .pm,.policyDate .pd{flex:1}
+.policyActions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.policyActions .btn{flex:1;min-width:96px}
+</style>
+<script>
+/* v10: independent insurance controller. It intentionally does not rely on the old handlers. */
+(function(){
+  function policyDateHTML(prefix,existing){
+    var p=existing?String(existing).split('/'):['','',''];
+    return '<div class="policyDate">'+
+      '<input class="py" id="'+prefix+'Y" maxlength="4" inputmode="numeric" placeholder="۱۴۰۵" value="'+(p[0]||'')+'">'+
+      '<input class="pm" id="'+prefix+'M" maxlength="2" inputmode="numeric" placeholder="۰۷" value="'+(p[1]||'')+'">'+
+      '<input class="pd" id="'+prefix+'D" maxlength="2" inputmode="numeric" placeholder="۱۲" value="'+(p[2]||'')+'">'+
+      '</div>';
+  }
+  function policyDate(prefix){
+    var y=document.getElementById(prefix+'Y'),m=document.getElementById(prefix+'M'),d=document.getElementById(prefix+'D');
+    if(!y||!m||!d)return '';
+    var ys=toEn(y.value).replace(/\D/g,''),ms=toEn(m.value).replace(/\D/g,''),ds=toEn(d.value).replace(/\D/g,'');
+    if(ys.length!==4||!ms||!ds||+ms<1||+ms>12||+ds<1||+ds>31)return '';
+    return toFa(ys)+'/'+toFa(('0'+ms).slice(-2))+'/'+toFa(('0'+ds).slice(-2));
+  }
+  function bindPolicyDate(prefix){['Y','M','D'].forEach(function(x,i){bindNumeric(document.getElementById(prefix+x),i===0?4:2);});}
+  function policyForm(kind,rec){
+    var companies=['بیمه ایران','بیمه پاسارگاد','بیمه آسیا','بیمه البرز','بیمه دانا','بیمه معلم','بیمه سامان'];
+    return '<div class="policyForm"><h4>اطلاعات '+INS[kind].label+' را وارد کن</h4>'+
+      '<label for="policyCompany">شرکت بیمه</label><select id="policyCompany" class="input">'+
+      companies.map(function(c){return '<option'+(rec&&rec.company===c?' selected':'')+'>'+c+'</option>';}).join('')+'</select>'+ 
+      '<label>تاریخ پایان اعتبار</label>'+policyDateHTML('policyDate',rec&&rec.expiry)+
+      '<div class="policyActions"><button type="button" class="btn btn--md btn--primary" data-policy-save="'+kind+'">ذخیره اطلاعات بیمه</button>'+ 
+      '<button type="button" class="btn btn--md btn--secondary" data-policy-cancel>انصراف</button></div></div>';
+  }
+  function policyRow(v,kind){
+    var rec=v.insurance&&v.insurance[kind],label=INS[kind].label,icon=INS[kind].icon,open=uiState.form==='policy-'+kind;
+    if(!rec){
+      return '<div class="policyChooser"><h4>'+icon+' '+label+'</h4><div class="policyChoices">'+
+        '<button type="button" class="btn btn--sm btn--primary" data-policy-have="'+kind+'">دارم، ثبت اطلاعات</button>'+ 
+        '<button type="button" class="btn btn--sm btn--secondary" data-policy-none="'+kind+'">ندارم</button></div>'+
+        (open?policyForm(kind,null):'')+'</div>';
+    }
+    if(rec.none){
+      return '<div class="insBlock warn"><h4>'+icon+' '+label+': ندارم</h4><p>برای خرید یا مقایسه بیمه ازکی اقدام کن، یا وضعیت بیمه را تغییر بده.</p><div class="insActions">'+
+        '<a class="btn btn--sm btn--primary" target="_blank" href="https://www.azki.com/insurance">پیشنهاد بیمه ازکی</a>'+ 
+        '<button type="button" class="btn btn--sm btn--secondary" data-policy-have="'+kind+'">دارم، ثبت اطلاعات</button></div></div>';
+    }
+    var left=daysLeft(rec.expiry),cls=left!==null&&left<0?'danger':left!==null&&left<=30?'warn':'';
+    return '<div class="insBlock '+cls+'"><h4>'+icon+' '+label+'</h4><p>'+rec.company+' · اعتبار تا <b>'+rec.expiry+'</b></p><div style="margin-top:8px">'+expiryBadge(rec.expiry)+'</div><div class="insActions">'+
+      (left!==null&&left<=30?'<a class="btn btn--sm btn--primary" target="_blank" href="https://www.azki.com/insurance">تمدید ازکی</a>':'')+
+      '<button type="button" class="btn btn--sm btn--secondary" data-policy-have="'+kind+'">ویرایش اطلاعات</button><button type="button" class="btn btn--sm btn--ghost" data-policy-none="'+kind+'">ندارم</button></div>'+ (open?policyForm(kind,rec):'')+'</div>';
+  }
+  var oldInsRow=insRow;
+  insRow=function(v,kind){return policyRow(v,kind);};
+  function redraw(){uiState.form=uiState.form||null;renderDashboardState();var f=document.querySelector('.policyForm');if(f)bindPolicyDate('policyDate');}
+  if(!window.__policyV10){
+    window.__policyV10=true;
+    document.addEventListener('click',function(e){
+      var b=e.target.closest('button,a');if(!b)return;
+      if(b.hasAttribute('data-policy-have')){e.preventDefault();e.stopImmediatePropagation();var k=b.getAttribute('data-policy-have');uiState.form='policy-'+k;redraw();return;}
+      if(b.hasAttribute('data-policy-none')){e.preventDefault();e.stopImmediatePropagation();var nk=b.getAttribute('data-policy-none'),v=activeVehicle();if(v){ensureJourneyData(v);v.insurance[nk]={none:true};uiState.form=null;paint();}return;}
+      if(b.hasAttribute('data-policy-cancel')){e.preventDefault();e.stopImmediatePropagation();uiState.form=null;redraw();return;}
+      if(b.hasAttribute('data-policy-save')){e.preventDefault();e.stopImmediatePropagation();var sk=b.getAttribute('data-policy-save'),date=policyDate('policyDate');if(!date){alert('تاریخ پایان اعتبار را کامل و درست وارد کن.');return;}var sv=activeVehicle();if(!sv)return;ensureJourneyData(sv);sv.insurance[sk]={company:document.getElementById('policyCompany').value,expiry:date};uiState.form=null;paint();return;}
+    },true);
+  }
+  var oldPaint=paint;paint=function(){oldPaint();var av=activeVehicle();if(av)ensureJourneyData(av);};
+  paint();
+})();
+</script>
+
+<style>
+/* Recommendation: service-first, insurance only as inline status */
+.recPanel{background:linear-gradient(135deg,#0b72ce,#0a5aa3);color:#fff;border-radius:20px;padding:22px;margin-bottom:16px}.recPanel .recEyebrow{color:#d7efff;font-size:11px;font-weight:700}.recPanel h1{font-size:23px;line-height:1.45;margin:8px 0}.recPanel p{font-size:13px;line-height:25px;color:#e0f2ff;margin:0 0 16px}.recPanel .btn{background:#fff;color:#07599e}.whyPanel{background:#edf7ff;border:1px solid #cfe6fa;border-radius:16px;padding:16px;margin-bottom:16px}.whyPanel h3{font-size:15px;margin:0 0 10px;color:#0a5aa3}.whyRow{display:flex;gap:9px;padding:7px 0;border-bottom:1px solid #d7ebfa;font-size:13px;line-height:23px;color:#55607a}.whyRow:last-child{border-bottom:0}.whyRow:before{content:'✓';color:#0e9f6e;font-weight:800}.journeyCards{display:grid;gap:10px}.journeyCard{border:1px solid var(--ink-200);border-radius:15px;padding:15px;background:#fff}.journeyCard.active{border-color:var(--primary-600);background:#f2f9ff}.journeyHead{display:flex;align-items:center;gap:10px}.journeyIcon{width:40px;height:40px;border-radius:12px;background:var(--primary-50);display:grid;place-items:center;font-size:21px}.journeyHead h3{font-size:14px;margin:0}.journeyHead small{display:block;color:var(--ink-500);font-size:11px}.journeyState{margin-inline-start:auto;color:var(--ink-500);font-size:11px}.journeyCard p{font-size:12px;line-height:22px;color:var(--ink-600);margin:10px 0 0}.journeyCard .btn{margin-top:12px}.dataBlock{margin-top:16px}.dataRow{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid var(--ink-100);font-size:12px}.dataRow:last-child{border-bottom:0}.dataRow span{color:var(--ink-500)}.dataRow b{color:var(--ink-900);text-align:left}
+</style>
+<script>
+/* V11: insurance never wins the recommendation slot. It is a status + renewal shortcut. */
+function serviceRecommendation(v){
+  ensureJourneyData(v);var age=1405-journeyNum(v.year),km=journeyNum(v.km),reasons=[],type='service';
+  if(age>=8){type='repair';reasons.push('سن خودرو بالاست؛ بازدید فنی و تعمیرات پیشگیرانه ریسک خرابی را کم می‌کند.');}
+  else if(km>=150000){type='repair';reasons.push('کارکرد ثبت‌شده بالاست؛ بررسی موتور، ترمز و قطعات مصرفی اولویت دارد.');}
+  else if(v.usage==='کاری / تجاری'||v.usage==='مسافربری آنلاین'){type='service';reasons.push('استفاده پرتردد است؛ فاصله سرویس‌های دوره‌ای باید کوتاه‌تر باشد.');}
+  else if(age<=3){type='factory';reasons.push('خودرو نسبتاً جدید است؛ سرویس‌های کارخانه و گارانتی اولویت دارند.');}
+  else if(!v.services||!v.services.length){type='service';reasons.push('هیچ سابقه سرویسی ثبت نشده؛ ثبت اولین سرویس، مبنای پیشنهادهای بعدی است.');}
+  else{type='service';reasons.push('برای حفظ وضعیت فعلی خودرو، سرویس دوره‌ای منظم پیشنهاد می‌شود.');}
+  reasons.push('این پیشنهاد بر اساس '+v.model+'، سال ساخت '+v.year+'، کارکرد '+v.km+' و نوع استفاده '+(v.usage||'ثبت نشده')+' تنظیم شده است.');
+  return {type:type,journey:JOURNEYS[type]||JOURNEYS.service,reasons:reasons};
+}
+function insuranceShortcut(v){var out=[];['third','body'].forEach(function(k){var r=v.insurance&&v.insurance[k],label=INS[k].label;if(!r||r.none)out.push(label+' ثبت نشده است.');else{var d=daysLeft(r.expiry);if(d!==null&&d<=30)out.push(label+' تا '+r.expiry+' اعتبار دارد و باید تمدید شود.');else out.push(label+' معتبر است.');}});return out;}
+function recStartButton(type){return '<button type="button" class="btn btn--md" data-start-journey="'+type+'">شروع مسیر '+JOURNEYS[type].title+'</button>';}
+function journeyCardHTML(v,k,current){var j=JOURNEYS[k];ensureJourneyData(v);var st=v.journeys[k].status;return '<article class="journeyCard '+(current===k?'active':'')+'"><div class="journeyHead"><span class="journeyIcon">'+j.icon+'</span><div><h3>'+j.title+'</h3><small>'+j.short+'</small></div><span class="journeyState">'+journeyStatus(v,k)+'</span></div><p>'+j.desc+'</p>'+recStartButton(k)+'</article>';}
+function renderRecommendationV11(){var box=document.getElementById('recContent'),v=activeVehicle();if(!box||!v)return;ensureJourneyData(v);var r=serviceRecommendation(v),j=r.journey;journeyType=r.type;var ins=insuranceShortcut(v);box.innerHTML='<div class="recPanel"><span class="recEyebrow">پیشنهاد خدمت برای '+v.model+'</span><h1>'+j.icon+' '+j.title+'</h1><p>'+j.desc+'</p>'+recStartButton(r.type)+'</div><div class="whyPanel"><h3>چرا این پیشنهاد؟</h3>'+r.reasons.map(function(x){return '<div class="whyRow">'+x+'</div>';}).join('')+'</div><section class="card"><h2 class="t-h3">مسیرهای دیگر</h2><div class="journeyCards">'+journeyCardHTML(v,'service',r.type)+journeyCardHTML(v,'repair',r.type)+journeyCardHTML(v,'bodywork',r.type)+journeyCardHTML(v,'factory',r.type)+'</div></section><section class="card dataBlock"><h2 class="t-h3">وضعیت بیمه، جدا از پیشنهاد خدمت</h2>'+ins.map(function(x){return '<div class="dataRow"><span>'+x+'</span><b><a target="_blank" href="https://www.azki.com/insurance">تمدید یا مقایسه ازکی</a></b></div>';}).join('')+'</section>';wireJourneyActions();}
+function patchDashboardRecommendation(){var v=activeVehicle(),card=document.querySelector('#page-dashboard .smartRec');if(!v||!card)return;var r=serviceRecommendation(v),j=r.journey;card.innerHTML='<span class="recKicker">پیشنهاد هوشمند برای '+v.model+'</span><h2>'+j.icon+' '+j.title+'</h2><p>'+j.desc+'</p>'+recStartButton(r.type)+'<div style="margin-top:12px;font-size:12px;color:#e0f2ff">'+r.reasons[0]+'</div>';card.querySelectorAll('[data-start-journey]').forEach(function(b){b.onclick=function(){startJourney(b.getAttribute('data-start-journey'));};});}
+var oldRenderDashboardV11=renderDashboardState;renderDashboardState=function(){oldRenderDashboardV11();patchDashboardRecommendation();};
+var oldRenderExtraV11=renderExtraPages;renderExtraPages=function(){oldRenderExtraV11();var v=activeVehicle(),sp=document.getElementById('servicesPageContent');if(!v||!sp)return;ensureJourneyData(v);var r=serviceRecommendation(v);var tiles=[['service','🔧','سرویس دوره‌ای','تعویض روغن، فیلتر و بازدید منظم'],['repair','🛠️','تعمیر خودرو','عیب‌یابی موتور، گیربکس، برق و ترمز'],['bodywork','🎨','صافکاری و نقاشی','ترمیم بدنه، رنگ و خسارت'],['factory','🏭','سرویس کارخانه','گارانتی، نمایندگی و سرویس‌های رسمی']];sp.innerHTML='<div class="serviceHubLead"><h1>خدمات '+v.model+'</h1><p>پیشنهاد فعلی: '+r.journey.title+'، بیمه‌ها جداگانه فقط وضعیت و تمدید را نشان می‌دهند.</p></div><div class="card"><h2 class="t-h3">انتخاب مسیر خدمت</h2><div class="journeyCards">'+tiles.map(function(t){return '<article class="journeyCard '+(r.type===t[0]?'active':'')+'"><div class="journeyHead"><span class="journeyIcon">'+t[1]+'</span><div><h3>'+t[2]+'</h3><small>'+t[3]+'</small></div></div>'+recStartButton(t[0])+'</article>';}).join('')+'</div></div>';
+sp.querySelectorAll('[data-start-journey]').forEach(function(b){b.onclick=function(){startJourney(b.getAttribute('data-start-journey'));};});};
+var oldShowPageV11=showPage;showPage=function(id){oldShowPageV11(id);if(id==='recommendation')renderRecommendationV11();};
+paint();
+</script>
+
+<style>
+/* Final V12 strategy layer: one service recommendation, separate journeys */
+.strategyCard{background:linear-gradient(135deg,#0b72ce,#0a5aa3);color:#fff;border-radius:18px;padding:20px;margin-bottom:16px}.strategyCard .eyebrow{display:block;color:#d7efff;font-size:11px;font-weight:700;margin-bottom:7px}.strategyCard h2{font-size:21px;line-height:32px;margin:0 0 5px}.strategyCard p{color:#e0f2ff;font-size:13px;line-height:24px;margin:0 0 14px}.strategyCard .btn{background:#fff;color:#07599e}.whyCard{background:#edf7ff;border:1px solid #cfe6fa;border-radius:15px;padding:15px;margin-bottom:16px}.whyCard h3{font-size:15px;color:#0a5aa3;margin:0 0 7px}.whyItem{display:flex;gap:8px;padding:7px 0;border-bottom:1px solid #d5eafa;color:#55607a;font-size:13px;line-height:22px}.whyItem:last-child{border-bottom:0}.whyItem:before{content:'✓';color:#0e9f6e;font-weight:800}.journeyStack{display:grid;gap:10px}.journeyOption{border:1px solid var(--ink-200);border-radius:14px;padding:15px;background:#fff}.journeyOption.primary{border-color:var(--primary-600);background:var(--primary-50)}.journeyOptionHead{display:flex;align-items:center;gap:10px}.journeyOptionIcon{width:40px;height:40px;border-radius:11px;background:var(--primary-50);display:grid;place-items:center;font-size:20px}.journeyOption h4{font-size:14px;margin:0}.journeyOption small{display:block;color:var(--ink-500);font-size:11px}.journeyOption p{font-size:12px;line-height:21px;color:var(--ink-600);margin:9px 0 0}.journeyOption .btn{margin-top:11px}..insuranceStatus{margin-top:16px}.insuranceStatus .dataRow{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--ink-100);font-size:12px}.insuranceStatus .dataRow:last-child{border-bottom:0}.insuranceStatus a{color:var(--primary-600);font-weight:700}.journeyFormCard{border:1px solid var(--ink-200);border-radius:14px;background:#fff;padding:16px;margin-bottom:16px}.journeyFormCard h3{font-size:16px;margin:0 0 4px}.journeyFormCard p{font-size:13px;line-height:23px;color:var(--ink-500);margin:0 0 12px}.journeyFormCard textarea{height:88px;padding:10px;resize:vertical}.journeyFormCard .formActions{display:flex;gap:8px;margin-top:13px}.journeyFormCard .formActions .btn{flex:1}.journeyDoneCard{padding:20px;text-align:center;background:var(--success-bg);border:1px solid #bfead8;border-radius:14px;margin-bottom:16px}.journeyDoneCard b{display:block;color:var(--success);font-size:16px}.journeyDoneCard span{font-size:13px;color:var(--ink-600)}
+</style>
+<script>
+/* This override is deliberately self-contained so old V12 demo handlers cannot change the recommendation. */
+(function(){
+  var selectedJourney='';
+  var JOURNEY_COPY={
+    service:{icon:'🔧',title:'سرویس دوره‌ای',short:'نگهداری منظم و مصرفی',desc:'سرویس‌های منظم را ثبت کن تا موعد بعدی و قطعات مصرفی را بهتر مدیریت کنی.',steps:['نوع سرویس','جزئیات سرویس','ثبت نهایی'],options:['تعویض روغن موتور','فیلتر روغن و هوا','لنت ترمز','تسمه تایم','باتری','بازدید کلی']},
+    repair:{icon:'🛠️',title:'تعمیر خودرو',short:'عیب‌یابی و تعمیرات فنی',desc:'مشکل خودرو را ثبت کن تا مسیر بررسی فنی را شروع کنیم.',steps:['شرح مشکل','انتخاب بخش خودرو','ثبت درخواست'],options:['موتور','گیربکس','برق و باتری','ترمز و جلوبندی']},
+    bodywork:{icon:'🎨',title:'صافکاری و نقاشی',short:'ترمیم بدنه و رنگ',desc:'آسیب بدنه را ثبت کن تا مسیر ترمیم و برآورد را شروع کنیم.',steps:['شرح آسیب','انتخاب نوع ترمیم','ثبت درخواست'],options:['صافکاری بدون رنگ','صافکاری و رنگ','تعویض قطعه بدنه','کارشناسی خسارت']},
+    factory:{icon:'🏭',title:'سرویس کارخانه',short:'گارانتی و نمایندگی',desc:'سرویس‌های دوره گارانتی و نمایندگی را برای همین خودرو پیگیری کن.',steps:['مرور مشخصات','انتخاب خدمت','ثبت درخواست'],options:['سرویس اولیه','سرویس دوره‌ای','بازدید گارانتی','تعویض قطعات مصرفی']}
+  };
+  window.JOURNEYS=Object.assign(window.JOURNEYS||{},JOURNEY_COPY);
+  function n(s){return parseInt(String(s||'').replace(/[۰-۹]/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'.indexOf(d);}).replace(/\D/g,''),10)||0;}
+  function age(v){return Math.max(0,1405-n(v.year));}
+  function ensure(v){if(!v)return;if(!v.insurance)v.insurance={};if(!v.services)v.services=[];if(!v.journeys)v.journeys={};['service','repair','bodywork','factory'].forEach(function(k){if(!v.journeys[k])v.journeys[k]={status:'not_started',step:0,note:'',option:''};});}
+  function status(v,k){ensure(v);var x=v.journeys[k];return x.status==='done'?'تکمیل‌شده':x.status==='started'?'در حال انجام':'شروع نشده';}
+  function recommend(v){
+    ensure(v);var a=age(v),km=n(v.km),reasons=[],type='service';
+    if(a>=8){type='repair';reasons.push('سن خودرو بالاست؛ بازدید فنی و تعمیرات پیشگیرانه ریسک خرابی را کم می‌کند.');}
+    else if(km>=150000){type='repair';reasons.push('کارکرد خودرو بالاست؛ بررسی موتور، ترمز و قطعات مصرفی اولویت دارد.');}
+    else if(v.usage==='کاری / تجاری'||v.usage==='مسافربری آنلاین'){type='service';reasons.push('استفاده خودرو پرتردد است؛ فاصله سرویس‌های دوره‌ای باید کوتاه‌تر باشد.');}
+    else if(a<=3){type='factory';reasons.push('خودرو نسبتاً جدید است؛ سرویس‌های کارخانه و گارانتی اولویت دارند.');}
+    else if(!v.services.length){type='service';reasons.push('سابقه سرویسی ثبت نشده؛ ثبت اولین سرویس مبنای پیشنهاد بعدی است.');}
+    else{type='service';reasons.push('برای حفظ وضعیت فعلی خودرو، سرویس دوره‌ای منظم پیشنهاد می‌شود.');}
+    reasons.push('تحلیل بر اساس '+v.model+'، سال ساخت '+v.year+'، کارکرد '+v.km+' و نوع استفاده '+(v.usage||'ثبت نشده')+' انجام شده است.');
+    return {type:type,journey:JOURNEY_COPY[type],reasons:reasons};
+  }
+  function start(k){var v=activeVehicle();if(!v)return;ensure(v);selectedJourney=k;v.journeys[k].status='started';go('recommendation');}
+  function startButton(k,label){return '<button type="button" class="btn btn--md" data-v12-start="'+k+'">'+(label||'شروع مسیر '+JOURNEY_COPY[k].title)+'</button>';}
+  function insuranceStatus(v){return ['third','body'].map(function(k){var r=v.insurance&&v.insurance[k],label=INS[k].label;var text=!r||r.none?'ثبت نشده':r.company+' · تا '+r.expiry;return '<div class="dataRow"><span>'+label+': '+text+'</span><a target="_blank" href="https://www.azki.com/insurance">تمدید / مقایسه</a></div>';}).join('');}
+  function journeyForm(v,k,step){var j=JOURNEY_COPY[k],x=v.journeys[k],last=step>=j.steps.length-1,field=step===0?'<textarea class="input" id="v12Note" placeholder="توضیح کوتاه...">'+(x.note||'')+'</textarea>':step===1?'<select class="input" id="v12Option">'+j.options.map(function(o){return '<option'+(x.option===o?' selected':'')+'>'+o+'</option>';}).join('')+'</select>':'<div class="notice">اطلاعات آماده ثبت برای '+v.name+' است.</div>';return '<div class="journeyFormCard"><h3>'+j.steps[step]+'</h3><p>'+(['شرح وضعیت یا نیاز خودرو را وارد کن.','بخش یا خدمت موردنظر را انتخاب کن.','درخواست این مسیر برای خودرو آماده ثبت است.'][step])+'</p>'+field+'<div class="formActions"><button type="button" class="btn btn--md btn--primary" data-v12-next="'+k+'">'+(last?'ثبت و تکمیل':'ادامه')+'</button>'+(step?' <button type="button" class="btn btn--md btn--secondary" data-v12-prev="'+k+'">بازگشت</button>':'')+'</div></div>';}
+  function renderRec(){var box=document.getElementById('recContent'),v=activeVehicle();if(!box||!v)return;ensure(v);var r=recommend(v),k=selectedJourney||r.type,j=JOURNEY_COPY[k],state=v.journeys[k],step=state.status==='done'?j.steps.length-1:Math.min(state.step||0,j.steps.length-1);var form=state.status==='done'?'<div class="journeyDoneCard"><b>این مسیر تکمیل شد</b><span>'+j.title+' برای '+v.name+' ثبت شده است.</span></div>':state.status==='started'?journeyForm(v,k,step):'';box.innerHTML='<div class="strategyCard"><span class="eyebrow">پیشنهاد خدمت برای '+v.model+'</span><h2>'+j.icon+' '+j.title+'</h2><p>'+j.desc+'</p>'+startButton(k,state.status==='started'?'ادامه مسیر':'شروع مسیر')+'</div>'+(form||'<div class="whyCard"><h3>چرا این پیشنهاد؟</h3>'+r.reasons.map(function(x){return '<div class="whyItem">'+x+'</div>';}).join('')+'</div>')+'<section class="card"><h2 class="t-h3">انتخاب مسیر دیگر</h2><div class="journeyStack">'+['service','repair','bodywork','factory'].map(function(q){var z=JOURNEY_COPY[q];return '<article class="journeyOption '+(q===r.type?'primary':'')+'"><div class="journeyOptionHead"><span class="journeyOptionIcon">'+z.icon+'</span><div><h4>'+z.title+'</h4><small>'+z.short+' · '+status(v,q)+'</small></div></div><p>'+z.desc+'</p>'+startButton(q)+'</article>';}).join('')+'</div></section><section class="card insuranceStatus"><h2 class="t-h3">بیمه، جدا از پیشنهاد خدمت</h2>'+insuranceStatus(v)+'</section>';bind();}
+  function bind(){document.querySelectorAll('[data-v12-start]').forEach(function(b){b.onclick=function(){start(b.getAttribute('data-v12-start'));};});document.querySelectorAll('[data-v12-next]').forEach(function(b){b.onclick=function(){var v=activeVehicle(),k=b.getAttribute('data-v12-next');ensure(v);var x=v.journeys[k],j=JOURNEY_COPY[k],idx=x.step||0;if(idx===0){x.note=document.getElementById('v12Note')?.value||'';}if(idx===1){x.option=document.getElementById('v12Option')?.value||'';}if(idx>=j.steps.length-1){x.status='done';x.step=j.steps.length-1;}else{x.status='started';x.step=idx+1;}selectedJourney=k;renderRec();renderDashboardState();};});document.querySelectorAll('[data-v12-prev]').forEach(function(b){b.onclick=function(){var v=activeVehicle(),k=b.getAttribute('data-v12-prev');ensure(v);v.journeys[k].step=Math.max(0,(v.journeys[k].step||0)-1);renderRec();};});}
+  var baseDash=renderDashboardState;renderDashboardState=function(){baseDash();var v=activeVehicle();if(!v)return;ensure(v);var card=document.querySelector('#page-dashboard .smartRec');if(!card)return;var r=recommend(v),j=r.journey;card.innerHTML='<span class="nba__tag">پیشنهاد خدمت برای '+v.model+'</span><h2>'+j.icon+' '+j.title+'</h2><p>'+j.desc+'</p>'+startButton(r.type)+'<div style="margin-top:10px;font-size:12px;color:#e0f2ff">'+r.reasons[0]+'</div>';card.querySelector('[data-v12-start]').onclick=function(){start(r.type);};};
+  var baseExtra=renderExtraPages;renderExtraPages=function(){baseExtra();var v=activeVehicle(),sp=document.getElementById('servicesPageContent');if(!v||!sp)return;ensure(v);var r=recommend(v);var items=['service','repair','bodywork','factory'];sp.innerHTML='<div class="serviceHubLead"><h1>خدمات '+v.model+'</h1><p>پیشنهاد اصلی: '+r.journey.title+'؛ هر خدمت مسیر مستقل خودش را دارد.</p></div><section class="card"><h2 class="t-h3">مسیرهای خدمت</h2><div class="journeyStack">'+items.map(function(k){var j=JOURNEY_COPY[k];return '<article class="journeyOption '+(k===r.type?'primary':'')+'"><div class="journeyOptionHead"><span class="journeyOptionIcon">'+j.icon+'</span><div><h4>'+j.title+'</h4><small>'+j.short+' · '+status(v,k)+'</small></div></div><p>'+j.desc+'</p>'+startButton(k)+'</article>';}).join('')+'</div></section>';bind();};
+  var baseShow=showPage;showPage=function(id){baseShow(id);if(id==='recommendation')renderRec();if(id==='dashboard')renderDashboardState();if(id==='services')renderExtraPages();};
+  var basePaint=paint;paint=function(){basePaint();var v=activeVehicle();if(v)ensure(v);};
+  vehicles.forEach(ensure);paint();
+})();
+</script>
+
+</body>
+</html>
